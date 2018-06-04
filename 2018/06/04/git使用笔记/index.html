@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>git使用笔记 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文件">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git使用笔记">
+<meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/06/04/git使用笔记/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文件">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0">
+<meta property="og:updated_time" content="2018-06-04T02:36:39.406Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git使用笔记">
+<meta name="twitter:description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文件">
+<meta name="twitter:image" content="https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/typing.css">
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-git使用笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/">Home</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      git使用笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>最近在使用<code>github pages</code>搭建自己的博客，需要使用到<code>git</code>这个版本管理工具。以下是我个人学习<code>git</code>这个工具的心得与笔记。</p>
+<h2 id="版本库的使用"><a href="#版本库的使用" class="headerlink" title="版本库的使用"></a>版本库的使用</h2><ol>
+<li><p>什么是版本库？</p>
+<p>版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过</p>
+<blockquote>
+<p><code>git init</code></p>
+</blockquote>
+</li>
+</ol>
+<p>​     这个命令将一个目录变成git可以管理的仓库。</p>
+<ol start="2">
+<li><p>将文件添加到版本库</p>
+<p>比如我们当前编辑一个<code>readme.txt</code>文件，可以通过</p>
+<blockquote>
+<p><code>git add readme.txt</code></p>
+</blockquote>
+</li>
+</ol>
+<p>​      将文件添加到仓库。该命令可以重复多次使用，添加多个文件。</p>
+<ol start="3">
+<li><p>下一步，将文件提交到仓库</p>
+<blockquote>
+<p><code>git commit -m &quot;wrote a readme file&quot;</code></p>
+</blockquote>
+</li>
+</ol>
+<p>​      <em>注意输入说明对自己和对别人阅读都很重要，建议加上该参数</em>。</p>
+<h2 id="时光机穿梭"><a href="#时光机穿梭" class="headerlink" title="时光机穿梭"></a>时光机穿梭</h2><ol>
+<li>对于修改后的文件，可以使用</li>
+</ol>
+<blockquote>
+<p><code>git status</code></p>
+<p><code>git diff</code></p>
+</blockquote>
+<p>​     命令来掌握当前仓库的状态。</p>
+<ol start="2">
+<li>在实际工作中，我们不可能记住一个几千行的文件每次都改了什么内容，我们可以通过</li>
+</ol>
+<blockquote>
+<p><code>git log</code></p>
+</blockquote>
+<p>​     命令来查看由最近到最远的提交日志。</p>
+<ol start="3">
+<li><code>HEAD</code>指针指向的版本就是当前版本，git允许我们在版本的历史之间穿梭，使用</li>
+</ol>
+<blockquote>
+<p><code>git reset --hard commit_id</code></p>
+</blockquote>
+<p>​     命令即可重回原来的版本。</p>
+<h2 id="工作区与暂存区"><a href="#工作区与暂存区" class="headerlink" title="工作区与暂存区"></a>工作区与暂存区</h2><p>git和其他版本管理系统如SVN的一个不同之处就是由暂存区的概念</p>
+<h3 id="工作区（Working-Directory）"><a href="#工作区（Working-Directory）" class="headerlink" title="工作区（Working Directory）"></a>工作区（Working Directory）</h3><p>就是你在电脑中能看到的目录，如当前我保存工作文件的目录就是一个工作区</p>
+<h3 id="版本库（Repository）"><a href="#版本库（Repository）" class="headerlink" title="版本库（Repository）"></a>版本库（Repository）</h3><p>工作区有一个隐藏目录<code>.git</code>，这就是git的版本库。<img src="https://cdn.liaoxuefeng.com/cdn/files/attachments/001384907702917346729e9afbf4127b6dfbae9207af016000/0" alt="git-repo"></p>
+<p>版本库中最重要的就是成为<code>stage</code>或者<code>index</code>的暂存区，还有git为我们自动创建的第一个分支<code>master</code>，以及指向<code>master</code>的一个指针<code>HEAD</code>。</p>
+<p>所以，前面讲的使用<code>git add</code>命令添加文件时，其实就是将文件修改添加到暂存区；第二步使用<code>git commit</code>提交更改，实际上就是将暂存区的所有内容提交的当前分支。</p>
+<h2 id="管理修改"><a href="#管理修改" class="headerlink" title="管理修改"></a>管理修改</h2><p><code>Git</code>管理的是修改，而不是文件。每次修改，如果不用<code>git add</code>到暂存区，那么就不会加入到<code>commit</code>中，可以理解为不能提交上去。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/geekplux" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="https://www.paypal.me/geekplux" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/bitcoin.png)"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/alipayQR.jpg)"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/wechatQR.jpg)"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="1AVngxh56oLvAzXsEFnzccUohZdHswjC7j" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/fsZhungB.github.io/2018/06/04/git使用笔记/" class="article-date">
+  <time datetime="2018-06-04T02:33:52.000Z" itemprop="datePublished">2018-06-04</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fsZhungB.github.io/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/fsZhungB.github.io/2018/06/03/回望那个纯真的年代——读《七十年代》有感/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">回望那个纯真的年代——读《七十年代》有感</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>世界上只有一种<em>英雄主义</em> —— 就是在认清生活真相之后依然热爱生活。</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fsZhungB.github.io/fancybox/jquery.fancybox.css">
+  <script src="/fsZhungB.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/fsZhungB.github.io/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
