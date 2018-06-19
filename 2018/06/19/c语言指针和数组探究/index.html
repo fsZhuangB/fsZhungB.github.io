@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>c语言指针和数组探究 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。*被称作解引用运算符，而&amp;amp;运算符被称作取址运算符。 同时我">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c语言指针和数组探究">
+<meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/06/19/c语言指针和数组探究/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。*被称作解引用运算符，而&amp;amp;运算符被称作取址运算符。 同时我">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-19T13:29:31.078Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c语言指针和数组探究">
+<meta name="twitter:description" content="指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。*被称作解引用运算符，而&amp;amp;运算符被称作取址运算符。 同时我">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/typing.css">
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-c语言指针和数组探究" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/">Home</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      c语言指针和数组探究
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>大家应该都对以下的代码不陌生：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">2</span>; <span class="comment">// 初始化int类型的变量i为2</span></span><br><span class="line"><span class="keyword">int</span> *p; <span class="comment">// 初始化int类型指针p</span></span><br><span class="line">p = &amp;i; <span class="comment">// 将指针指向i</span></span><br></pre></td></tr></table></figure>
+<p>我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。</p>
+<p>如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。<code>*</code>被称作解引用运算符，而<code>&amp;</code>运算符被称作取址运算符。</p>
+<p>同时我们需要注意，指针的声明需要指明类型，因为指针只能指向某种特性类型的对象，或者说每个指针都必须指向某种特定的数据类型。（例外：指向void类型的指针可以存放指向任何类型的指针）</p>
+<p>接下来，让我们再看一个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a, b, c, *p;</span><br><span class="line">    a = <span class="number">1</span>;</span><br><span class="line">    b = <span class="number">3</span>;</span><br><span class="line">    p = &amp;a;</span><br><span class="line">    b = *p + <span class="number">1</span>;</span><br><span class="line">    c = *(p + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d %d %d\n"</span>, a, b, c, *p + <span class="number">3</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子演示了基本的指针运用，我就不解释了，很简单。要注意的是<strong>当我们不知道指针p的下一个地址里放的是什么的时候，切记不要使用不确定的内存地址。</strong></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>数组大家都应该很熟悉了，我们先来看个完整的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">4</span>] = &#123;<span class="number">2</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">5</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> *p;</span><br><span class="line">    p = a; <span class="comment">// 指针指向数组首元素的地址</span></span><br><span class="line">    *p = *p++; <span class="comment">// ++操作符优先级高于*</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d %d\n"</span>, *p, *p+<span class="number">6</span>, *(p+<span class="number">1</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：4 10 5</p>
+<p>通过语句</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = a;</span><br></pre></td></tr></table></figure>
+<p>表示将数组a的第0个元素的地址赋给指针p，那么很容易得出，对于指向数组a首元素的指针，<code>p = &amp;a[0]</code>，指针p的值就是数组元素a[0]的地址。递推可知<code>p + 1</code>的所引用的值就是数组<code>a[1]</code>的值，那么可知<code>&amp;a[i] = a + 1</code>。</p>
+<h2 id="字符数组"><a href="#字符数组" class="headerlink" title="字符数组"></a>字符数组</h2><p>字面意思就是数组，同时数组中的元素是字符。比如，我们使用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+<p>定义了一个有十个元素的数组，元素类型为字符。接下来让我们来初始化它: </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">10</span>] = &#123;<span class="string">"hello world"</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>c语言中操作字符串是通过它在内存中的储存单元的首地址进行的</strong></p>
+<h2 id="指针操作方法"><a href="#指针操作方法" class="headerlink" title="指针操作方法"></a>指针操作方法</h2><p>可以这样：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[] = <span class="string">"hello"</span>;</span><br><span class="line"><span class="keyword">char</span> *s = a;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(a); i++)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c"</span>, s[i]);</span><br><span class="line">或 <span class="built_in">printf</span>(<span class="string">"%c"</span>, *s++);</span><br></pre></td></tr></table></figure>
+<p>在c中，我们可以将数组名赋给指针当作字符串首字母的地址，但是指针不能赋给数组名，它是一个常量，不能修改。</p>
+<p>要知道，<code>char *s</code>只是一个保存字符串收地址的指针变量，但是<code>char a[]</code>则是许多连续的内存单元，所以它们的本质属性是不同的。</p>
+<h2 id="什么是char-a-？"><a href="#什么是char-a-？" class="headerlink" title="什么是char * a[]？"></a>什么是<code>char * a[]</code>？</h2><p>对于<code>char *a[]</code>，由于 <code>*</code> 操作符的优先级没有<code>[]</code>高，所以，<code>a</code>首先要与<code>[]</code>结合，所以它首先是一个数组，而数组中的变量是<code>char *</code>。</p>
+<p>看一下实例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> * a[] = &#123;<span class="string">"China"</span>, <span class="string">"French"</span>, <span class="string">"America"</span>, <span class="string">"German"</span>&#125;;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%p %p %p %p\n"</span>, a[<span class="number">0</span>], a[<span class="number">1</span>], a[<span class="number">2</span>], a[<span class="number">3</span>]);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行后，我们发现，数组中的四个元素保存了四个内存地址，这四个地址就代表了四个字符串的首地址，而不是字符串本身。</p>
+<p><em>这四个地址不是连续的，因为它是编译器分别为这四个字符串分配的内存空间的地址，所以这四个地址并没有关联。</em></p>
+<p>其实，这就是所谓的指针数组。即是多个指针变量，以数组的形式储存在内存当中，占有多个指针的储存空间。</p>
+<p>它定义为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * p[n];</span><br></pre></td></tr></table></figure>
+<p>[]的优先级高，先与p结合成为一个数组，再有int说明这是一个整型指针数组，它有n个指针类型的数组元素。这里执行<code>p + 1</code>是错误的，通过<code>p = a</code>赋值也是错误的，因为p是个<em>不可知</em>的表示，只存在<code>p[0],p[1],p[2]...p[n-1]</code>，而且它们分别是指针变量可以用来存放变量地址。</p>
+<p>可以执行<code>*p = a</code>这里<code>*p</code>表示指针数组第一个元素的值，即表示将a赋给该首字符。</p>
+<p>例如</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * p[<span class="number">3</span>];</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    p[i] = a[i];</span><br></pre></td></tr></table></figure>
+<p>这里<code>int * p[3]</code>表示一个一维数组内存放着三个指针变量，分别是<code>p[0], p[1], p[2]</code>，所以要分别赋值。</p>
+<p>让我们再看一个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> b[] = &#123;<span class="string">"testit"</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> *a[<span class="number">1</span>]; <span class="comment">// 初始化该字符数组</span></span><br><span class="line">    *a = b; <span class="comment">// 将数组b的首字符的地址赋给指针</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(b); i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c"</span>, *(a[<span class="number">0</span>] + i));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果是testit。这个例子很好的展示了指针数组的用法，大家可以好好体会一下。通过将字符数组的首字符的地址赋给该指针，很方便的就可以对于该字符串进行操作了。</p>
+<p>其实还有数组指针这一说法，我会专门写一篇博文来介绍一下两者的区别。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/geekplux" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="https://www.paypal.me/geekplux" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/bitcoin.png)"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/alipayQR.jpg)"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/wechatQR.jpg)"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="1AVngxh56oLvAzXsEFnzccUohZdHswjC7j" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/fsZhungB.github.io/2018/06/19/c语言指针和数组探究/" class="article-date">
+  <time datetime="2018-06-19T13:33:52.000Z" itemprop="datePublished">2018-06-19</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fsZhungB.github.io/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/fsZhungB.github.io/2018/06/04/git使用笔记/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">git使用笔记</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>世界上只有一种<em>英雄主义</em> —— 就是在认清生活真相之后依然热爱生活。</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fsZhungB.github.io/fancybox/jquery.fancybox.css">
+  <script src="/fsZhungB.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/fsZhungB.github.io/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
