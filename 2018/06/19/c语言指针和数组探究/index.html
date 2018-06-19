@@ -5,18 +5,18 @@
   
   <title>c语言指针和数组探究 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义">
+  <meta name="description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是一个变量，那么它的定义也">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c语言指针和数组探究">
 <meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/06/19/c语言指针和数组探究/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义">
+<meta property="og:description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是一个变量，那么它的定义也">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-19T13:37:34.002Z">
+<meta property="og:updated_time" content="2018-06-19T13:41:32.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c语言指针和数组探究">
-<meta name="twitter:description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义">
+<meta name="twitter:description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是一个变量，那么它的定义也">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -73,7 +73,7 @@
 <h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>大家应该都对以下的代码不陌生：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">2</span>; <span class="comment">// 初始化int类型的变量i为2</span></span><br><span class="line"><span class="keyword">int</span> *p; <span class="comment">// 初始化int类型指针p</span></span><br><span class="line">p = &amp;i; <span class="comment">// 将指针指向i</span></span><br></pre></td></tr></table></figure>
 <p>我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。</p>
-<p>如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。<code>*</code>被称作解引用运算符，而<code>&amp;</code>运算符被称作取址运算符。</p>
+<p>如何声明一个指针呢？既然指针也是一个变量，那么它的定义也应该和其他变量一样定义。<code>*</code>被称作解引用运算符，而<code>&amp;</code>运算符被称作取址运算符。</p>
 <p>同时我们需要注意，指针的声明需要指明类型，因为指针只能指向某种特性类型的对象，或者说每个指针都必须指向某种特定的数据类型。（例外：指向void类型的指针可以存放指向任何类型的指针）</p>
 <p>接下来，让我们再看一个例子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a, b, c, *p;</span><br><span class="line">    a = <span class="number">1</span>;</span><br><span class="line">    b = <span class="number">3</span>;</span><br><span class="line">    p = &amp;a;</span><br><span class="line">    b = *p + <span class="number">1</span>;</span><br><span class="line">    c = *(p + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d %d %d\n"</span>, a, b, c, *p + <span class="number">3</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
