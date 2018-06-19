@@ -5,18 +5,18 @@
   
   <title>c语言指针和数组探究 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。*被称作解引用运算符，而&amp;amp;运算符被称作取址运算符。 同时我">
+  <meta name="description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c语言指针和数组探究">
 <meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/06/19/c语言指针和数组探究/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。*被称作解引用运算符，而&amp;amp;运算符被称作取址运算符。 同时我">
+<meta property="og:description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-06-19T13:29:31.078Z">
+<meta property="og:updated_time" content="2018-06-19T13:37:34.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c语言指针和数组探究">
-<meta name="twitter:description" content="指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。*被称作解引用运算符，而&amp;amp;运算符被称作取址运算符。 同时我">
+<meta name="twitter:description" content="最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。 指针大家应该都对以下的代码不陌生： 123int i = 2; // 初始化int类型的变量i为2int *p; // 初始化int类型指针pp = &amp;amp;i; // 将指针指向i 我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。 如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -69,7 +69,8 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>大家应该都对以下的代码不陌生：</p>
+        <p>最近在复习C语言，到了指针这一章，感觉有很多不清晰的地方，特地写下博文记录一番，加深印象。</p>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>大家应该都对以下的代码不陌生：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">2</span>; <span class="comment">// 初始化int类型的变量i为2</span></span><br><span class="line"><span class="keyword">int</span> *p; <span class="comment">// 初始化int类型指针p</span></span><br><span class="line">p = &amp;i; <span class="comment">// 将指针指向i</span></span><br></pre></td></tr></table></figure>
 <p>我们再复习一下指针的定义：指针是一个变量，它保存的是变量的地址。</p>
 <p>如何声明一个指针呢？既然指针也是以恶搞变量，那么它的定义也应该和其他变量一样定义。<code>*</code>被称作解引用运算符，而<code>&amp;</code>运算符被称作取址运算符。</p>
@@ -87,7 +88,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
 <p>定义了一个有十个元素的数组，元素类型为字符。接下来让我们来初始化它: </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> str[<span class="number">10</span>] = &#123;<span class="string">"hello world"</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>c语言中操作字符串是通过它在内存中的储存单元的首地址进行的</strong></p>
+<p><strong>c语言中操作字符串是通过它在内存中的储存单元的首地址进行的。</strong></p>
 <h2 id="指针操作方法"><a href="#指针操作方法" class="headerlink" title="指针操作方法"></a>指针操作方法</h2><p>可以这样：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> a[] = <span class="string">"hello"</span>;</span><br><span class="line"><span class="keyword">char</span> *s = a;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(a); i++)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%c"</span>, s[i]);</span><br><span class="line">或 <span class="built_in">printf</span>(<span class="string">"%c"</span>, *s++);</span><br></pre></td></tr></table></figure>
 <p>在c中，我们可以将数组名赋给指针当作字符串首字母的地址，但是指针不能赋给数组名，它是一个常量，不能修改。</p>
@@ -102,7 +103,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * p[n];</span><br></pre></td></tr></table></figure>
 <p>[]的优先级高，先与p结合成为一个数组，再有int说明这是一个整型指针数组，它有n个指针类型的数组元素。这里执行<code>p + 1</code>是错误的，通过<code>p = a</code>赋值也是错误的，因为p是个<em>不可知</em>的表示，只存在<code>p[0],p[1],p[2]...p[n-1]</code>，而且它们分别是指针变量可以用来存放变量地址。</p>
 <p>可以执行<code>*p = a</code>这里<code>*p</code>表示指针数组第一个元素的值，即表示将a赋给该首字符。</p>
-<p>例如</p>
+<p>例如：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> * p[<span class="number">3</span>];</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">    p[i] = a[i];</span><br></pre></td></tr></table></figure>
 <p>这里<code>int * p[3]</code>表示一个一维数组内存放着三个指针变量，分别是<code>p[0], p[1], p[2]</code>，所以要分别赋值。</p>
 <p>让我们再看一个例子：</p>
