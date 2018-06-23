@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>C语言翻转字符串算法总结 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天复习C语言，到了字符串一章时，复习了一下字符串的反转算法，目前我总结了以下两种，若有更好的算法，请大家多多指点。 C语言中的字符串不过是字符数组，后面跟了一个’\0’，构成了字符串，所以反转起来非常容易。 方法1这里我直接用一个循环，将字符串的第一个字符与最后一个字符交换，第二个字符与倒数第二个字符交换，依次类推即可。而如果最中间有一个字符，那么就不需要碰它，如果字符串中间有两个字符，那么就直">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言翻转字符串算法总结">
+<meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/06/22/C语言翻转字符串算法总结/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="今天复习C语言，到了字符串一章时，复习了一下字符串的反转算法，目前我总结了以下两种，若有更好的算法，请大家多多指点。 C语言中的字符串不过是字符数组，后面跟了一个’\0’，构成了字符串，所以反转起来非常容易。 方法1这里我直接用一个循环，将字符串的第一个字符与最后一个字符交换，第二个字符与倒数第二个字符交换，依次类推即可。而如果最中间有一个字符，那么就不需要碰它，如果字符串中间有两个字符，那么就直">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-22T12:30:30.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言翻转字符串算法总结">
+<meta name="twitter:description" content="今天复习C语言，到了字符串一章时，复习了一下字符串的反转算法，目前我总结了以下两种，若有更好的算法，请大家多多指点。 C语言中的字符串不过是字符数组，后面跟了一个’\0’，构成了字符串，所以反转起来非常容易。 方法1这里我直接用一个循环，将字符串的第一个字符与最后一个字符交换，第二个字符与倒数第二个字符交换，依次类推即可。而如果最中间有一个字符，那么就不需要碰它，如果字符串中间有两个字符，那么就直">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/typing.css">
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-C语言翻转字符串算法总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/">Home</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C语言翻转字符串算法总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>今天复习C语言，到了字符串一章时，复习了一下字符串的反转算法，目前我总结了以下两种，若有更好的算法，请大家多多指点。</p>
+<p>C语言中的字符串不过是字符数组，后面跟了一个’\0’，构成了字符串，所以反转起来非常容易。</p>
+<h2 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h2><p>这里我直接用一个循环，将字符串的第一个字符与最后一个字符交换，第二个字符与倒数第二个字符交换，依次类推即可。而如果最中间有一个字符，那么就不需要碰它，如果字符串中间有两个字符，那么就直接交换它们即可。最后需要注意的是用来标示字符串结尾的空字符’\0’不要动。</p>
+<p>有了这样的思考，我们就很容易写出以下的代码了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是我的字符串翻转函数</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">str_rev</span><span class="params">(<span class="keyword">char</span> * str, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> * start;  <span class="comment">// 用于标记字符串开头的指针</span></span><br><span class="line">    <span class="keyword">char</span> * end;  <span class="comment">// 用于标记字符串结尾的指针</span></span><br><span class="line">    <span class="keyword">char</span> tem_ch;  <span class="comment">// 交换时的临时字符</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (str != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end)</span><br><span class="line">        &#123;</span><br><span class="line">            ch = *start;</span><br><span class="line">            *start++  = *end;  <span class="comment">// 注意这里++操作符的先后顺序</span></span><br><span class="line">            *end-- = ch;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的代码还是很清晰明了的，不是吗？</p>
+<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h2><p>第二个方法我是使用递归进行反转，其实本质上是和循环一样的，因为任何递归在理论上都能用循环实现。话不多说，我们看代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用递归实现字符串翻转函数</span></span><br><span class="line"><span class="function"><span class="keyword">char</span> * <span class="title">str_rev</span><span class="params">(<span class="keyword">char</span> * str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!str)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">if</span> (len &gt; <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">char</span> ctemp = str[<span class="number">0</span>];</span><br><span class="line">        str[<span class="number">0</span>] = str[len - <span class="number">1</span>];</span><br><span class="line">        str[len - <span class="number">1</span>] = <span class="string">'\0'</span>;</span><br><span class="line">        str_rev(str + <span class="number">1</span>);</span><br><span class="line">        str[len - <span class="number">1</span>] = ctemp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码也很简单，我就不多讲了。需要注意的是，好像有的编译器已经在<code>string.h</code>中提供了对于字符串翻转函数的支持，叫做<code>strrev</code>，所以命名的时候要注意一下，不要和库中的函数冲突了。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/bitcoin.png)"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/alipayQR.jpg)"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url(http://7b1evr.com1.z0.glb.clouddn.com/donate/wechatQR.jpg)"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/fsZhungB.github.io/2018/06/22/C语言翻转字符串算法总结/" class="article-date">
+  <time datetime="2018-06-22T12:27:20.000Z" itemprop="datePublished">2018-06-22</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fsZhungB.github.io/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <a href="/fsZhungB.github.io/2018/06/23/记念ss，向一个伟大的创造告别（转载）/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          记念SS，向一个伟大的创造告别（转载）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/fsZhungB.github.io/2018/06/19/c语言指针和数组探究/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C语言指针和数组探究</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>世界上只有一种<em>英雄主义</em> —— 就是在认清生活真相之后依然热爱生活。</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fsZhungB.github.io/fancybox/jquery.fancybox.css">
+  <script src="/fsZhungB.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/fsZhungB.github.io/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
