@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>c++标准库类型string | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="标准库类型 string 表示可变长的字符串序列，同时使用 string 类型必须首先包含 string 头文件。 string对象操作直接初始化与拷贝初始化123string s5 = &quot;hiya&quot;; // 拷贝初始化string s6(&quot;hiya&quot;);  // 直接初始化string s7(10, &apos;c&apos;); // 直接初始化 使用等号去初始化一个变量，则是拷贝初始化（copy initial">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++标准库类型string">
+<meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/09/15/c++标准库类型string/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="标准库类型 string 表示可变长的字符串序列，同时使用 string 类型必须首先包含 string 头文件。 string对象操作直接初始化与拷贝初始化123string s5 = &quot;hiya&quot;; // 拷贝初始化string s6(&quot;hiya&quot;);  // 直接初始化string s7(10, &apos;c&apos;); // 直接初始化 使用等号去初始化一个变量，则是拷贝初始化（copy initial">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-09-15T02:16:17.149Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++标准库类型string">
+<meta name="twitter:description" content="标准库类型 string 表示可变长的字符串序列，同时使用 string 类型必须首先包含 string 头文件。 string对象操作直接初始化与拷贝初始化123string s5 = &quot;hiya&quot;; // 拷贝初始化string s6(&quot;hiya&quot;);  // 直接初始化string s7(10, &apos;c&apos;); // 直接初始化 使用等号去初始化一个变量，则是拷贝初始化（copy initial">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/typing.css">
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-c++标准库类型string" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/">Home</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      c++标准库类型string
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>标准库类型 string 表示可变长的字符串序列，同时使用 string 类型必须首先包含 string 头文件。</p>
+<h3 id="string对象操作"><a href="#string对象操作" class="headerlink" title="string对象操作"></a>string对象操作</h3><h4 id="直接初始化与拷贝初始化"><a href="#直接初始化与拷贝初始化" class="headerlink" title="直接初始化与拷贝初始化"></a>直接初始化与拷贝初始化</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s5 = <span class="string">"hiya"</span>; <span class="comment">// 拷贝初始化</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s6</span><span class="params">(<span class="string">"hiya"</span>)</span></span>;  <span class="comment">// 直接初始化</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s7</span><span class="params">(<span class="number">10</span>, <span class="string">'c'</span>)</span></span>; <span class="comment">// 直接初始化</span></span><br></pre></td></tr></table></figure>
+<p>使用等号去初始化一个变量，则是<code>拷贝初始化</code>（copy initialization），否则，则是<code>直接初始化</code>（direct initialization）。</p>
+<h3 id="string-对象读写"><a href="#string-对象读写" class="headerlink" title="string 对象读写"></a>string 对象读写</h3><p>我们可以使用IO操作符读写string对象。在执行读取操作时，string对象会自动忽略开头的空白（空格、换行符、制表符等），直到遇到下一处空白为止。多个输入或者多个输出可以连写在一起，这样，我们就可以读取中间有空白的字符串。代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s1, s2;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; s1 &gt;&gt; s2;  <span class="comment">// 读入string对象，遇到空白停止。</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; s1 &lt;&lt; s2 &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么，如果要读取未知数量的string对象怎么办呢？</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> word;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; word)  <span class="comment">// 反复读取，直至达到文件末尾</span></span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; word &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>while 循环负责在读取时检测流的情况，如果流有效，即没有遇到文件结束符（EOF）或者非法输入，则执行 while 循环内的操作。</p>
+<h4 id="读取整行"><a href="#读取整行" class="headerlink" title="读取整行"></a>读取整行</h4><p>在多数时候，我们希望能方便的对于流内的数据整行整行的进行读取，这时候，我们应该使用更为方便的<code>getline()</code>函数替代原来的<code>&lt;&lt;</code>运算符。请看以下例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (getline(<span class="built_in">cin</span>, line))</span><br><span class="line">    <span class="keyword">if</span> (!line.empty())</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; line &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p><code>getline()</code>函数接收一个输入流和一个<code>string</code>对象作为参数，函数从给定的输入流中读取内容，直到遇到换行符为止（注意换行符也被读取进来了）。上述程序每次读取一整行，遇到空行直接跳过。</p>
+<h4 id="大小比较"><a href="#大小比较" class="headerlink" title="大小比较"></a>大小比较</h4><p>与C风格的字符串不通的是，在C++中，<code>string</code>类定义了几种用于比较字符串的运算符，其比较都依照（大小写敏感的）字典顺序。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> str = <span class="string">"Hello"</span>;</span><br><span class="line"><span class="built_in">string</span> phrase = <span class="string">"Hello World"</span>;</span><br><span class="line"><span class="built_in">string</span> slang = <span class="string">"Hiya"</span>;</span><br></pre></td></tr></table></figure>
+<p>很容易知道，对象 str 小于对象 phrase，对象 slang 既大于 str 也大于 phrase。</p>
+<h3 id="string-对象相加"><a href="#string-对象相加" class="headerlink" title="string 对象相加"></a>string 对象相加</h3><p>在c++中，两个 string 对象可以很容易的进行拼接操作。使用加法运算符，即可将两个 string 对象加起来，得到一个新的 string 对象。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1 = <span class="string">"hello"</span>;</span><br><span class="line"><span class="built_in">string</span> s2 = <span class="string">" world!"</span>;</span><br><span class="line"><span class="built_in">string</span> s3 = s1 + s2;</span><br></pre></td></tr></table></figure>
+<p><em>注意：</em>当我们把 string 对象和自负字面值以及字符串字面值混在一条语句中使用的时候，必须确保每个加法运算符两侧的运算对象至少有一个是 string。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s4 = s1 + <span class="string">", "</span>;  </span><br><span class="line"><span class="built_in">string</span> s5 = <span class="string">"hello"</span> + <span class="string">", "</span>;</span><br></pre></td></tr></table></figure>
+<p>第一段代码是正确的，将一个 string 对象和一个字面值相加。</p>
+<p>第二段是错误的，因为两个运算对象都不是 string。</p>
+<h3 id="string对象中的字符处理"><a href="#string对象中的字符处理" class="headerlink" title="string对象中的字符处理"></a>string对象中的字符处理</h3><h4 id="范围-for-语句"><a href="#范围-for-语句" class="headerlink" title="范围 for 语句"></a>范围 for 语句</h4><p>在<code>c++11</code>新标准中，提供了便利给定序列中的每个元素并对序列中的每个值执行某种操作的语句：<em>范围for</em>语句。（range for）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (declaration: expression)</span><br><span class="line">    statement</span><br></pre></td></tr></table></figure>
+<p>有了这种语句，可以很容易的将 string 对象中的字符每行一个输出：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">"some string"</span>)</span></span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> c : str)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; c &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p>该循环将变量 c 和 str 联系在了一起，通过使用 auto 关键字，让编译器来决定变量c的类型。这里 c 的类型是 char。每次迭代， str 的下一个字符被拷贝给c。</p>
+<p>当我们想统计 string 对象中标点符号的个数，也可以很容易用这种语句来实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="string">"Hello, world!!!!"</span>)</span></span>;</span><br><span class="line"><span class="keyword">decltype</span>(s.size()) punct_cnt = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> c : s)</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">ispunct</span>(c))  <span class="comment">// 如果是标点符号</span></span><br><span class="line">        ++punct_cnt;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; punct_cnt;</span><br><span class="line">     &lt;&lt; <span class="string">" punctuation characters in "</span> &lt;&lt; s &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="改变字符串中的字符"><a href="#改变字符串中的字符" class="headerlink" title="改变字符串中的字符"></a>改变字符串中的字符</h4><p>如果想要改变 string 对象中字符的值，必须把循环变量定义成引用类型。假设我们想要将字符串改写成大写字母的形式，可以使用标准库函数 <code>toupper</code>,该函数接收一个字符，然后输出其对应的大写形式。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="string">"Hello World!!"</span>)</span></span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;c : s)</span><br><span class="line">    c = <span class="built_in">toupper</span>(c);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<p>在每次赋值引用时，变量 c 引用 string 对象 s 的 下一个字符，赋值给 c 也就是在对应的改变引用的值。</p>
+<h4 id="只处理一部分字符"><a href="#只处理一部分字符" class="headerlink" title="只处理一部分字符"></a>只处理一部分字符</h4><p>在 c++ 中，想要访问 string 对象中单个字符有两种方式：</p>
+<ol>
+<li>使用下标</li>
+<li>使用迭代器</li>
+</ol>
+<p><em>下表运算符</em> [] 接收的输入参数是<code>string::size_type</code>类型的值，表示要访问的字符的位置。类似于c语言中数组的访问方式。当我们想将 string 对象的第一个词改成大写形式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">decltype</span>(s.size()) index = <span class="number">0</span>;</span><br><span class="line">    index != s.size() &amp;&amp; <span class="built_in">isspace</span>(s[index]); ++index)</span><br><span class="line">    s[index] = <span class="built_in">toupper</span>(s[index]);</span><br></pre></td></tr></table></figure>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/fsZhungB.github.io/2018/09/15/c++标准库类型string/" class="article-date">
+  <time datetime="2018-09-15T02:14:34.000Z" itemprop="datePublished">2018-09-15</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fsZhungB.github.io/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/fsZhungB.github.io/2018/09/06/2018年学期总结/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">2018年学期总结</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+  
+  <!-- LiveRe City install code -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div>
+<!-- completed City install code -->
+
+  
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>世界上只有一种<em>英雄主义</em> —— 就是在认清生活真相之后依然热爱生活。</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fsZhungB.github.io/fancybox/jquery.fancybox.css">
+  <script src="/fsZhungB.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/fsZhungB.github.io/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
