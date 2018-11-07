@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>c++指针和const | fsZhuangB</title>
+  <title>C++指针和const | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="今天学习到了C++有关指针和const的相关内容，感觉很晕，总结记录一下学习的心得体会。 何为指针常量，常量指针？原来总是弄不懂什么是“指针常量”，什么是“常量指针”，后来感觉，只是因为翻译的比较让人难记而已，本质上，“指针常量”指的是：被指向的对象是常量（pointer to const）。而“常量指针”指的是：指针本身是常量（const pointer）。 指针常量指向常量的指针，不能用于改变">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
-<meta property="og:title" content="c++指针和const">
+<meta property="og:title" content="C++指针和const">
 <meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2018/11/07/c-指针和const/index.html">
 <meta property="og:site_name" content="fsZhuangB">
 <meta property="og:description" content="今天学习到了C++有关指针和const的相关内容，感觉很晕，总结记录一下学习的心得体会。 何为指针常量，常量指针？原来总是弄不懂什么是“指针常量”，什么是“常量指针”，后来感觉，只是因为翻译的比较让人难记而已，本质上，“指针常量”指的是：被指向的对象是常量（pointer to const）。而“常量指针”指的是：指针本身是常量（const pointer）。 指针常量指向常量的指针，不能用于改变">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-11-07T13:15:58.676Z">
+<meta property="og:updated_time" content="2018-11-07T13:17:28.732Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="c++指针和const">
+<meta name="twitter:title" content="C++指针和const">
 <meta name="twitter:description" content="今天学习到了C++有关指针和const的相关内容，感觉很晕，总结记录一下学习的心得体会。 何为指针常量，常量指针？原来总是弄不懂什么是“指针常量”，什么是“常量指针”，后来感觉，只是因为翻译的比较让人难记而已，本质上，“指针常量”指的是：被指向的对象是常量（pointer to const）。而“常量指针”指的是：指针本身是常量（const pointer）。 指针常量指向常量的指针，不能用于改变">
   
   
@@ -61,7 +61,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      c++指针和const
+      C++指针和const
     </h1>
   
 
@@ -89,7 +89,6 @@
 <p>例如：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> *<span class="keyword">const</span> p1 = &amp;i; <span class="comment">// p1是一个常量指针，不能改变p1的值，所以它是一个顶层const</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci = <span class="number">42</span>; <span class="comment">// 不能改变ci的值，这是一个顶层const</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *p2 = &amp;ci; <span class="comment">// 允许改P2的值，这是一个底层const</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *<span class="keyword">const</span> p3 = p2; <span class="comment">// 靠右的const是顶层const，而靠左的是底层const</span></span><br></pre></td></tr></table></figure>
 <p><em>总结：使得被修饰的变量本身无法改变的const是顶层const，而其他通过指针或者引用等间接途径来限制目标内容不可变的const就是底层const。</em></p>
-<p>w</p>
 
       
       <div id="donate" class="donate">
