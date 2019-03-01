@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  
+  <title>git使用笔记（二）建立远程仓库 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如果想在远程仓库上托管自己的代码，可以使用Github这个全世界最大的男性交友网站（误 托管自己的代码。 在继续进行下去之前，你需要一个Github账号，因为本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以我们需要首先进行一些设置（仅限Mac或Linux端，Windows端请自行google教程）：  创建SSHKey。在用户主目录下查看是否有.ssh目录:  如果有，再看看目录">
+<meta name="keywords" content="开发者笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git使用笔记（二）建立远程仓库">
+<meta property="og:url" content="https://fszhuangb.github.io/fsZhungB.github.io/2019/03/01/git使用笔记（二）建立远程仓库/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="如果想在远程仓库上托管自己的代码，可以使用Github这个全世界最大的男性交友网站（误 托管自己的代码。 在继续进行下去之前，你需要一个Github账号，因为本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以我们需要首先进行一些设置（仅限Mac或Linux端，Windows端请自行google教程）：  创建SSHKey。在用户主目录下查看是否有.ssh目录:  如果有，再看看目录">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://wx3.sinaimg.cn/large/be620060ly1g0no74t0t1j21gq0447db.jpg">
+<meta property="og:image" content="http://wx4.sinaimg.cn/large/be620060ly1g0nookywrej21ia0u0n76.jpg">
+<meta property="og:image" content="http://wx2.sinaimg.cn/large/be620060ly1g0nop36oyej21g60u0gqa.jpg">
+<meta property="og:updated_time" content="2019-03-01T15:03:15.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git使用笔记（二）建立远程仓库">
+<meta name="twitter:description" content="如果想在远程仓库上托管自己的代码，可以使用Github这个全世界最大的男性交友网站（误 托管自己的代码。 在继续进行下去之前，你需要一个Github账号，因为本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以我们需要首先进行一些设置（仅限Mac或Linux端，Windows端请自行google教程）：  创建SSHKey。在用户主目录下查看是否有.ssh目录:  如果有，再看看目录">
+<meta name="twitter:image" content="http://wx3.sinaimg.cn/large/be620060ly1g0no74t0t1j21gq0447db.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/typing.css">
+  <link rel="stylesheet" href="/fsZhungB.github.io/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-git使用笔记（二）建立远程仓库" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/">Home</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/fsZhungB.github.io/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      git使用笔记（二）建立远程仓库
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>如果想在远程仓库上托管自己的代码，可以使用<a href="https://github.com/" target="_blank" rel="noopener">Github</a>这个全世界最大的男性交友网站（误 托管自己的代码。</p>
+<p>在继续进行下去之前，你需要一个Github账号，因为本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以我们需要首先进行一些设置（仅限Mac或Linux端，Windows端请自行google教程）：</p>
+<ol>
+<li><p>创建SSHKey。在用户主目录下查看是否有<code>.ssh</code>目录:</p>
+<p><img src="http://wx3.sinaimg.cn/large/be620060ly1g0no74t0t1j21gq0447db.jpg" alt=""></p>
+<p>如果有，再看看目录下有没有<code>id_rsa</code>和<code>id_rsa.pub</code>这两个文件，如果已经有了，可以直接跳到下一步就ok了否则，打开你的Shell或Terminal，创建SSH Key:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"youremail@example.com"</span></span><br></pre></td></tr></table></figure>
+<p>请把邮件地址换成你自己的邮件地址，然后一路回撤，使用默认值即可，对安全性要求不高的话，Key也完全没必要设置密码。</p>
+<p>一切顺利的话，就可以在<code>.ssh</code>目录种找到<code>id_rsa</code>和<code>id_rsa.pub</code>这两个文件了。</p>
+</li>
+<li><p>创建完成后，我们就可以登陆Github进行下一步的设置了：</p>
+<p>在打开settings页面，注意一下左侧边栏有<code>SSH and GPG keys</code>的选项：如图所示是我已经添加好的一个公钥；</p>
+<p><img src="http://wx4.sinaimg.cn/large/be620060ly1g0nookywrej21ia0u0n76.jpg" alt=""></p>
+<p>然后点击New SSH key，填上任意Title，在Key文本框中粘贴<code>id_rsa.pub</code>中的内容：</p>
+<p><img src="http://wx2.sinaimg.cn/large/be620060ly1g0nop36oyej21g60u0gqa.jpg" alt=""></p>
+<p>点击“ADD Key”，你就应该看到已经添加好的Key了。</p>
+</li>
+</ol>
+<p>为什么GitHub需要SSH Key呢？因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。</p>
+<p>当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。</p>
+<p>最后友情提示，在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。</p>
+<p>如果你不想让别人看到Git库，有两个办法，一个是交点保护费（在巨硬收购github之后，私有仓库已经免费啦！），让GitHub把公开的仓库变成私有的，这样别人就看不见了（不可读更不可写）。另一个办法是自己动手，搭一个Git服务器，因为是你自己的Git服务器，所以别人也是看不见的。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/fsZhungB.github.io/2019/03/01/git使用笔记（二）建立远程仓库/" class="article-date">
+  <time datetime="2019-03-01T15:00:58.000Z" itemprop="datePublished">2019-03-01</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/fsZhungB.github.io/tags/开发者笔记/">开发者笔记</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/fsZhungB.github.io/2019/01/28/Blues口琴音阶练习（一）第一把位大调七声音阶/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Blues口琴音阶练习（一）第一把位大调七声音阶</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+  
+  <!-- LiveRe City install code -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div>
+<!-- completed City install code -->
+
+  
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fsZhungB.github.io/fancybox/jquery.fancybox.css">
+  <script src="/fsZhungB.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/fsZhungB.github.io/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
