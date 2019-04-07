@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  
+  <title>c++内置指针和智能指针的转换 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天在学习《C++ primer》的时候，看到了这样一段警告：  不要混合使用普通指针和智能指针！ … … 考虑下面对shared_ptr进行操作的函数： 123456&amp;gt;// 在函数被调用时ptr被创建并初始化&amp;gt;void process(shared_ptr&amp;lt;int&amp;gt; ptr)&amp;gt;&amp;#123;&amp;gt;  // 使用ptr&amp;gt;&amp;#125; // ptr离开作用域，被销">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++内置指针和智能指针的转换">
+<meta property="og:url" content="https://fszhuangb.xyz/2019/04/07/c-内置指针和智能指针的转换/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="今天在学习《C++ primer》的时候，看到了这样一段警告：  不要混合使用普通指针和智能指针！ … … 考虑下面对shared_ptr进行操作的函数： 123456&amp;gt;// 在函数被调用时ptr被创建并初始化&amp;gt;void process(shared_ptr&amp;lt;int&amp;gt; ptr)&amp;gt;&amp;#123;&amp;gt;  // 使用ptr&amp;gt;&amp;#125; // ptr离开作用域，被销">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-07T08:28:46.381Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++内置指针和智能指针的转换">
+<meta name="twitter:description" content="今天在学习《C++ primer》的时候，看到了这样一段警告：  不要混合使用普通指针和智能指针！ … … 考虑下面对shared_ptr进行操作的函数： 123456&amp;gt;// 在函数被调用时ptr被创建并初始化&amp;gt;void process(shared_ptr&amp;lt;int&amp;gt; ptr)&amp;gt;&amp;#123;&amp;gt;  // 使用ptr&amp;gt;&amp;#125; // ptr离开作用域，被销">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-c-内置指针和智能指针的转换" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      c++内置指针和智能指针的转换
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>今天在学习《C++ primer》的时候，看到了这样一段警告：</p>
+<blockquote>
+<p><strong>不要混合使用普通指针和智能指针！</strong></p>
+<p>… …</p>
+<p>考虑下面对<code>shared_ptr</code>进行操作的函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="comment">// 在函数被调用时ptr被创建并初始化</span></span><br><span class="line">&gt;<span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; ptr)</span></span></span><br><span class="line">&gt;&#123;</span><br><span class="line">&gt;  <span class="comment">// 使用ptr</span></span><br><span class="line">&gt;&#125; <span class="comment">// ptr离开作用域，被销毁</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>混用普通指针和智能指针的后果就是会产生各种各样的未定义行为，比如空悬指针（又称野指针）。</p>
+<h2 id="第一个坑"><a href="#第一个坑" class="headerlink" title="第一个坑"></a>第一个坑</h2><p><strong>从普通指针到智能指针的问题：</strong></p>
+<p>我们知道，该process函数的参数是传值方式传递的，因此实参会被拷贝到ptr中。拷贝一个<code>shared_ptr</code>会递增其引用计数，因此在process运行过程中，引用计数值至少为2.当process结束时，ptr的引用计数会递减，但不会变为0。因此，当局部变量ptr被销毁时，ptr所指向的内存不会被释放。</p>
+<p>虽然我们不能直接将一个内置指针传入process函数，但是可以通过以下方法进行传递：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* iPtr = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">42</span>);</span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(iPtr);</span><br></pre></td></tr></table></figure>
+<p>所以，我们可以可以试着给process函数传递一个（临时的）<code>shared_ptr</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int *x(new int(1024));       // 危险：x是一个普通指针，不是一个智能指针</span><br><span class="line">process(x);   				       <span class="comment">// 错误：不能将int*转换为一个shared_ptr&lt;int&gt;</span></span><br><span class="line">process(<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(x)); <span class="comment">// 合法的，但是内存会被释放！</span></span><br><span class="line"><span class="keyword">int</span> j = *x									 <span class="comment">// 未定义行为！x是一个空悬指针</span></span><br></pre></td></tr></table></figure>
+<p>对于上面的调用，我们将一个临时的<code>shared_ptr</code>传递给process。当这个调用所在的表达式结束时，这个临时对象就被销毁了。销毁这个临时对象会递减引用计数，此时引用计数就变为0了，因此，当临时对象被销毁时，它所指向的内存会被释放。此时如果继续试图使用x的值，其行为是未定义的。</p>
+<p>正确使用此函数的方法是传递给它一个<code>shared_ptr</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">42</span>));  <span class="comment">// 引用计数为1</span></span><br><span class="line">process(p);											 <span class="comment">// 拷贝p会递增其引用计数，在process中引用计数值为2</span></span><br><span class="line"><span class="keyword">int</span> j = *p;											 <span class="comment">// 正确，引用计数为1</span></span><br></pre></td></tr></table></figure>
+<h2 id="第二个坑"><a href="#第二个坑" class="headerlink" title="第二个坑"></a>第二个坑</h2><p>从智能指针到普通指针的问题：</p>
+<p>智能指针中的<code>get()</code>方法可以返回一个内置指针，指向智能指针所管理的对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">42</span>));  <span class="comment">// 引用计数为1</span></span><br><span class="line"><span class="keyword">int</span> *q = p.get();								 <span class="comment">// 正确：但使用q时要注意，不要让它管理的指针被释放</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(q); 					 <span class="comment">// 未定义：两个独立的shared_ptr指向相同的内存</span></span><br><span class="line">&#125;																 <span class="comment">// 程序块结束，q被销毁，它指向的内存被释放了</span></span><br><span class="line"><span class="keyword">int</span> foo = *p;										 <span class="comment">// 未定义：p指向的内存已经被释放了</span></span><br></pre></td></tr></table></figure>
+<p>p和q指向了相同的内存，然而由于它们是相互独立创建的，因此各自的引用计数都是1.当q所在的程序块结束时，q被销毁，这会导致q指向的内存被释放。从而p变成了一个空悬指针。同时，如果p被销毁时，这块内存会被二次delete。</p>
+<p>会造成相同问题的也有下面这段代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> sp = make_shared&lt;<span class="keyword">int</span>&gt;();</span><br><span class="line"><span class="keyword">auto</span> p = sp.get();</span><br><span class="line"><span class="keyword">delete</span> p;</span><br></pre></td></tr></table></figure>
+<p>sp是一个未初始化的<code>shared_ptr</code>，同时sp也将p初始化为一个指向int类型的内置指针，释放p之后，sp所指向的空间不复存在，sp将会成为野指针。</p>
+<p>在<code>c++11</code>标准，极力推崇完全替代原生指针。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2019/04/07/c-内置指针和智能指针的转换/" class="article-date">
+  <time datetime="2019-04-07T08:27:01.000Z" itemprop="datePublished">2019-04-07</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/03/01/git使用笔记（二）建立远程仓库/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">git使用笔记（二）建立远程仓库</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
