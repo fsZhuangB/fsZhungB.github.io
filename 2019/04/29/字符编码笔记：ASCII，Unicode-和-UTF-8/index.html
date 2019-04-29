@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  
+  <title>字符编码笔记：ASCII，Unicode 和 UTF-8 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符编码笔记：ASCII，Unicode 和 UTF-8">
+<meta property="og:url" content="https://fszhuangb.xyz/2019/04/29/字符编码笔记：ASCII，Unicode-和-UTF-8/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-29T05:18:46.515Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符编码笔记：ASCII，Unicode 和 UTF-8">
+<meta name="twitter:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-字符编码笔记：ASCII，Unicode-和-UTF-8" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      字符编码笔记：ASCII，Unicode 和 UTF-8
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <h2 id="一-ASCII码"><a href="#一-ASCII码" class="headerlink" title="一.  ASCII码"></a>一.  ASCII码</h2><p>从<a href="https://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="noopener">维基百科</a>，我们得知：</p>
+<blockquote>
+<p><strong>ASCII</strong>（發音： <a href="https://zh.wikipedia.org/wiki/Help:英語國際音標" target="_blank" rel="noopener">/ˈæski/</a> ，<strong>A</strong>merican <strong>S</strong>tandard <strong>C</strong>ode for <strong>I</strong>nformation <strong>I</strong>nterchange，<strong>美国信息交换标准代码</strong>）是基于<a href="https://zh.wikipedia.org/wiki/拉丁字母" target="_blank" rel="noopener">拉丁字母</a>的一套<a href="https://zh.wikipedia.org/wiki/电脑" target="_blank" rel="noopener">电脑</a><a href="https://zh.wikipedia.org/wiki/编码" target="_blank" rel="noopener">编码</a>系统。它主要用于显示<a href="https://zh.wikipedia.org/wiki/現代英語" target="_blank" rel="noopener">现代英语</a>，而其擴展版本<a href="https://zh.wikipedia.org/wiki/EASCII" target="_blank" rel="noopener">EASCII</a>則可以部分支持其他<a href="https://zh.wikipedia.org/wiki/西欧" target="_blank" rel="noopener">西欧</a><a href="https://zh.wikipedia.org/wiki/语言" target="_blank" rel="noopener">语言</a>，并等同于国际标准<strong>ISO/IEC 646</strong>。</p>
+</blockquote>
+<p>简单来说，ASCII码是一种字符编码，把128个字符映射至整数0～127，例如，<code>1</code>-&gt;49（二进制<code>00110001</code>)，<code>A</code>-&gt;65（二进制<code>01000001</code>），<code>B</code>-&gt;66（二进制<code>01000010</code>），等等。这是一种7-bit 的字符编码系统，<em>因为这128个符号（包括32个不能打印出来的控制符号），只占用了一个字节的后面7位，最前面的一位统一规定为<code>0</code></em>。<em>在计算机中以一个字节储存一个字符。</em>但是它仅仅适用于美国英语，甚至一些英语中常用的标点符号、重音符号都不能表示，无法表示各国语言，特别是中日韩语等表意文字。</p>
+<h2 id="二-Unicode编码"><a href="#二-Unicode编码" class="headerlink" title="二. Unicode编码"></a>二. Unicode编码</h2><p>在Unicode出现之前，全世界各个地区都采用了不同的编码系统，比如中文主要使用<code>GB-2312</code>和大五码、日文采用<code>JIS</code>等，这样会造成许多混乱和不便。想打开一个文本文件，必须知道其编码方式，用错误的编码方式解读，就会出现乱码；而一个文本文件也很难混合不同语言的文字。</p>
+<p>可以想象，如果有一种编码，将世界上所有的符号都纳入其中。每一个符号都给予一个独一无二的编码，那么乱码问题就会消失。这就是 Unicode，就像它的名字都表示的，这是一种所有符号的编码。</p>
+<p>因此，在上世纪80年代末，Xerox、Apple 等公司开始研究，是否能制定一套多语言的统一编码系统。后来，多个机构成立了 Unicode 联盟，在 1991 年释出 Unicode 1.0，收录了 24 种语言共 7161 个字符。在四分之一个世纪后的 2016年，Unicode 已释出 9.0 版本，收录 135 种语言共 128237 个字符。</p>
+<p>这些字符被收录的位置称为UCS(Universal Coded Character Set)，也就是统一字符集，每个字符映射至一个整数<strong>码点（code point）</strong>，即将字符表中的每个字符映射成一个数字，其范围为<code>0</code>到<code>0x10FFF</code>。码点通常记作<code>U+XXXX</code>，其中的<code>XXXX</code>为16进制数字。如<code>劲</code>-&gt;<code>U+52B2</code>, <code>峰</code>-&gt;<code>U+5CF0</code>。显然，UCS中的字符无法像ASCII一样，以一个字节储存。</p>
+<h2 id="三-Unicode的问题"><a href="#三-Unicode的问题" class="headerlink" title="三. Unicode的问题"></a>三. Unicode的问题</h2><p>我们要知道，Unicode只是一个符号集，它只规定了符号的二进制代码，但是并没有规定这些二进制代码如何储存。</p>
+<p>比如，汉字<code>严</code>的 Unicode 是十六进制数<code>4E25</code>，转换成二进制数足足有15位（<code>100111000100101</code>），也就是说，这个符号的表示至少需要2个字节。表示其他更大的符号，可能需要3个字节或者4个字节，甚至更多。</p>
+<p>由此导致了两个严重的问题：</p>
+<ol>
+<li>怎么样才能区分<code>Unicode</code>和<code>ASCII</code>？计算机怎么才能知道三个字节代表一个符号，而不是三个符号呢？</li>
+<li>储存空间的浪费问题。英文字母只用一个字节表示就够了，如果 Unicode 统一规定，每个符号用三个或四个字节表示，那么每个英文字母前都必然有二到三个字节是<code>0</code>，这对于存储来说是极大的浪费，文本文件的大小会因此大出二三倍，这是无法接受的。</li>
+</ol>
+<p>因为这两个主要问题，导致了 Unicode 在很长一段时间内无法推广。</p>
+<h2 id="四-UTF-8编码"><a href="#四-UTF-8编码" class="headerlink" title="四. UTF-8编码"></a>四. UTF-8编码</h2><p>为了更好的储存、传播Unicode，人们制定了Unicode各种码点的储存方式，这些方式称为Unicode转换格式（Uniform Transformation Format，UTF），现时流行的 UTF 为 UTF-8、UTF-16 和 UTF-32。每种 UTF 会把一个码点储存为一至多个编码单元（code unit）。<strong>编码单元</strong>是在具体编码形式中的最小单位。例如 UTF-8 的编码单元是 8 位的字节、UTF-16 为 16 位、UTF-32 为 32 位。除 UTF-32 外，UTF-8 和 UTF-16 都是可变长度编码。</p>
+<p><strong>重复一遍，这里的关系是，UTF-8是Unicode的实现方式之一。</strong></p>
+<h3 id="编码特点"><a href="#编码特点" class="headerlink" title="编码特点"></a>编码特点</h3><p>UTF-8编码的最大特点，就是它是一种变长的编码方式。它可以使用一到四个字节表示一个符号，根据不同的符号而变化字节长度。</p>
+<h3 id="编码规则"><a href="#编码规则" class="headerlink" title="编码规则"></a>编码规则</h3><ol>
+<li><em>对于单字节的符号，字节的第一位设为<code>0</code>，后面7位为这个符号的Unicode码，因此，对于英文字母，UTF-8编码和ASCII编码是相同的，理论上不需要特殊的改动。</em></li>
+<li><em>对于<code>n</code>字节的符号，（<code>n</code>&gt;1），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n+1</code>位都设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</em></li>
+</ol>
+<p>如下表所示：（字母<code>x</code>表示可供编码的位）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">码点范围（十六进制）</th>
+<th style="text-align:center">码点位数</th>
+<th style="text-align:center">字节1</th>
+<th style="text-align:center">字节2</th>
+<th style="text-align:center">字节3</th>
+<th style="text-align:center">字节4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">U+0000~U+007F</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">0xxxxxxx</td>
+<td style="text-align:center">Null</td>
+<td style="text-align:center">Null</td>
+<td style="text-align:center">Null</td>
+</tr>
+<tr>
+<td style="text-align:center">U+0080~U+07FF</td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">110xxxxx</td>
+<td style="text-align:center">10xxxxxx</td>
+<td style="text-align:center">Null</td>
+<td style="text-align:center">Null</td>
+</tr>
+<tr>
+<td style="text-align:center">U+0800~U+FFFF</td>
+<td style="text-align:center">16</td>
+<td style="text-align:center">1110xxxx</td>
+<td style="text-align:center">10xxxxxx</td>
+<td style="text-align:center">10xxxxxx</td>
+<td style="text-align:center">Null</td>
+</tr>
+<tr>
+<td style="text-align:center">U+10000 ~ U+10FFFF</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">11110xxx</td>
+<td style="text-align:center">10xxxxxx</td>
+<td style="text-align:center">10xxxxxx</td>
+<td style="text-align:center">10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<p>根据上表所示，UTF-8编码规则还是非常简单的，如果一个字节的第一位是<code>0</code>，则这个字节单独就是一个字符；如果第一位是<code>1</code>，其后面连续跟着多少个<code>1</code>，就表示当前字符占用多少个字节。</p>
+<h3 id="转换实例"><a href="#转换实例" class="headerlink" title="转换实例"></a>转换实例</h3><ol>
+<li><p><strong>汉字<code>严</code></strong></p>
+<ol>
+<li><code>严</code>的Unicode码是<code>4E25</code>（<code>100111000100101</code>）。</li>
+<li>可知<code>4E25</code>处在第三行的范围内，（<code>U+0800~U+FFFF</code>），因此<code>严</code>的UTF-8编码需要三个字节，即格式为<code>1110xxxx 10xxxxxx 10xxxxxx</code>。</li>
+<li>从<code>严</code>的最后一个二进制位开始依次向前填入格式中的<code>x</code>，多出的位补<code>0</code>，成为<code>100111000100101</code>。</li>
+<li>从而得到了严<code>的 UTF-8 编码是</code>11100100 10111000 10100101<code>。</code></li>
+<li><code>转换成十六进制就是</code>E4B8A5`。</li>
+</ol>
+</li>
+<li><p>欧元字符<code>€</code></p>
+<ol>
+<li><code>€</code>的Unicode码是<code>20AC</code>（<code>10000010101100</code>）。</li>
+<li><code>20AC</code> 在 <code>U+0800 ~ U+FFFF</code> 的范围内，应编码成 3 个字节。</li>
+<li>3 个字节的情况我们要 16 位的码点，所以在前面补两个 0，成为 <code>0010000010101100</code>。</li>
+<li>按上表把二进位分成 3 组：<code>0010, 000010, 101100</code>。</li>
+<li>加上每个字节的前缀：<code>11100010, 10000010, 10101100</code>。</li>
+<li>用十六进位表示即：<code>E282AC</code>。</li>
+</ol>
+</li>
+</ol>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2019/04/29/字符编码笔记：ASCII，Unicode-和-UTF-8/" class="article-date">
+  <time datetime="2019-04-29T05:16:48.000Z" itemprop="datePublished">2019-04-29</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/04/07/c-内置指针和智能指针的转换/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++内置指针和智能指针的转换</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
