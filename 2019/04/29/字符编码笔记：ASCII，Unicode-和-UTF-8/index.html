@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="fsZhuangB">
 <meta property="og:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-05T03:38:12.562Z">
+<meta property="og:updated_time" content="2019-05-05T03:40:50.889Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符编码笔记：ASCII，Unicode 和 UTF-8">
 <meta name="twitter:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
@@ -160,11 +160,8 @@
 <li>加上每个字节的前缀：<code>11100010, 10000010, 10101100</code>。</li>
 <li>用十六进位表示即：<code>E282AC</code>。</li>
 </ol>
-<p>对于本例子，对应的c++代码<br><code>`</code>c++<br>if (u &gt;= 0x0800 &amp;&amp; u &lt;= 0xFFFF)<br>{</p>
-<pre><code>OutputByte(0xE0 | ((u &gt;&gt; 12) &amp; 0xFF)); /* 0xE0 = 11100000 */
-OutputByte(0x80 | ((u &gt;&gt;  6) &amp; 0x3F)); /* 0x80 = 10000000 */
-OutputByte(0x80 | ( u        &amp; 0x3F)); /* 0x3F = 00111111 */
-</code></pre><p>}</p>
+<p>对于本例子，对应的c++代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (u &gt;= <span class="number">0x0800</span> &amp;&amp; u &lt;= <span class="number">0xFFFF</span>)</span><br><span class="line">&#123;</span><br><span class="line">    OutputByte(<span class="number">0xE0</span> | ((u &gt;&gt; <span class="number">12</span>) &amp; <span class="number">0xFF</span>)); <span class="comment">/* 0xE0 = 11100000 */</span></span><br><span class="line">    OutputByte(<span class="number">0x80</span> | ((u &gt;&gt;  <span class="number">6</span>) &amp; <span class="number">0x3F</span>)); <span class="comment">/* 0x80 = 10000000 */</span></span><br><span class="line">    OutputByte(<span class="number">0x80</span> | ( u        &amp; <span class="number">0x3F</span>)); <span class="comment">/* 0x3F = 00111111 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 
