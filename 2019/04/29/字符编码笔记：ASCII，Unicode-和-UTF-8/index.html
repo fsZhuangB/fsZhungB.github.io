@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="fsZhuangB">
 <meta property="og:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-05T03:40:50.889Z">
+<meta property="og:updated_time" content="2019-05-05T04:02:01.836Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符编码笔记：ASCII，Unicode 和 UTF-8">
 <meta name="twitter:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
@@ -164,6 +164,12 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (u &gt;= <span class="number">0x0800</span> &amp;&amp; u &lt;= <span class="number">0xFFFF</span>)</span><br><span class="line">&#123;</span><br><span class="line">    OutputByte(<span class="number">0xE0</span> | ((u &gt;&gt; <span class="number">12</span>) &amp; <span class="number">0xFF</span>)); <span class="comment">/* 0xE0 = 11100000 */</span></span><br><span class="line">    OutputByte(<span class="number">0x80</span> | ((u &gt;&gt;  <span class="number">6</span>) &amp; <span class="number">0x3F</span>)); <span class="comment">/* 0x80 = 10000000 */</span></span><br><span class="line">    OutputByte(<span class="number">0x80</span> | ( u        &amp; <span class="number">0x3F</span>)); <span class="comment">/* 0x3F = 00111111 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<h3 id="古怪的Big-endian和Little-endian"><a href="#古怪的Big-endian和Little-endian" class="headerlink" title="古怪的Big endian和Little endian"></a>古怪的Big endian和Little endian</h3><p>这两个古怪的名称来自英国作家斯威夫特的《格列佛游记》。这本书里，小人国里爆发了内战，战争起因是人们争论，吃鸡蛋时究竟是从大头(Big-endian)敲开还是从小头(Little-endian)敲开。为了这件事情，前后爆发了六次战争，一个皇帝送了命，另一个皇帝丢了王位。</p>
+<p>而我们的Unicode编码也采用了这种命名方式。以汉字<code>严</code>为例，Unicode 码是<code>4E25</code>，需要用两个字节存储，一个字节是<code>4E</code>，另一个字节是<code>25</code>。存储的时候，<code>4E</code>在前，<code>25</code>在后，这就是 Big endian 方式；<code>25</code>在前，<code>4E</code>在后，这是 Little endian 方式。</p>
+<p>第一个字节在前，就是”大头方式”（Big endian），第二个字节在前就是”小头方式”（Little endian）。</p>
+<p><strong>那么问题就来了，计算机如何知道某一个文件究竟是用什么样的方式编码的呢？</strong></p>
+<p>Unicode 规范定义，每一个文件的最前面分别加入一个表示编码顺序的字符，这个字符的名字叫做”零宽度非换行空格”（zero width no-break space），用<code>FEFF</code>表示。这正好是两个字节，而且<code>FF</code>比<code>FE</code>大<code>1</code>。</p>
+<p>如果一个文本文件的头两个字节是<code>FE FF</code>，就表示该文件采用大头方式；如果头两个字节是<code>FF FE</code>，就表示该文件采用小头方式。</p>
 
       
       <div id="donate" class="donate">
