@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="fsZhuangB">
 <meta property="og:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-05T00:31:51.401Z">
+<meta property="og:updated_time" content="2019-05-05T03:38:12.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符编码笔记：ASCII，Unicode 和 UTF-8">
 <meta name="twitter:description" content="一.  ASCII码从维基百科，我们得知：  ASCII（發音： /ˈæski/ ，American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语，而其擴展版本EASCII則可以部分支持其他西欧语言，并等同于国际标准ISO/IEC 646。  简单来说，ASCII码是一种字符编码，">
@@ -160,6 +160,11 @@
 <li>加上每个字节的前缀：<code>11100010, 10000010, 10101100</code>。</li>
 <li>用十六进位表示即：<code>E282AC</code>。</li>
 </ol>
+<p>对于本例子，对应的c++代码<br><code>`</code>c++<br>if (u &gt;= 0x0800 &amp;&amp; u &lt;= 0xFFFF)<br>{</p>
+<pre><code>OutputByte(0xE0 | ((u &gt;&gt; 12) &amp; 0xFF)); /* 0xE0 = 11100000 */
+OutputByte(0x80 | ((u &gt;&gt;  6) &amp; 0x3F)); /* 0x80 = 10000000 */
+OutputByte(0x80 | ( u        &amp; 0x3F)); /* 0x3F = 00111111 */
+</code></pre><p>}</p>
 </li>
 </ol>
 
