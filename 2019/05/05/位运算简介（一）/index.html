@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  
+  <title>位运算简介（一） | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在写一个JSON的解析器，需要解析Unicode字符，解析的时候需要一些位运算的知识，正好借此机会整理一下。 本文中的代码皆为C或C++语言。 按位与、或、异或、取反运算因为整数在计算机中用二进制来表示，C或C++为我们提供了一系列运算符，可以直接操作整数中的位，我们称之为位运算，这些运算符的操作数都必须要是整数的。 在C或C++语言中，整数中的位可以进行：按位与（Bitwise AND）运算">
+<meta name="keywords" content="开发者笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算简介（一）">
+<meta property="og:url" content="https://fszhuangb.xyz/2019/05/05/位运算简介（一）/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="最近在写一个JSON的解析器，需要解析Unicode字符，解析的时候需要一些位运算的知识，正好借此机会整理一下。 本文中的代码皆为C或C++语言。 按位与、或、异或、取反运算因为整数在计算机中用二进制来表示，C或C++为我们提供了一系列运算符，可以直接操作整数中的位，我们称之为位运算，这些运算符的操作数都必须要是整数的。 在C或C++语言中，整数中的位可以进行：按位与（Bitwise AND）运算">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-05T15:26:42.906Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="位运算简介（一）">
+<meta name="twitter:description" content="最近在写一个JSON的解析器，需要解析Unicode字符，解析的时候需要一些位运算的知识，正好借此机会整理一下。 本文中的代码皆为C或C++语言。 按位与、或、异或、取反运算因为整数在计算机中用二进制来表示，C或C++为我们提供了一系列运算符，可以直接操作整数中的位，我们称之为位运算，这些运算符的操作数都必须要是整数的。 在C或C++语言中，整数中的位可以进行：按位与（Bitwise AND）运算">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-位运算简介（一）" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      位运算简介（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>最近在写一个JSON的解析器，需要解析Unicode字符，解析的时候需要一些位运算的知识，正好借此机会整理一下。</p>
+<p>本文中的代码皆为C或C++语言。</p>
+<h2 id="按位与、或、异或、取反运算"><a href="#按位与、或、异或、取反运算" class="headerlink" title="按位与、或、异或、取反运算"></a>按位与、或、异或、取反运算</h2><p>因为整数在计算机中用二进制来表示，C或C++为我们提供了一系列运算符，可以直接操作整数中的位，我们称之为位运算，<strong>这些运算符的操作数都必须要是整数的。</strong></p>
+<p>在C或C++语言中，整数中的位可以进行：按位与（Bitwise AND）运算符<code>&amp;</code>，按位或（Bitwise OR）运算符<code>|</code>，按位取反（Bitwise NOT）运算符<code>~</code>，此外还有按位异或（Bitwise XOR）运算符<code>^</code>。</p>
+<p>以下是几个例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">00000011</span>     <span class="number">00000011</span>     <span class="number">00000011</span>                 </span><br><span class="line">&amp; <span class="number">00000101</span>   | <span class="number">00000101</span>   ^ <span class="number">00000101</span>    ~ <span class="number">11111100</span>  </span><br><span class="line">  --------     --------     --------      --------</span><br><span class="line">  <span class="number">00000001</span>     <span class="number">00000111</span>     <span class="number">00000110</span>      <span class="number">00000011</span></span><br></pre></td></tr></table></figure>
+<h2 id="移位运算"><a href="#移位运算" class="headerlink" title="移位运算"></a>移位运算</h2><p>移位运算符（Bitwise Shift）包括左移<code>&lt;&lt;</code>和右移<code>&gt;&gt;</code>。左移将一个整数的各二进制位全部左移若干位，例如<code>0xcfffffff3&lt;&lt;2</code>得到<code>0x3fffffcc</code>。</p>
+<h3 id="左移运算符"><a href="#左移运算符" class="headerlink" title="左移运算符"></a>左移运算符</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">110011111111111111111111111111110011</span></span><br><span class="line">&lt;&lt;  																	<span class="number">2</span></span><br><span class="line">---------------------------------------</span><br><span class="line">   <span class="number">001111111111111111111111111111001100</span></span><br></pre></td></tr></table></figure>
+<p>最高两位的11被移出去了，最低两位后面又补了两个0， 其他位依次左移两位。但要注意，移动的位数必须小于左操作数的总位数，比如上例，左边是<code>unsigned int</code>型，如果左移的位数大于等于32位（即<code>unsigned int</code>类型的位数），则结果是Undefined。</p>
+<h3 id="右移运算符"><a href="#右移运算符" class="headerlink" title="右移运算符"></a>右移运算符</h3><p>当操作数是<strong>无符号数</strong>时，右移运算的规则和左移类似，例如<code>0xcfffffff3&gt;&gt;2</code>得到<code>0x33fffffc</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">110011111111111111111111111111110011</span></span><br><span class="line">&gt;&gt; 																		<span class="number">2</span></span><br><span class="line">---------------------------------------</span><br><span class="line">   <span class="number">001100111111111111111111111111111100</span></span><br></pre></td></tr></table></figure>
+<p>最低两位11被移出去了，最高两位又补了两个0，其他位依次右移两位。和左移类似，移动的位数也必须小于左操作数的总位数，否则结果是Undefined。</p>
+<p>当操作数是有符号数时，右移运算的规则比较复杂：</p>
+<ul>
+<li>如果时正数，那么高位移入0。</li>
+<li>如果是负数，那么高位移入1还是0不一定，这是<em>Implementation-defined</em>的。对于x86平台的<code>gcc</code>编译器，最高位移入1，也就是仍保持负数的符号位，这种处理方式对负数仍然保持了“右移1位相当于除以2”的性质。</li>
+</ul>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2019/05/05/位运算简介（一）/" class="article-date">
+  <time datetime="2019-05-05T15:25:57.000Z" itemprop="datePublished">2019-05-05</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者笔记/">开发者笔记</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/04/29/字符编码笔记：ASCII，Unicode-和-UTF-8/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">字符编码笔记：ASCII，Unicode 和 UTF-8</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
