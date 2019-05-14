@@ -94,6 +94,7 @@
 <li><em>对于<code>n</code>字节的符号，（<code>n</code>&gt;1），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n+1</code>位都设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</em></li>
 </ol>
 <p>如下表所示：（字母<code>x</code>表示可供编码的位）</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -140,6 +141,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>根据上表所示，UTF-8编码规则还是非常简单的，如果一个字节的第一位是<code>0</code>，则这个字节单独就是一个字符；如果第一位是<code>1</code>，其后面连续跟着多少个<code>1</code>，就表示当前字符占用多少个字节。</p>
 <h3 id="转换实例"><a href="#转换实例" class="headerlink" title="转换实例"></a>转换实例</h3><ol>
 <li><p><strong>汉字<code>严</code></strong></p>
