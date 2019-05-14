@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  
+  <title>神经网络浅谈 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神经网络浅谈">
+<meta property="og:url" content="https://fszhuangb.xyz/2019/05/14/神经网络浅谈/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071212.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151219153856802-307732621.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230201441792-1505283920.jpg">
+<meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151221151959015-1876891081.jpg?raw=true">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204223917-579926148.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204258057-82126781.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230205437995-673856644.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151231073138323-962584420.png">
+<meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222164731249-360921014.jpg?raw=true">
+<meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222171056156-387680541.jpg?raw=true">
+<meta property="og:updated_time" content="2019-05-14T03:34:11.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="神经网络浅谈">
+<meta name="twitter:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css">
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-神经网络浅谈" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      神经网络浅谈
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。</p>
+<h2 id="神经网络和机器学习有什么关系？"><a href="#神经网络和机器学习有什么关系？" class="headerlink" title="神经网络和机器学习有什么关系？"></a>神经网络和机器学习有什么关系？</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg" alt=""></p>
+<p>神经网络是实现机器学习的一种方式。</p>
+<p><strong>机器学习（Machine Learning）</strong>的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。</p>
+<p><strong>神经网络（Neutral network）</strong>则是实现机器学习的一种方法，在机器学习领域谈论神经网络，一般是指“神经网络学习”。</p>
+<p>现如今，随着数据量越来越大，计算资源越来越丰富，以及算法上的改进和优化，神经网络的层数变得越来越多，学习的效果变得也越来越好，<strong>深度学习（Deep Learning）</strong>也就出现了，本质上是深层的神经网络。</p>
+<h2 id="什么是神经网络？"><a href="#什么是神经网络？" class="headerlink" title="什么是神经网络？"></a>什么是神经网络？</h2><p>神经网络是一种模拟人脑的神经网络以期能够实现类人工智能的机器学习技术。人脑中的神经网络是一个非常复杂的组织。成人的大脑中估计有1000亿个神经元之多。</p>
+<h3 id="神经元"><a href="#神经元" class="headerlink" title="神经元"></a>神经元</h3><p>对于神经元的研究由来已久，1904年生物学家就已经知晓了神经元的组成结构。</p>
+<p>一个神经元通常具有多个<strong>树突</strong>，主要用来接受传入信息；而<strong>轴突</strong>只有一条，轴突尾端有许多轴突末梢可以给其他多个神经元传递信息。轴突末梢跟其他神经元的树突产生连接，从而传递信号。这个连接的位置在生物学上叫做“<strong>突触</strong>”。</p>
+<p>人脑中的神经元形状可以用下图做简单的说明：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071212.png" alt="神经元"></p>
+<h3 id="普通神经元模型"><a href="#普通神经元模型" class="headerlink" title="普通神经元模型"></a>普通神经元模型</h3><p>通过对于人类神经元的模拟，人们发布了抽象的神经元模型MP，包含了输入、输出与计算功能的模型。输入可以类比为神经元的树突，而输出可以类比为神经元的轴突，计算则可以类比为细胞核。</p>
+<p>下面是一个神经元模型：包含三个输入、一个输出，以及两个计算功能。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151219153856802-307732621.jpg" alt="神经元模型"></p>
+<p>有以下几个要点需要提到：</p>
+<ol>
+<li><strong>每一条箭头线被称为”连接”，是对模型的三个输入，代表着现实世界中需要考虑到的三个因素。</strong></li>
+<li><strong>每条连接上面都有一个权重，代表着因素的重要程度。</strong></li>
+</ol>
+<p>在神经元模型中，有向箭头表示的是值的加权传递，我们使用a来表示输入，用w来表示权值。一个表示连接的有向箭头可以这样理解：在初端，传递的信号大小仍然是<em>a</em>，端中间有加权参数<em>w</em>，经过这个加权后的信号会变成<em>aw</em>，因此在连接的末端，信号的大小就变成了<em>aw</em>。</p>
+<p>一个神经网络的训练算法就是让权重的值调整到最佳，使得整个网络的预测效果最好。</p>
+<p>下面是这个模型的计算公式：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230201441792-1505283920.jpg" alt=""></p>
+<p>对于上图的两个函数，我们还可以进行进一步的封装，将这两个函数合并到一个圆圈里，代表神经元的内部计算。神经元可以看作一个计算与存储单元。计算是神经元对其的输入进行计算功能。存储是神经元会暂存计算结果，并传递到下一层。</p>
+<p><strong>神经元模型的使用可以这样理解：</strong></p>
+<p>我们有一个数据，称之为样本。样本有四个属性，其中三个属性已知，一个属性未知。我们需要做的就是通过三个已知属性<strong>预测</strong>未知属性。</p>
+<p>具体办法就是使用神经元的公式进行计算。三个已知属性的值是a1，a2，a3，未知属性的值是z。z可以通过公式计算出来。</p>
+<p>这里，已知的属性称之为<strong>特征</strong>，未知的属性称之为<strong>目标</strong>。假设特征与目标之间确实是线性关系，并且我们已经得到表示这个关系的权值w1，w2，w3。那么，我们就可以通过神经元模型预测新样本的目标。</p>
+<h2 id="感知器（Perceptron）"><a href="#感知器（Perceptron）" class="headerlink" title="感知器（Perceptron）"></a>感知器（Perceptron）</h2><p>感知器是当时首个可以学习的人工神经网络。</p>
+<p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151221151959015-1876891081.jpg?raw=true" alt="单层神经网络"></p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>在感知器中，有两个层次，分别是<strong>输入层</strong>和<strong>输出层</strong>。输入层里的“输入单元”只负责传输数据，不做计算。输出层里的“输出单元”则需要对前面一层的输入进行计算。我们把需要计算的层次称之为“计算层”，并把拥有一个计算层的网络称之为“单层神经网络”。</p>
+<p>下图显示了带有两个输出单元的单层神经网络，其中输出单元<strong>z1</strong>的计算公式如下图。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204223917-579926148.jpg" alt="单层神经网络Z1"></p>
+<p>可以看到，z1的计算跟原先的z并没有区别。</p>
+<p>我们已知一个神经元的输出可以向多个神经元传递，因此<strong>z2</strong>的计算公式如下图。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204258057-82126781.jpg" alt="单层神经网络z2"></p>
+<p>目前的表达公式有一点不让人满意的就是：$$w_4，w_5，w_6$$是后来加的，很难表现出跟原先的$$w_1，w_2，w_3$$的关系。</p>
+<p>因此我们使用$$w_x,_y$$来表达一个权值。下标中的$x$代表后一层神经元的序号，而$y$代表前一层神经元的序号。</p>
+<p>根据以上方法标记，我们有了下图：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230205437995-673856644.jpg" alt="扩展的单层神经网络"></p>
+<p>可以用矩阵乘法来表示这两个公式：输入的变量是$$[a_1, a_2, a_3]^T$$（代表了由$$a_1, a_2, a_3$$组成的列向量，用向量$a$表示。方程左边是$$[z_1, z_2]^T$$，用向量$z$来表示。系数则是矩阵$W$，2行3列的矩阵，排列形式与公式中的一样。</p>
+<p>那么，改写结果为：</p>
+<center><b>g(W * a) = z</b></center>
+
+<p>这个公式就是神经网络中从前一层计算后一层的<strong>矩阵运算。</strong></p>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>与神经元模型不同，感知器中的权值是通过训练得到的。因此，根据以前的知识我们知道，感知器类似一个<strong>逻辑回归</strong>模型，可以做线性分类任务。</p>
+<p>我们可以用<strong>决策分界</strong>来形象的表达分类的效果。</p>
+<ol>
+<li>决策分界就是在二维的数据平面中划出一条直线。</li>
+<li>当数据的维度是3维的时候，就是划出一个平面。</li>
+<li>当数据的维度是n维时，就是划出一个n-1维的超平面。</li>
+</ol>
+<p>下图显示了在二维平面中划出决策分界的效果，也就是感知器的分类效果。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151231073138323-962584420.png" alt="单层神经网络（决策分界）"></p>
+<h2 id="两层神经网络"><a href="#两层神经网络" class="headerlink" title="两层神经网络"></a>两层神经网络</h2><h3 id="结构-1"><a href="#结构-1" class="headerlink" title="结构"></a>结构</h3><p>两层神经网络除了包含一个输入层，一个输出层以外，还增加了一个中间层。此时，中间层和输出层都是计算层。</p>
+<p>如下图所示：</p>
+<p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222164731249-360921014.jpg?raw=true" alt="两层神经网络（中间层计算）"></p>
+<p>例如$$a^{(y)}_x$$代表着第y层的第x个节点。$z_1,z_2$变成了$a^{(2)}_1$，$a^{(2)}_2$。</p>
+<p>最终输出$z$的方式是利用了中间层的$a^{(2)}_1$，$a^{(2)}_2$和第二个权值矩阵计算得到的：</p>
+<p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222171056156-387680541.jpg?raw=true" alt="两层神经网络"></p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2019/05/14/神经网络浅谈/" class="article-date">
+  <time datetime="2019-05-14T03:33:16.000Z" itemprop="datePublished">2019-05-14</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/05/11/西安游记/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">西安游记</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
