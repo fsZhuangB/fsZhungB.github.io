@@ -24,7 +24,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151231073138323-962584420.png">
 <meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222164731249-360921014.jpg?raw=true">
 <meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222171056156-387680541.jpg?raw=true">
-<meta property="og:updated_time" content="2019-05-14T07:32:45.664Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151222171328140-1303075636.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151226111144687-604911384.jpg">
+<meta property="og:updated_time" content="2019-05-14T10:34:01.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络浅谈">
 <meta name="twitter:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
@@ -107,15 +109,15 @@
 <p>对于上图的两个函数，我们还可以进行进一步的封装，将这两个函数合并到一个圆圈里，代表神经元的内部计算。神经元可以看作一个计算与存储单元。计算是神经元对其的输入进行计算功能。存储是神经元会暂存计算结果，并传递到下一层。</p>
 <p><strong>神经元模型的使用可以这样理解：</strong></p>
 <p>我们有一个数据，称之为样本。样本有四个属性，其中三个属性已知，一个属性未知。我们需要做的就是通过三个已知属性<strong>预测</strong>未知属性。</p>
-<p>具体办法就是使用神经元的公式进行计算。三个已知属性的值是a1，a2，a3，未知属性的值是z。z可以通过公式计算出来。</p>
-<p>这里，已知的属性称之为<strong>特征</strong>，未知的属性称之为<strong>目标</strong>。假设特征与目标之间确实是线性关系，并且我们已经得到表示这个关系的权值w1，w2，w3。那么，我们就可以通过神经元模型预测新样本的目标。</p>
+<p>具体办法就是使用神经元的公式进行计算。三个已知属性的值是$a_1，a_2，a_3$，未知属性的值是z。z可以通过公式计算出来。</p>
+<p>这里，已知的属性称之为<strong>特征</strong>，未知的属性称之为<strong>目标</strong>。假设特征与目标之间确实是线性关系，并且我们已经得到表示这个关系的权值$w_1，w_2，w_3$。那么，我们就可以通过神经元模型预测新样本的目标。</p>
 <h2 id="感知器（Perceptron）"><a href="#感知器（Perceptron）" class="headerlink" title="感知器（Perceptron）"></a>感知器（Perceptron）</h2><p>感知器是当时首个可以学习的人工神经网络。</p>
 <p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151221151959015-1876891081.jpg?raw=true" alt="单层神经网络"></p>
 <h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>在感知器中，有两个层次，分别是<strong>输入层</strong>和<strong>输出层</strong>。输入层里的“输入单元”只负责传输数据，不做计算。输出层里的“输出单元”则需要对前面一层的输入进行计算。我们把需要计算的层次称之为“计算层”，并把拥有一个计算层的网络称之为“单层神经网络”。</p>
-<p>下图显示了带有两个输出单元的单层神经网络，其中输出单元<strong>z1</strong>的计算公式如下图。</p>
+<p>下图显示了带有两个输出单元的单层神经网络，其中输出单元$z_1$的计算公式如下图。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204223917-579926148.jpg" alt="单层神经网络Z1"></p>
-<p>可以看到，z1的计算跟原先的z并没有区别。</p>
-<p>我们已知一个神经元的输出可以向多个神经元传递，因此<strong>z2</strong>的计算公式如下图。</p>
+<p>可以看到，$z_1$的计算跟原先的$z$并没有区别。</p>
+<p>我们已知一个神经元的输出可以向多个神经元传递，因此$z_2$的计算公式如下图。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204258057-82126781.jpg" alt="单层神经网络z2"></p>
 <p>目前的表达公式有一点不让人满意的就是：<script type="math/tex">w_4，w_5，w_6</script>是后来加的，很难表现出跟原先的<script type="math/tex">w_1，w_2，w_3</script>的关系。</p>
 <p>因此我们使用<script type="math/tex">w_x,_y</script>来表达一个权值。下标中的$x$代表后一层神经元的序号，而$y$代表前一层神经元的序号。</p>
@@ -141,6 +143,27 @@
 <p>例如<script type="math/tex">a^{(y)}_x</script>代表着第y层的第x个节点。$z_1,z_2$变成了$a^{(2)}_1$，$a^{(2)}_2$。</p>
 <p>最终输出$z$的方式是利用了中间层的$a^{(2)}_1$，$a^{(2)}_2$和第二个权值矩阵计算得到的：</p>
 <p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222171056156-387680541.jpg?raw=true" alt="两层神经网络"></p>
+<p>假设我们的预测目标是一个向量，那么与前面类似，只需要在“输出层”再增加节点即可。</p>
+<p>类似于上面的，我们也可以使用向量和矩阵来表示层次中的变量。$a^{(1)}$，$a^{(2)}$，$z$是网络传输中的向量数据，而$w^{(1)}$，$w^{(2)}$是网络的矩阵参数，如下图：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151222171328140-1303075636.jpg" alt=""></p>
+<p>这样，我们就能得出了整个运算的计算公式：</p>
+<script type="math/tex; mode=display">g{(w^{(1)} * a^{(1)}}) = a^{(2)}</script><script type="math/tex; mode=display">g{(w^{(2)} * a^{(2)}}) = z</script><h3 id="偏置节点（bias-unit）"><a href="#偏置节点（bias-unit）" class="headerlink" title="偏置节点（bias unit）"></a>偏置节点（bias unit）</h3><p>在神经网络中，偏置节点是默认存在的，它是本质上只含有存储功能，并且存储值永远为1的单元。在神经网络的每个层次中，除了输出层以外，都会含有这样的一个偏置单元。</p>
+<p>偏置单元与后一层的所有节点都有连接，我们设这些参数值为向量<strong>b</strong>，称之为偏置。如下图。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151226111144687-604911384.jpg" alt="两层神经网络（考虑偏置节点）"></p>
+<p>图中没有输入（即没有箭头指向）的就是偏置节点。<strong>在一般情况下，不会明确画出偏置节点</strong></p>
+<p>在考虑了偏置以后的一个神经网络的矩阵运算如下：</p>
+<script type="math/tex; mode=display">g{(w^{(1)} * a^{(1)} + b^{(1)}}) = a^{(2)}</script><script type="math/tex; mode=display">g{(w^{(2)} * a^{(2)} + b^{(2)}}) = z</script><h3 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h3><p>在简单的神经网络模型中，按照假设，其输出结果只有两种：<code>0</code>或者<code>1</code>，如果只输出这两个数，未免太过简单与不敏感，但是理论证明，两层神经网络可以无限逼近任意的连续函数。也就是说，面对复杂的非线性分类任务，两层（带一个隐藏层）神经网络可以分类的很好。</p>
+<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><p>机器学习模型训练的目的，就是使得参数尽可能的与真实的模型相接近。</p>
+<p>通过以下公式，我们可以将问题转化为求损失最小的问题：</p>
+<script type="math/tex; mode=display">loss = (y_p - u)^2</script><p>其中样本的预测目标为$y_p$，真实目标为$y$，$loss$值称为损失，即训练数据的损失和。我们的目标是使得参数尽可能的与真实的模型相接近，也就是训练数据的损失和最小。</p>
+<p>将之前的神经网络预测的矩阵公式带入$y_p$，因为有（$z=y_p$），那么我们可以把损失写为关于参数（parameter）的函数，这个函数称之为<strong>损失函数</strong>（loss function）。下面的问题就是求：如何优化参数，能够让损失函数的值最小。</p>
+<h4 id="梯度下降算法（Gradient-descent）与反向传播算法（Backpropagation）"><a href="#梯度下降算法（Gradient-descent）与反向传播算法（Backpropagation）" class="headerlink" title="梯度下降算法（Gradient descent）与反向传播算法（Backpropagation）"></a>梯度下降算法（Gradient descent）与反向传播算法（Backpropagation）</h4><p>一般来说，解决该优化问题使用的是<strong>梯度下降算法</strong>。梯度下降算法每次计算参数在当前的梯度，然后让参数向着梯度的反方向前进一段距离，不断重复，直到接近零时截止。一般这个时候，所有的参数恰好达到使损失函数达到一个最低值的状态。</p>
+<p>在神经网络模型中，由于结构复杂，每次计算梯度的代价很大，因此还需要使用<strong>反向传播算法</strong>。反向传播算法利用了神经网络的结构进行计算，有以下几个要点：</p>
+<ol>
+<li>不一次计算所有参数的梯度，而是从后向前进行。</li>
+<li>首先计算输出层的梯度，然后是第二个参数矩阵的梯度，接着是中间层的梯度，接着是中间层的梯度，再然后是第一个参数矩阵的梯度，最后是输入层的梯度。计算结束以后，所要的两个参数矩阵的梯度就都有了。</li>
+<li>一层层反向传播。</li>
+</ol>
 
       
       <div id="donate" class="donate">
