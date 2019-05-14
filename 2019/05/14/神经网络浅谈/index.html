@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151231073138323-962584420.png">
 <meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222164731249-360921014.jpg?raw=true">
 <meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222171056156-387680541.jpg?raw=true">
-<meta property="og:updated_time" content="2019-05-14T06:54:27.463Z">
+<meta property="og:updated_time" content="2019-05-14T07:13:01.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络浅谈">
 <meta name="twitter:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
@@ -117,11 +117,11 @@
 <p>可以看到，z1的计算跟原先的z并没有区别。</p>
 <p>我们已知一个神经元的输出可以向多个神经元传递，因此<strong>z2</strong>的计算公式如下图。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204258057-82126781.jpg" alt="单层神经网络z2"></p>
-<p>目前的表达公式有一点不让人满意的就是：$$w_4，w_5，w_6$$是后来加的，很难表现出跟原先的$$w_1，w_2，w_3$$的关系。</p>
-<p>因此我们使用$$w_x,_y$$来表达一个权值。下标中的$x$代表后一层神经元的序号，而$y$代表前一层神经元的序号。</p>
+<p>目前的表达公式有一点不让人满意的就是：<script type="math/tex">w_4，w_5，w_6</script>是后来加的，很难表现出跟原先的<script type="math/tex">w_1，w_2，w_3</script>的关系。</p>
+<p>因此我们使用<script type="math/tex">w_x,_y</script>来表达一个权值。下标中的$x$代表后一层神经元的序号，而$y$代表前一层神经元的序号。</p>
 <p>根据以上方法标记，我们有了下图：</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230205437995-673856644.jpg" alt="扩展的单层神经网络"></p>
-<p>可以用矩阵乘法来表示这两个公式：输入的变量是$$[a_1, a_2, a_3]^T$$（代表了由$$a_1, a_2, a_3$$组成的列向量，用向量$a$表示。方程左边是$$[z_1, z_2]^T$$，用向量$z$来表示。系数则是矩阵$W$，2行3列的矩阵，排列形式与公式中的一样。</p>
+<p>可以用矩阵乘法来表示这两个公式：输入的变量是<script type="math/tex">[a_1, a_2, a_3]^T</script>（代表了由<script type="math/tex">a_1, a_2, a_3</script>组成的列向量，用向量$a$表示。方程左边是<script type="math/tex">[z_1, z_2]^T</script>，用向量$z$来表示。系数则是矩阵$W$，2行3列的矩阵，排列形式与公式中的一样。</p>
 <p>那么，改写结果为：</p>
 <center><b>g(W * a) = z</b></center>
 
@@ -138,8 +138,8 @@
 <h2 id="两层神经网络"><a href="#两层神经网络" class="headerlink" title="两层神经网络"></a>两层神经网络</h2><h3 id="结构-1"><a href="#结构-1" class="headerlink" title="结构"></a>结构</h3><p>两层神经网络除了包含一个输入层，一个输出层以外，还增加了一个中间层。此时，中间层和输出层都是计算层。</p>
 <p>如下图所示：</p>
 <p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222164731249-360921014.jpg?raw=true" alt="两层神经网络（中间层计算）"></p>
-<p>例如$$a^{(y)}_x$$代表着第y层的第x个节点。$z_1,z_2$变成了$a^{(2)}_1$，$a^{(2)}_2$。</p>
-<p>最终输出$z$的方式是利用了中间层的a^{(2)}_1，$a^{(2)}_2$和第二个权值矩阵计算得到的：</p>
+<p>例如<script type="math/tex">a^{(y)}_x</script>代表着第y层的第x个节点。$z_1,z_2$变成了$a^{(2)}_1$，$a^{(2)}_2$。</p>
+<p>最终输出$z$的方式是利用了中间层的$a^{(2)}_1$，$a^{(2)}_2$和第二个权值矩阵计算得到的：</p>
 <p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222171056156-387680541.jpg?raw=true" alt="两层神经网络"></p>
 
       
@@ -268,6 +268,23 @@
 
 
 
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   </body>
 </html>
