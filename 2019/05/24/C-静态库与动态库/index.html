@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++静态库与动态库 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在学习写一个JSON的解析库，为了编译使用这个自己的解析库，我学习了一下有关静态库和动态库的知识，以下是我的笔记。这篇文章将会讲解静态库与动态库的区别，以及在Linux、类unix环境下静态库与动态库的创建与使用。 库的介绍库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。让我们回顾一下编译过程：  本质上">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++静态库与动态库">
+<meta property="og:url" content="https://fszhuangb.xyz/2019/05/24/C-静态库与动态库/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="最近在学习写一个JSON的解析库，为了编译使用这个自己的解析库，我学习了一下有关静态库和动态库的知识，以下是我的笔记。这篇文章将会讲解静态库与动态库的区别，以及在Linux、类unix环境下静态库与动态库的创建与使用。 库的介绍库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。让我们回顾一下编译过程：  本质上">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 11.15.45 AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 2.53.18 PM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 2.49.08 PM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 2.50.43 PM.png">
+<meta property="og:updated_time" content="2019-05-24T07:11:58.079Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++静态库与动态库">
+<meta name="twitter:description" content="最近在学习写一个JSON的解析库，为了编译使用这个自己的解析库，我学习了一下有关静态库和动态库的知识，以下是我的笔记。这篇文章将会讲解静态库与动态库的区别，以及在Linux、类unix环境下静态库与动态库的创建与使用。 库的介绍库是写好的现有的，成熟的，可以复用的代码。现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常。让我们回顾一下编译过程：  本质上">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 11.15.45 AM.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-静态库与动态库" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++静态库与动态库
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>最近在学习写一个JSON的解析库，为了编译使用这个自己的解析库，我学习了一下有关静态库和动态库的知识，以下是我的笔记。这篇文章将会讲解静态库与动态库的区别，以及在<code>Linux</code>、类<code>unix</code>环境下静态库与动态库的创建与使用。</p>
+<h2 id="库的介绍"><a href="#库的介绍" class="headerlink" title="库的介绍"></a>库的介绍</h2><p>库是写好的现有的，成熟的，可以复用的代码。<strong>现实中每个程序都要依赖很多基础的底层库，不可能每个人的代码都从零开始，因此库的存在意义非同寻常</strong>。让我们回顾一下编译过程：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 11.15.45 AM.png" alt="hello.c的编译过程"></p>
+<p>本质上来说库是一种可执行代码的二进制形式，可以被在最后一步被操作系统载入内存执行。库有两种：静态库（<code>.a(for unix)、.lib(for windows)</code>）和动态库（<code>.so(for unix)、.dll(for windows)</code>）。静态库、动态库的区别来自于在最后一步链接阶段如何处理库，链接成可执行的程序。分别称为<strong>静态链接方式</strong>、<strong>动态链接方式</strong>。</p>
+<h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><p>在链接阶段，会将汇编生成的目标文件<code>.o</code>（对应gcc代码：<code>gcc -c</code>）与引用到的库一起链接打包到可执行文件中，因此其对应的链接方式称为静态链接。既然如此，我们可以简单的将静态库看成是<strong>一组目标文件（.o/.obj）的集合</strong>，也就是很多目标文件经过压缩打包后形成的一个文件。</p>
+<p>总结：</p>
+<ul>
+<li>静态库对函数库的链接是放在编译时期完成的。</li>
+<li>程序在与形式与函数库再无瓜葛，移植方便。</li>
+<li>浪费空间与资源，所有相关的目标文件与涉及到的函数库都被链接到了一起。</li>
+</ul>
+<p>接下来我们以一个四则运算C++类，将其编译成静态库给他人用，头文件如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StaticMath</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">    StaticMath(<span class="keyword">void</span>);</span><br><span class="line">    ~StaticMath(<span class="keyword">void</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">add</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;<span class="comment">//加法</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">sub</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;<span class="comment">//减法</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">mul</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;<span class="comment">//乘法</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">div</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;<span class="comment">//除法</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="linux下静态库命名规则"><a href="#linux下静态库命名规则" class="headerlink" title="linux下静态库命名规则"></a>linux下静态库命名规则</h3><p>Linux下的静态库命名需要遵从一定的规则：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lib[your_library_name].a</span><br></pre></td></tr></table></figure>
+<p><code>lib</code>为前缀，中间是静态库名称，扩展名为<code>.a</code>。</p>
+<h3 id="创建静态库方法"><a href="#创建静态库方法" class="headerlink" title="创建静态库方法"></a>创建静态库方法</h3><h4 id="手动打包创建"><a href="#手动打包创建" class="headerlink" title="手动打包创建"></a>手动打包创建</h4><p>在<code>linux</code>中，有自带的<code>ar</code>工具可以将目标文件打包成静态库文件，用于建立或修改备存文件，或是从备存文件中抽取文件。</p>
+<ol>
+<li><p>首先将代码文件编译成目标文件<code>.o</code>（<code>StaticMath.o</code>）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c StaticMath.cpp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过<code>ar</code>命令将目标文件打包成<code>.a</code>静态库文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ar -crv libstaticmath.a StaticMath.o</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="使用cmake打包创建"><a href="#使用cmake打包创建" class="headerlink" title="使用cmake打包创建"></a>使用cmake打包创建</h4><p>对于大一点的项目，我更推荐使用<code>cmake</code>来构建自己的静态库，因为一行行输命令实在太麻烦了。我的项目的结构目录大概是这样的：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 2.53.18 PM.png" alt=""></p>
+<p>在<code>cmake</code>中，可以使用命令<code>add_library()</code>将<code>src</code>目录中的源文件编译为静态链接库。</p>
+<p>示例：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span> (rafajson STATIC src/json.cpp src/jsonValue.cpp src/parse.cpp)</span><br></pre></td></tr></table></figure>
+<p><code>STATIC</code>指的是生成静态链接库。</p>
+<p>以下是我的<code>CMakeLists</code>：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.14</span>)</span><br><span class="line"><span class="keyword">project</span>(refactorRafajson)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">17</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(refactorRafajson src/json.hpp src/jsonException.hpp src/jsonValue.hpp src/parse.hpp src/json.cpp src/jsonValue.cpp src/parse.cpp test/test.cpp test/checkJson.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(refactorRafajson /usr/local/lib/libgtest.a)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span> (rafajson STATIC src/json.cpp src/jsonValue.cpp src/parse.cpp)</span><br></pre></td></tr></table></figure>
+<p>写完了<code>CMakeLists</code>之后，让我们来构建试试看：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 2.49.08 PM.png" alt=""></p>
+<p>可以看到，现在项目的构建目录中出现了静态链接库。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2019-05-24 at 2.50.43 PM.png" alt=""></p>
+<h3 id="使用静态库"><a href="#使用静态库" class="headerlink" title="使用静态库"></a>使用静态库</h3><p>静态库测试文件：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"> <span class="number">2</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"src/json.hpp"</span></span></span><br><span class="line"> <span class="number">3</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"src/jsonValue.hpp"</span></span></span><br><span class="line"> <span class="number">4</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"src/parse.hpp"</span></span></span><br><span class="line"> <span class="number">5</span> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"> <span class="number">6</span></span><br><span class="line"> <span class="number">7</span> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"> 8 </span>&#123;</span><br><span class="line"> <span class="number">9</span>     miniJson::<span class="function">Json <span class="title">my_json1</span><span class="params">(<span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"><span class="number">10</span>     miniJson::Json my_json2 = <span class="string">"string"</span>;</span><br><span class="line"><span class="number">11</span></span><br><span class="line"><span class="number">12</span>     <span class="built_in">std</span>::<span class="built_in">string</span> errMsg;<span class="comment">// store error messages when catch a exception in parse process</span></span><br><span class="line"><span class="number">13</span>     <span class="keyword">auto</span> js = miniJson::Json::parse(<span class="string">"[ null , false , true , 123 , \"abc\" ]"</span>, errMsg);</span><br><span class="line"><span class="number">14</span>     <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; js[<span class="number">4</span>] &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="number">15</span></span><br><span class="line"><span class="number">16</span>     <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"The js is: "</span> &lt;&lt; js &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="number">17</span></span><br><span class="line"><span class="number">18</span>     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"><span class="number">19</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>然后使用如下的代码进行编译链接就可以了：（由于我使用了C++17的<code>variant</code>类型，所以要用C++17标准进行编译。）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang++ useTest.cc -L . -lrafajson -std=c++17</span><br></pre></td></tr></table></figure>
+<p>通过<code>-L</code>选项指定静态库的搜索路径，<code>-l</code>选项指定静态库名，<strong>此处不需要lib前缀和.a后缀！</strong></p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2019/05/24/C-静态库与动态库/" class="article-date">
+  <time datetime="2019-05-24T07:10:47.000Z" itemprop="datePublished">2019-05-24</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/05/14/神经网络浅谈/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">神经网络浅谈</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
