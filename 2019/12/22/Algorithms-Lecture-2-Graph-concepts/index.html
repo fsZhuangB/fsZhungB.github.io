@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Algorithms Lecture 2: Graph concepts | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="This is University of Auckland Algorithm Lecture 2, today’s lecture is mainly about basic concepts of Graph, an integral part of graph. This is my notes: Concepts A graph G consists of two sets of V a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithms Lecture 2: Graph concepts">
+<meta property="og:url" content="https://fszhuangb.xyz/2019/12/22/Algorithms-Lecture-2-Graph-concepts/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="This is University of Auckland Algorithm Lecture 2, today’s lecture is mainly about basic concepts of Graph, an integral part of graph. This is my notes: Concepts A graph G consists of two sets of V a">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/3536FBA4-581D-4E20-A6E6-A248D364CBD2.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/B9EB1EEC-FBD4-4488-A081-D0A2622E5347.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2B23C624-8BF2-452D-B7D0-AD2BF80DE0F2.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/8680335D-5C00-4E7D-8E31-20D2F51DFFDF.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/7D292B84-32B1-4D57-B01F-075450C7BFC4.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/0709027C-E51E-4C3D-B226-9BE157950E9E.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/197D9430-A4DF-4781-9682-B124D555A9EC.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2C690AE0-C633-4C8C-BC18-E7F17BE0C212.jpeg">
+<meta property="og:updated_time" content="2019-12-22T08:57:39.894Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Algorithms Lecture 2: Graph concepts">
+<meta name="twitter:description" content="This is University of Auckland Algorithm Lecture 2, today’s lecture is mainly about basic concepts of Graph, an integral part of graph. This is my notes: Concepts A graph G consists of two sets of V a">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/3536FBA4-581D-4E20-A6E6-A248D364CBD2.jpeg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-Algorithms-Lecture-2-Graph-concepts" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Algorithms Lecture 2: Graph concepts
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>This is University of Auckland Algorithm Lecture 2, today’s lecture is mainly about basic concepts of Graph, an integral part of graph. This is my notes:</p>
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2><ol>
+<li><p>A graph G consists of two sets of V and E.</p>
+<ul>
+<li>V is the set of vertices(nodes).</li>
+<li>E is the set of edges. Each edge connects two vertices u an v in V.</li>
+</ul>
+</li>
+<li><p><strong><em>Not every vertex of a graph needs to have an edge attached(自环), not every pair of vertices needs to be connected by an edge.</em></strong></p>
+</li>
+<li><p><strong><em>Use G(V, E) for the graph itself, or E(G) for the edges, or V(G) for the vertices.</em></strong></p>
+</li>
+<li><p><strong><em>Adjacent</em></strong>: Two vertices u and v are connected by an edge, means adjacent.</p>
+</li>
+<li><strong><em>Labelled graph</em></strong>: label the vertices uniquely.</li>
+<li>The <strong><em>order</em></strong> of a graph G is the number of its vertices:|V(G)|.</li>
+<li><p>The <strong><em>size</em></strong> of a graph of the number of its edges:|E(G)|.</p>
+</li>
+<li><p>We can mainly divide the graph into two types:</p>
+<ol>
+<li>Undirected graph</li>
+<li>Directed graph(Di-graph)</li>
+</ol>
+</li>
+</ol>
+<h2 id="Undirected-graph"><a href="#Undirected-graph" class="headerlink" title="Undirected graph"></a>Undirected graph</h2><p><strong>无向完全图</strong>：在无向图中，如果任意两个顶点之间都存在边，则称该图为无向完全图。n个顶点边数：</p>
+<script type="math/tex; mode=display">
+n * (n-1)/2</script><p>当一个图接近完全图时，则称它为<strong><em>稠密图</em></strong>（Dense Graph），而当一个图含有较少的边时，则称它为<strong><em>稀疏图</em></strong>（Sparse Graph）。</p>
+<h2 id="Directed-graph"><a href="#Directed-graph" class="headerlink" title="Directed graph"></a>Directed graph</h2><p>有向完全图：在有向图中，如果任意两个顶点之间都存在方向互为相反的两条弧，则称该图为有向完全图。n个顶点边数：</p>
+<script type="math/tex; mode=display">
+n * (n-1)</script><h2 id="Degree-of-vertex"><a href="#Degree-of-vertex" class="headerlink" title="Degree of vertex"></a>Degree of vertex</h2><ul>
+<li>The number of edges is the sum of the degrees of all vertices divide by 2.</li>
+<li>A neighbor v of u is an <strong>out-neighbour</strong> of u is there’s an arc from u to v.</li>
+<li>A neighbor v of u is an <strong>in-neighbour</strong> of u is there’s an arc from v to u.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/3536FBA4-581D-4E20-A6E6-A248D364CBD2.jpeg" alt="Lecture%202%20Graphs/3536FBA4-581D-4E20-A6E6-A248D364CBD2.jpeg"></p>
+<p>顶点$v_i$的度（Degree）是指在图中与$v_i$相关联的边的条数。对于有向图来说，有入度（In-degree）和出度（Out-degree）之分，有向图顶点的度等于该顶点的<strong><em>入度和出度之和</em></strong>。</p>
+<h2 id="Walk"><a href="#Walk" class="headerlink" title="Walk"></a>Walk</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/B9EB1EEC-FBD4-4488-A081-D0A2622E5347.jpeg" alt="Lecture%202%20Graphs/B9EB1EEC-FBD4-4488-A081-D0A2622E5347.jpeg"></p>
+<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2B23C624-8BF2-452D-B7D0-AD2BF80DE0F2.jpeg" alt="Lecture%202%20Graphs/2B23C624-8BF2-452D-B7D0-AD2BF80DE0F2.jpeg"></p>
+<h2 id="SubGraph"><a href="#SubGraph" class="headerlink" title="SubGraph"></a>SubGraph</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/8680335D-5C00-4E7D-8E31-20D2F51DFFDF.jpeg" alt="Lecture%202%20Graphs/8680335D-5C00-4E7D-8E31-20D2F51DFFDF.jpeg"></p>
+<p>这句话的意思是说，所有的顶点和边都属于图G的图称为G的子图。</p>
+<h2 id="Spanning-Subgraph"><a href="#Spanning-Subgraph" class="headerlink" title="Spanning Subgraph"></a>Spanning Subgraph</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/7D292B84-32B1-4D57-B01F-075450C7BFC4.jpeg" alt="Lecture%202%20Graphs/7D292B84-32B1-4D57-B01F-075450C7BFC4.jpeg"></p>
+<p>含有G的所有顶点的子图称为G的生成子图。</p>
+<h2 id="Induced-Subgraph"><a href="#Induced-Subgraph" class="headerlink" title="Induced Subgraph"></a>Induced Subgraph</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/0709027C-E51E-4C3D-B226-9BE157950E9E.jpeg" alt="Lecture%202%20Graphs/0709027C-E51E-4C3D-B226-9BE157950E9E.jpeg"></p>
+<p>如果图G的子图H满足边(u,v)在图H中当且仅当边(u,v)在图G中，即图H包含了图G中所有两个端点都在V(H)中的边，则称H是G的导出子图。</p>
+<p>我的理解是：</p>
+<ol>
+<li>首先导出子图要是个子图，即图H的边集和点集都应该是图G的子集。</li>
+<li>图G中端点相连应该有的边，图H中都应该有。<strong><em>（即不能缺少相连的边！）</em></strong></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/197D9430-A4DF-4781-9682-B124D555A9EC.jpeg" alt="Lecture%202%20Graphs/197D9430-A4DF-4781-9682-B124D555A9EC.jpeg"></p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2C690AE0-C633-4C8C-BC18-E7F17BE0C212.jpeg" alt="Lecture%202%20Graphs/2C690AE0-C633-4C8C-BC18-E7F17BE0C212.jpeg"></p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2019/12/22/Algorithms-Lecture-2-Graph-concepts/" class="article-date">
+  <time datetime="2019-12-22T08:49:06.000Z" itemprop="datePublished">2019-12-22</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/11/10/Today-s-English1-The-Ordinary-People-Who-Brought-Down-the-Berlin-Wall/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Today&#39;s English1: The Ordinary People Who Brought Down the Berlin Wall</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  </body>
+</html>
