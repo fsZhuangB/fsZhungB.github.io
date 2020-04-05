@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/F1FC597E-528A-4630-AA63-D8C1E0E1494E.png">
-<meta property="og:updated_time" content="2020-04-05T02:10:13.475Z">
+<meta property="og:updated_time" content="2020-04-05T02:21:02.423Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之指针基本介绍">
 <meta name="twitter:description" content="最近在重新复习C++， 下面是我学习C++指针的笔记： 变量首先我们要理解C++中的变量，要知道：变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型这是我们理解指针的基础。计算机中的层次储存结构   C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一">
@@ -102,8 +102,7 @@
 <p><strong>口诀：（关于const修饰的部分）</strong></p>
 <ol>
 <li>看左侧最近的部分</li>
-<li><p>如果左侧没有则看右侧</p>
-<p> char strHelloWorld[] = {“HelloWorld”};<br> char const <em>pStr1 = “HelloWorld”;<br> const char </em>pStr2 = “HelloWorld”;</p>
+<li>如果左侧没有则看右侧<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> strHelloWorld[] = &#123;<span class="string">"HelloWorld"</span>&#125;;</span><br><span class="line"><span class="keyword">char</span> <span class="keyword">const</span> *pStr1 = <span class="string">"HelloWorld"</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *pStr2 = <span class="string">"HelloWorld"</span>;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>示例代码：</p>
