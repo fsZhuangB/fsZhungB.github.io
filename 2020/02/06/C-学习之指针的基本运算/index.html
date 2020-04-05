@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++学习之指针的基本运算 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。 *操作符 将*cp放在左值和右值的操作是不同的：  放在右值，只会取出其中的值，进行接下来的赋值操作">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之指针的基本运算">
+<meta property="og:url" content="https://fszhuangb.xyz/2020/02/06/C-学习之指针的基本运算/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。 *操作符 将*cp放在左值和右值的操作是不同的：  放在右值，只会取出其中的值，进行接下来的赋值操作">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.32.14_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.49.42_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.55.24_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.56.45_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.16.17_AM.png">
+<meta property="og:image" content="https://fszhuangb.xyz/2020/02/06/C-学习之指针的基本运算/Untitled/Screen_Shot_2020-03-27_at_10.18.15_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.20.08_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.23.48_AM.png">
+<meta property="og:updated_time" content="2020-04-05T02:18:14.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之指针的基本运算">
+<meta name="twitter:description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。 *操作符 将*cp放在左值和右值的操作是不同的：  放在右值，只会取出其中的值，进行接下来的赋值操作">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.32.14_AM.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-学习之指针的基本运算" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++学习之指针的基本运算
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。</p>
+<h2 id="运算符-amp-与"><a href="#运算符-amp-与" class="headerlink" title="运算符&amp;与*"></a>运算符&amp;与*</h2><h3 id="amp-操作符"><a href="#amp-操作符" class="headerlink" title="&amp;操作符"></a>&amp;操作符</h3><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.32.14_AM.png" alt=""></p>
+<p>要注意，表达式&amp;ch、&amp;cp只能作为右值，不能作为左值<code>（即&amp;ch=xxx）</code>，因为虽然cp的值就是&amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;ch的值。</p>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="*操作符"></a>*操作符</h3><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.49.42_AM.png" alt=""></p>
+<p>将*cp放在左值和右值的操作是不同的：</p>
+<ul>
+<li>放在右值，只会取出其中的值，进行接下来的赋值操作，比如<code>int xx = *cp</code></li>
+<li>放在左值，会取出其中的地址，这样的话可以进行接下来的操作，比如<code>*cp = 3</code></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.55.24_AM.png" alt=""></p>
+<p>这个意思是相同的，*号的优先级高于+号，即先进行解引用操作，然后加一，从a变成b。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.56.45_AM.png" alt=""></p>
+<p>这个也是同理，放在右值，取的是其中的值，而放在左值，则会取出其中的地址。</p>
+<p>下面是演示的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch = <span class="string">'a'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>* cp = &amp;ch;</span><br><span class="line">    <span class="comment">// &amp;ch = 91;  -- wrong, &amp;ch can't be a left value!</span></span><br><span class="line">    <span class="keyword">char</span>** cpp = &amp;cp;</span><br><span class="line"></span><br><span class="line">    *cp = <span class="string">'a'</span>;      <span class="comment">// *cp is a lvalue</span></span><br><span class="line">    <span class="keyword">char</span> ch2 = *cp; <span class="comment">// *cp is a rvalue</span></span><br><span class="line">    <span class="comment">// *cp + 1 = 'a' -- wrong, *cp + 1 can't be a lvalue</span></span><br><span class="line">    ch2 = *cp + <span class="number">1</span>;  <span class="comment">// ch2 is 'b'</span></span><br><span class="line">    *(cp + <span class="number">1</span>) = <span class="string">'a'</span>;<span class="comment">// this will get position next to cp</span></span><br><span class="line">    ch2 = *(cp + <span class="number">1</span>);<span class="comment">// this will get the value next to cp, ch2 returns to 'a'</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="与-操作符"><a href="#与-操作符" class="headerlink" title="++与- -操作符"></a>++与- -操作符</h3><p>可以利用汇编指令去解释该条指令：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.16.17_AM.png" alt=""></p>
+<p><img src="Untitled/Screen_Shot_2020-03-27_at_10.18.15_AM.png" alt="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.18.15_AM.png"></p>
+<p>++操作的优先级高于*</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.20.08_AM.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.23.48_AM.png" alt=""></p>
+<p><code>*cp++</code><strong><em>作为右值时，会先把cp指向的内存中的值取出来，然后再向后增加一位，即先取值，再增加一位。</em></strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 示范代码</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">char</span> ch = <span class="string">'a'</span>;</span><br><span class="line">    <span class="keyword">char</span>* cp = &amp;ch;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>* cp2 = ++cp;</span><br><span class="line">    <span class="keyword">char</span>* cp3 = cp++;</span><br><span class="line"></span><br><span class="line">    *++cp2 = <span class="number">98</span>;</span><br><span class="line">    <span class="keyword">char</span> ch3 = *++cp2;</span><br><span class="line">    *cp2++ = <span class="number">98</span>;</span><br><span class="line">    <span class="keyword">char</span> ch4 = *cp2++;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2020/02/06/C-学习之指针的基本运算/" class="article-date">
+  <time datetime="2020-02-06T02:13:48.000Z" itemprop="datePublished">2020-02-06</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2020/02/05/C-学习之原生指针/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++学习之指针基本介绍</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>

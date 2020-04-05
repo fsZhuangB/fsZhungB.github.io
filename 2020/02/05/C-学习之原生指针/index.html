@@ -5,20 +5,20 @@
   
   <title>C++学习之指针基本介绍 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型  计算机中的层次储存结构 C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一个变量，它储存的是值的地址。对于类型T，T是“到T的指针”类型，一个类型为T的变量能保存一个类型T的对象的地址。如果想要获">
+  <meta name="description" content="最近在重新复习C++， 下面是我学习C++指针的笔记： 变量首先我们要理解C++中的变量，要知道：变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型这是我们理解指针的基础。计算机中的层次储存结构   C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之指针基本介绍">
 <meta property="og:url" content="https://fszhuangb.xyz/2020/02/05/C-学习之原生指针/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型  计算机中的层次储存结构 C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一个变量，它储存的是值的地址。对于类型T，T是“到T的指针”类型，一个类型为T的变量能保存一个类型T的对象的地址。如果想要获">
+<meta property="og:description" content="最近在重新复习C++， 下面是我学习C++指针的笔记： 变量首先我们要理解C++中的变量，要知道：变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型这是我们理解指针的基础。计算机中的层次储存结构   C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/F1FC597E-528A-4630-AA63-D8C1E0E1494E.png">
-<meta property="og:updated_time" content="2020-04-05T02:07:24.711Z">
+<meta property="og:updated_time" content="2020-04-05T02:10:13.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之指针基本介绍">
-<meta name="twitter:description" content="变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型  计算机中的层次储存结构 C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一个变量，它储存的是值的地址。对于类型T，T是“到T的指针”类型，一个类型为T的变量能保存一个类型T的对象的地址。如果想要获">
+<meta name="twitter:description" content="最近在重新复习C++， 下面是我学习C++指针的笔记： 变量首先我们要理解C++中的变量，要知道：变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型这是我们理解指针的基础。计算机中的层次储存结构   C++中内存单元内容和地址1234int a = 112, b = -1;float c = 3.14;int* d = &amp;amp;a;float* r = &amp;amp;c; 指针本身就是一">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png">
   
   
@@ -72,13 +72,14 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <p>变量的重要信息：</p>
+        <p>最近在重新复习C++， 下面是我学习C++指针的笔记：</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>首先我们要理解C++中的变量，要知道：<br>变量的重要信息：</p>
 <ol>
 <li>变量的地址位置</li>
 <li>变量所存的信息</li>
-<li>变量的类型</li>
+<li>变量的类型<br>这是我们理解指针的基础。<h2 id="计算机中的层次储存结构"><a href="#计算机中的层次储存结构" class="headerlink" title="计算机中的层次储存结构"></a>计算机中的层次储存结构</h2></li>
 </ol>
-<h2 id="计算机中的层次储存结构"><a href="#计算机中的层次储存结构" class="headerlink" title="计算机中的层次储存结构"></a>计算机中的层次储存结构</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png" alt=""></p>
 <h2 id="C-中内存单元内容和地址"><a href="#C-中内存单元内容和地址" class="headerlink" title="C++中内存单元内容和地址"></a>C++中内存单元内容和地址</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">112</span>, b = <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">float</span> c = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">int</span>* d = &amp;a;</span><br><span class="line"><span class="keyword">float</span>* r = &amp;c;</span><br></pre></td></tr></table></figure>
 <p>指针本身就是一个变量，它储存的是值的地址。对于类型T，T<em>是“到T的指针”类型，一个类型为T</em>的变量能保存一个类型T的对象的地址。如果想要获取该地址，需要使用<strong>取地址符号&amp;</strong>。</p>
 <p>注意，因为引用不是对象，没有实际地址，所以不能定义指向引用的指针。</p>
@@ -110,10 +111,8 @@
 <p>注意上面代码出现的一种例外情况：</p>
 <p>指向常量的指针并没有规定其所指的对象必须是一个常量，所谓指向常量的指针仅仅要求不能通过该指针改变对象的值，而没有规定那个对象的值不能通过其他途径改变。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> dval = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> * ptr = &amp;dval; <span class="comment">// 正确，但是不能通过该ptr改变dval的值。</span></span><br></pre></td></tr></table></figure>
-<h3 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h3><pre><code>int a = 10;
-int* ptr = &amp;a;    // ptr指向一个int类型的数
-int** pptr = &amp;ptr;// pptr指向一个int类型的指针
-</code></pre><h2 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h2><p>野指针指指向垃圾内存的指针。if等判断对其不起作用，因为没有置为NULL；</p>
+<h3 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span>* ptr = &amp;a;    <span class="comment">// ptr指向一个int类型的数</span></span><br><span class="line"><span class="keyword">int</span>** pptr = &amp;ptr;<span class="comment">// pptr指向一个int类型的指针</span></span><br></pre></td></tr></table></figure>
+<h2 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h2><p>野指针指指向垃圾内存的指针。if等判断对其不起作用，因为没有置为NULL；</p>
 <p>一般有三种情况：</p>
 <ul>
 <li>指针变量没有初始化。</li>
@@ -187,7 +186,14 @@ int** pptr = &amp;ptr;// pptr指向一个int类型的指针
     
 <nav id="article-nav" class="article-nav">
   
-    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+    <a href="/2020/02/06/C-学习之指针的基本运算/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++学习之指针的基本运算
+        
+      </div>
+    </a>
   
   
     <a href="/2019/12/22/Algorithms-Lecture-2-Graph-concepts/" id="article-nav-older" class="article-nav-link-wrap older">
