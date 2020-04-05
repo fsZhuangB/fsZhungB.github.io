@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++学习之指针基本介绍 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型  计算机中的层次储存结构 C++中内存单元内容和地址int a = 112, b = -1; float c = 3.14; int* d = &amp;amp;a; float* r = &amp;amp;c; 指针本身就是一个变量，它储存的是值的地址。对于类型T，T是“到T的指针”类型，一个类型为T的变量能保存一个类型T的对象的地址。如果想要获取">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习之指针基本介绍">
+<meta property="og:url" content="https://fszhuangb.xyz/2020/02/05/C-学习之原生指针/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型  计算机中的层次储存结构 C++中内存单元内容和地址int a = 112, b = -1; float c = 3.14; int* d = &amp;amp;a; float* r = &amp;amp;c; 指针本身就是一个变量，它储存的是值的地址。对于类型T，T是“到T的指针”类型，一个类型为T的变量能保存一个类型T的对象的地址。如果想要获取">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/F1FC597E-528A-4630-AA63-D8C1E0E1494E.png">
+<meta property="og:updated_time" content="2020-04-05T02:04:07.808Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习之指针基本介绍">
+<meta name="twitter:description" content="变量的重要信息：  变量的地址位置 变量所存的信息 变量的类型  计算机中的层次储存结构 C++中内存单元内容和地址int a = 112, b = -1; float c = 3.14; int* d = &amp;amp;a; float* r = &amp;amp;c; 指针本身就是一个变量，它储存的是值的地址。对于类型T，T是“到T的指针”类型，一个类型为T的变量能保存一个类型T的对象的地址。如果想要获取">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-学习之原生指针" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++学习之指针基本介绍
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>变量的重要信息：</p>
+<ol>
+<li>变量的地址位置</li>
+<li>变量所存的信息</li>
+<li>变量的类型</li>
+</ol>
+<h2 id="计算机中的层次储存结构"><a href="#计算机中的层次储存结构" class="headerlink" title="计算机中的层次储存结构"></a>计算机中的层次储存结构</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png" alt=""></p>
+<h2 id="C-中内存单元内容和地址"><a href="#C-中内存单元内容和地址" class="headerlink" title="C++中内存单元内容和地址"></a>C++中内存单元内容和地址</h2><pre><code>int a = 112, b = -1;
+float c = 3.14;
+int* d = &amp;a;
+float* r = &amp;c;
+</code></pre><p>指针本身就是一个变量，它储存的是值的地址。对于类型T，T<em>是“到T的指针”类型，一个类型为T</em>的变量能保存一个类型T的对象的地址。如果想要获取该地址，需要使用<strong>取地址符号&amp;</strong>。</p>
+<p>注意，因为引用不是对象，没有实际地址，所以不能定义指向引用的指针。</p>
+<h2 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h2><p>一般来说，编译器为其单独分配了一块存储空间，可以取到其地址的，就是左值，左值可以放在赋值运算符左侧；</p>
+<p>右值指的是数据本身，不能取到其自身地址的，只能放在赋值运算符右边。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+    char strHelloWorld[] = {&quot;HelloWorld&quot;};
+    char *pstrHelloWorld = &quot;HelloWorld&quot;;
+
+    pstrHelloWorld = strHelloWorld;
+
+        // 这里会报错，strHelloWorld不是可修改的左值，编译器不会为其分配单独的储存空间
+    strHelloWorld = pstrHelloWorld;
+
+    return 0;
+}
+</code></pre><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/F1FC597E-528A-4630-AA63-D8C1E0E1494E.png" alt=""></p>
+<h2 id="具体分析"><a href="#具体分析" class="headerlink" title="具体分析"></a>具体分析</h2><p>左值最常见的情况就是函数和数据成员名。</p>
+<p>右值则是没有标识符，不可以取地址的表达式，一般也称为“临时对象”</p>
+<h3 id="指针数组和数组指针"><a href="#指针数组和数组指针" class="headerlink" title="指针数组和数组指针"></a>指针数组和数组指针</h3><ol>
+<li>指针数组中，里面每个值都是一个指针：<code>T* t[]</code></li>
+<li>数组指针：该指针指向一个数组：<code>T (*t) []</code></li>
+</ol>
+<p>例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a[<span class="number">4</span>];  <span class="comment">// 指针数组</span></span><br><span class="line"><span class="keyword">int</span> (*b)[<span class="number">4</span>];<span class="comment">// 数组指针</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fact</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// array of pointers and pointers to an array</span></span><br><span class="line">    <span class="keyword">int</span> c[<span class="number">4</span>] = &#123;<span class="number">0x80000000</span>, <span class="number">0xFFFFFFFF</span>, <span class="number">0x00000000</span>, <span class="number">0x7FFFFFFF</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> *a[<span class="number">4</span>];  <span class="comment">// array of pointers</span></span><br><span class="line">    <span class="keyword">int</span> (*b)[<span class="number">4</span>];<span class="comment">// pointers to an array</span></span><br><span class="line">    </span><br><span class="line">    b = &amp;c;     <span class="comment">// let the pointer pointer to array c</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] = &amp;(c[i]); <span class="comment">// 将c中的值的地址一一赋给a</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *(a[<span class="number">0</span>]) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// -2147483648</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; (*b)[<span class="number">3</span>] &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//  2147483647</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="指针和const"><a href="#指针和const" class="headerlink" title="指针和const"></a>指针和const</h3><p>const可以修饰两种：</p>
+<ol>
+<li>一种是const pointer，即指针指向不能改变；（<del><strong>顶层const</strong></del>），同时，它必须初始化。</li>
+<li>另外一种是pointer to const，即指针指向一个常量。（<strong><del>底层const</del></strong>）</li>
+</ol>
+<p><strong>口诀：（关于const修饰的部分）</strong></p>
+<ol>
+<li>看左侧最近的部分</li>
+<li><p>如果左侧没有则看右侧</p>
+<p> char strHelloWorld[] = {“HelloWorld”};<br> char const <em>pStr1 = “HelloWorld”;<br> const char </em>pStr2 = “HelloWorld”;</p>
+</li>
+</ol>
+<p>示例代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.cpp</span></span><br><span class="line"><span class="comment">//  test</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by fszhuangb on 2020/3/24.</span></span><br><span class="line"><span class="comment">//  Copyright © 2020 fszhuangb. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> MAX_LEN = <span class="number">11</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> strHelloWorld[] = &#123;<span class="string">"helloworld"</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> <span class="keyword">const</span> *pStr1 = <span class="string">"helloworld"</span>;   <span class="comment">// pointer to const</span></span><br><span class="line">    <span class="keyword">char</span> * <span class="keyword">const</span> pStr2 = strHelloWorld; <span class="comment">// const pointer</span></span><br><span class="line">    <span class="keyword">char</span> <span class="keyword">const</span> * <span class="keyword">const</span> pStr3 = <span class="string">"helloworld"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 这里允许一个只想常量的指针指向一个非常量，但是不能通过该指针改变对象的值</span></span><br><span class="line">    pStr1 = strHelloWorld;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> len = <span class="built_in">strlen</span>(pStr2);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; len &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        pStr1[i] += <span class="number">1</span>; <span class="comment">// pointer to const should not be modified</span></span><br><span class="line">        pStr2[i] += <span class="number">1</span>; <span class="comment">// but the value can be modified by other pointer</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意上面代码出现的一种例外情况：</p>
+<p>指向常量的指针并没有规定其所指的对象必须是一个常量，所谓指向常量的指针仅仅要求不能通过该指针改变对象的值，而没有规定那个对象的值不能通过其他途径改变。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> dval = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> * ptr = &amp;dval; <span class="comment">// 正确，但是不能通过该ptr改变dval的值。</span></span><br></pre></td></tr></table></figure>
+<h3 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h3><pre><code>int a = 10;
+int* ptr = &amp;a;    // ptr指向一个int类型的数
+int** pptr = &amp;ptr;// pptr指向一个int类型的指针
+</code></pre><h2 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h2><p>野指针指指向垃圾内存的指针。if等判断对其不起作用，因为没有置为NULL；</p>
+<p>一般有三种情况：</p>
+<ul>
+<li>指针变量没有初始化。</li>
+<li>已经释放不用的指针没有置为NULL，如delete和free之后的指针。</li>
+<li>指针操作超越了变量的作用范围。</li>
+</ul>
+<p>查看如下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* a;  <span class="comment">// 注意，a这里指向哪里？</span></span><br><span class="line">*a = <span class="number">12</span>;</span><br></pre></td></tr></table></figure>
+<p>这段代码的后果：</p>
+<ol>
+<li>定位到一个非法地址，程序会出错，从而终止。</li>
+<li>定位到一个可以访问的地址，无意中修改了它，这样的错误难以捕捉，引发的错误可能与原来用于操作的代码完全没关系！</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>用指针进行间接访问之前，一定要非常小心，确保<strong><em>它已经初始化，并且被恰当的赋值！</em></strong></li>
+</ul>
+<h2 id="NULL指针"><a href="#NULL指针" class="headerlink" title="NULL指针"></a>NULL指针</h2><p>指一个特殊的指针变量，表示不指向任何东西。如：<code>int* a = NULL</code></p>
+<p>注意：</p>
+<ul>
+<li><p>对一个指针进行间接引用之前，先判断指针是否为NULL！</p>
+</li>
+<li><p>不知道指针具体指向什么地址之前，可以先将其设置为NULL。</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">123</span>;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="comment">// WHEN pA NOT USE, MAKE IT BE NULL</span></span><br><span class="line">    <span class="keyword">int</span>* pA = <span class="literal">nullptr</span>;</span><br><span class="line">    </span><br><span class="line">    pA = &amp;a;</span><br><span class="line">    <span class="keyword">if</span> (pA != <span class="literal">nullptr</span>)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; *pA &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    </span><br><span class="line">    pA = <span class="literal">nullptr</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2020/02/05/C-学习之原生指针/" class="article-date">
+  <time datetime="2020-02-05T00:37:25.000Z" itemprop="datePublished">2020-02-05</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2019/12/22/Algorithms-Lecture-2-Graph-concepts/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Algorithms Lecture 2: Graph concepts</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
