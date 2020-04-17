@@ -3,19 +3,23 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>有序向量的查找算法 | fsZhuangB</title>
+  <title>DSA-learning:有序向量查找算法 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="hello，world">
+  <meta name="description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
+<meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
-<meta property="og:title" content="有序向量的查找算法">
+<meta property="og:title" content="DSA-learning:有序向量查找算法">
 <meta property="og:url" content="https://fszhuangb.xyz/2020/04/17/有序向量的查找算法/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="hello，world">
+<meta property="og:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-04-17T08:29:28.737Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_5573.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_49CF3E495AD5-1.jpeg">
+<meta property="og:updated_time" content="2020-04-17T09:22:11.450Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="有序向量的查找算法">
-<meta name="twitter:description" content="hello，world">
+<meta name="twitter:title" content="DSA-learning:有序向量查找算法">
+<meta name="twitter:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_5573.jpg">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -60,7 +64,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      有序向量的查找算法
+      DSA-learning:有序向量查找算法
     </h1>
   
 
@@ -68,7 +72,85 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        
+        <p>在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。</p>
+<h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><blockquote>
+<p>轴点：在有序向量中，处处皆为轴点。</p>
+</blockquote>
+<p>轴点的含义即为：</p>
+<ul>
+<li><p>在有序向量中，以任意一元素x = S[mi]为界</p>
+<ul>
+<li>都可以将待查找区间[lo, hi)分为三部分，并且</li>
+<li><p>S[lo, mi) ≤ s[mi] ≤ s(mi, hi)</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_5573.jpg" alt=""></p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>减而治之：缩小问题的规模，并进行处理的一种思想。</p>
+</blockquote>
+<ul>
+<li>从轴点这个概念，我们就可以引申出<strong><em>减而治之</em></strong>的思想：<ul>
+<li>e  &lt; x：则e若存在则必属于左侧子区间，故可以递归深入S[lo, mi)</li>
+<li>x &lt; e：则e若存在必属于右侧子区间，故可以递归深入S(mi, hi)</li>
+<li>e = x：已经在此处命中，可随即返回。</li>
+</ul>
+</li>
+</ul>
+<p>由此，我们就可以成功写出如下的算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function">Rank <span class="title">search</span><span class="params">(T <span class="keyword">const</span>&amp; e, Rank lo, Rank hi)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (lo &lt; hi)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (e &lt; _elem[mi])</span><br><span class="line">            hi = mi;     <span class="comment">// 深入前半段进行查找</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_elem[mi] &lt; e)</span><br><span class="line">            lo = mi + <span class="number">1</span>; <span class="comment">// 深入后半段进行查找</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> mi;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二分查找的复杂度分析"><a href="#二分查找的复杂度分析" class="headerlink" title="二分查找的复杂度分析"></a>二分查找的复杂度分析</h4><p>无论如何，我们在while循环的每一次迭代中，有时候执行一次比较，有的时候执行两次，也就是常数次比较（O(1)），在每次比较之后，我们都可以将问题的规模减少为先前的一半，从而得到如下的一个式子：</p>
+<script type="math/tex; mode=display">T(n) = T(n/2) + O(1) = O(logn)</script><p>最后就可以得到$O(logn)$这样一个渐进复杂度，可以看到，是大大优于顺序查找的。</p>
+<h3 id="优化：Fibonacci查找"><a href="#优化：Fibonacci查找" class="headerlink" title="优化：Fibonacci查找"></a>优化：Fibonacci查找</h3><blockquote>
+<p>查找长度：即关键码的比较次数</p>
+</blockquote>
+<p>在学习Fibonacci查找之前，我们先来引入一个新的概念，也就是关键码的比较次数（Search Length）。</p>
+<p>为了更为精确的评估查找算法的性能，我们可以用关键码的比较次数（Search Length）来进行衡量。</p>
+<p>二分查找的查找长度如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_49CF3E495AD5-1.jpeg" alt="Untitled/IMG_49CF3E495AD5-1.jpeg"></p>
+<p>我们可以在图中总结出来，在每个S[mid]处，凡是向左转向，只需要比较一次；而向右转向都需要比较两次。</p>
+<p>于是很容易得到，二分查找中，在n=7时，有7种成功的情况（即7个元素分别查找成功），8种失败的情况，那么：</p>
+<ul>
+<li>各元素对应的成功查找长度为{4, 3, 5, 2, 5, 4, 6}</li>
+<li>等概率的情况下，平均成功查找长度=29/7 = 4.14</li>
+<li>各元素对应的成功查找长度为{3, 4,  4, 5, 4, 5, 5, 6}</li>
+<li>等概率的情况下，平均失败查找长度=36/8 = 4.50</li>
+</ul>
+<h4 id="思路及原理"><a href="#思路及原理" class="headerlink" title="思路及原理"></a>思路及原理</h4><ul>
+<li><p>版本A的思考：</p>
+<p>  普通的二分查找试图通过使各种情况下的搜索在迭代次数上的平衡，来尽可能的回避掉最坏的情况，表面上看似平衡的查找，实际上是不平衡的：<strong>转向左右分之前的关键码比较次数不等，而递归次数却相同。准确的说，向左只需要一次比较，而向右却需要两次比较。</strong></p>
+</li>
+<li><p>对于以上的考虑，我们可以通过递归深度的不均衡对转向成本的不均衡进行补偿，平均查找长度。</p>
+</li>
+<li><p>如，假设向量长度$n = fib(k) - 1$，则可取$mi = fib(k-1) - 1$，于是，前后子向量的长度恰好为$fib(k-1)-1$，$fib(k-2)-1$，其实现的大概思路为：</p>
+<p>  斐波那契查找的整个过程可以分为：</p>
+<ul>
+<li><p>构建斐波那契数列；</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>, <span class="number">34</span>, <span class="number">55</span>, <span class="number">89</span>, <span class="number">144</span>, <span class="number">233</span>, <span class="number">377</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>计算数组长度对应的斐波那契数列元素个数；</p>
+<p>  假设手中的数据如下：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">13</span>, <span class="number">16</span>, <span class="number">17</span>, <span class="number">21</span>, <span class="number">23</span>, <span class="number">25</span>, <span class="number">27</span>, <span class="number">31</span>, <span class="number">45</span>, <span class="number">56</span>, <span class="number">58</span>, <span class="number">61</span>, <span class="number">65</span>, <span class="number">67</span>, <span class="number">73</span>, <span class="number">75</span>, <span class="number">88</span>, <span class="number">93</span>, <span class="number">102</span>]</span><br></pre></td></tr></table></figure>
+<p>  可知上述数据共25个元素，不对应1.1节中的斐波那契数列中任何F(n)，这种情况是很常见的。此时，策略是采用“大于数组长度的最近一个斐波那契数值”。比如当前数组长度为25，斐波那契数列中大于25的最近元素为34。</p>
+</li>
+<li><p>对数组进行填充；</p>
+<p>  确定了斐波那契数值后，就要进行数值填充，即将数组从25个元素填充到34个。填充时，将第26到34个元素均采用第25个元素值进行填充，即最大值填充。</p>
+</li>
+<li><p>循环进行区间分割，查找中间值；</p>
+<script type="math/tex; mode=display">mid = left +Fib(n-1)-1</script></li>
+<li><p>判断中间值和目标值的关系，确定更新策略；</p>
+<p>于是我们可以实现以下的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">static</span> Rank <span class="title">fibSearch</span><span class="params">(T <span class="keyword">const</span>&amp; e, Rank lo, Rank hi)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">Fib <span class="title">fib</span><span class="params">(hi - lo)</span></span>;</span><br><span class="line">	<span class="keyword">while</span> (lo &lt; hi)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (hi - lo &lt; fib.get()) fib.prev();</span><br><span class="line">        Rank mi = lo + fib.get() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (e &lt; _elem[mi])</span><br><span class="line">            hi = mi;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_elem[mi] &lt; e)</span><br><span class="line">            lo = mi + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">            <span class="keyword">return</span> mi;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>![Untitled/IMG_861A6F6676DE-1.jpeg](https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_861A6F6676DE-1.jpeg)
+</code></pre><h3 id="插值查找"><a href="#插值查找" class="headerlink" title="插值查找"></a>插值查找</h3><ul>
+<li>[ ] TODO</li>
+</ul>
+
       
       <div id="donate" class="donate">
         <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
@@ -98,6 +180,14 @@
 
         </li>
         
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
         
         <hr/>
       </ul>
@@ -190,6 +280,23 @@
 
 
 
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   </body>
 </html>
