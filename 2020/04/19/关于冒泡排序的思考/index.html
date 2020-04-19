@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>关于冒泡排序的思考 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="介绍首先，我们观察可得，在任意的有序/无序序列中，任何/总有一对相邻元素顺序/逆序。 由此，很容易就可以想出冒泡排序这类算法，可以依次比较每一对相邻元素；如果有必要，则交换之。 如果整趟扫描都没有扫描交换，则排序完成，否则，就再做一次扫描交换。其过程如下图所示：  1234567891011void bubble(vector&amp;lt;int&amp;gt; &amp;amp;V)&amp;#123;    for (in">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于冒泡排序的思考">
+<meta property="og:url" content="https://fszhuangb.xyz/2020/04/19/关于冒泡排序的思考/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="介绍首先，我们观察可得，在任意的有序/无序序列中，任何/总有一对相邻元素顺序/逆序。 由此，很容易就可以想出冒泡排序这类算法，可以依次比较每一对相邻元素；如果有必要，则交换之。 如果整趟扫描都没有扫描交换，则排序完成，否则，就再做一次扫描交换。其过程如下图所示：  1234567891011void bubble(vector&amp;lt;int&amp;gt; &amp;amp;V)&amp;#123;    for (in">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_7B95A3A6DF52-1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-04-18_at_10.58.19_AM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-04-19_at_1.09.58_PM.png">
+<meta property="og:updated_time" content="2020-04-19T13:15:04.953Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于冒泡排序的思考">
+<meta name="twitter:description" content="介绍首先，我们观察可得，在任意的有序/无序序列中，任何/总有一对相邻元素顺序/逆序。 由此，很容易就可以想出冒泡排序这类算法，可以依次比较每一对相邻元素；如果有必要，则交换之。 如果整趟扫描都没有扫描交换，则排序完成，否则，就再做一次扫描交换。其过程如下图所示：  1234567891011void bubble(vector&amp;lt;int&amp;gt; &amp;amp;V)&amp;#123;    for (in">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_7B95A3A6DF52-1.jpeg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-关于冒泡排序的思考" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于冒泡排序的思考
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>首先，我们观察可得，在任意的有序/无序序列中，任何/总有一对相邻元素顺序/逆序。</p>
+<p>由此，很容易就可以想出冒泡排序这类算法，可以依次比较每一对相邻元素；如果有必要，则交换之。</p>
+<p>如果整趟扫描都没有扫描交换，则排序完成，否则，就再做一次扫描交换。其过程如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_7B95A3A6DF52-1.jpeg" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;V)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; V.size(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; V.size(); ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (V[j] &lt; V[j<span class="number">-1</span>])</span><br><span class="line">                swap(V[j], V[j<span class="number">-1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-04-18_at_10.58.19_AM.png" alt="Untitled/Screen_Shot_2020-04-18_at_10.58.19_AM.png"></p>
+<p>上图中：</p>
+<ul>
+<li>绿色的是无序部分</li>
+<li>红色的是有序部分</li>
+<li>在算法的每一次迭代中，绿色的部分和红色的部分呈现出一种此消彼长的特征。而每一次对于bubbleSort的调用，都<strong>线性正比</strong>于<strong>绿色无序部分的长度</strong>，整体的呈现出一种算数级数的形式。我们很容易知道，该算法的复杂度为O(n^2)。</li>
+</ul>
+<p>但是，考虑这样一种情况，绿色的无序部分，可能某一个部分，甚至全部部分都是有序的，但是我们的算法却依然要粗暴的遍历全部的部分。那么，我们是否可以尽早的判定这种情况，从而尽早的结束这种算法呢？</p>
+<p>解决方法就是，我们可以在每一次扫描交换的过程中，都记录下是否存在逆序元素。上面的思路可以实现为以下的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble2</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;V)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// set a bool variable</span></span><br><span class="line">    <span class="keyword">bool</span> sorted = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">while</span> (!sorted)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// now we assume the vector is sorted</span></span><br><span class="line">        sorted = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; V.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (V[i] &lt; V[i<span class="number">-1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                swap(V[i], V[i<span class="number">-1</span>]);</span><br><span class="line">                sorted = <span class="literal">false</span>;  <span class="comment">// vector still not sorted</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="再改进"><a href="#再改进" class="headerlink" title="再改进"></a>再改进</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-04-19_at_1.09.58_PM.png" alt="Untitled/Screen_Shot_2020-04-19_at_1.09.58_PM.png"></p>
+<p>让我们考虑这样一种情况：</p>
+<ul>
+<li>向量可以被分为两个部分：<ul>
+<li>前缀绿色的部分是未排序的部分，长度为r</li>
+<li>红色的则是本身已经有序的部分</li>
+</ul>
+</li>
+</ul>
+<p>我们上一个改进后的算法，由于前缀始终是未排序的，所以总会将sorted置为false，从而一遍遍机械的继续进行扫描交换。可以很容易发现，我们的扫描交换算法，无非是在前缀中，通过一次次的扫描交换，使得前缀中的元素一个个就位。</p>
+<p>通过上面的分析，我们可以考虑这样一种算法：</p>
+<ul>
+<li><p>记录在上一趟扫描交换的过程中，进行的最后一次交换。</p>
+</li>
+<li><p>这样的话，就很容易确定，在上一趟扫描交换的区间中，有一个多长的后缀，实际上并没有进行扫描交换。</p>
+</li>
+<li><p>从而可以直接将后缀提前，快速结束我们的扫描交换。</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble3</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;V)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> hi = V.size();</span><br><span class="line">    <span class="keyword">int</span> lo = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (Rank last = --hi; lo &lt; hi; hi = last)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (Rank i = last = lo; i &lt; hi; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (V[i] &gt; V[i+<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                swap(V[i], V[i+<span class="number">1</span>]);</span><br><span class="line">                last = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="算法的评价"><a href="#算法的评价" class="headerlink" title="算法的评价"></a>算法的评价</h2><ul>
+<li>时间效率：最好O(n)，最坏O(n^2)</li>
+<li>算法的稳定性：在冒泡排序中，唯有相邻元素才可以交换，所以它是一种稳定的算法。</li>
+</ul>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2020/04/19/关于冒泡排序的思考/" class="article-date">
+  <time datetime="2020-04-19T13:14:02.000Z" itemprop="datePublished">2020-04-19</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2020/04/17/有序向量的查找算法/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DSA-learning:有序向量查找算法</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
