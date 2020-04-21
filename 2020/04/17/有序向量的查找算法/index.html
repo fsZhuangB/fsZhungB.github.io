@@ -15,7 +15,11 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_5573.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_49CF3E495AD5-1.jpeg">
-<meta property="og:updated_time" content="2020-04-17T09:31:40.316Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.04.13 PM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.12.38 PM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.19.36 PM.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.21.17 PM.png">
+<meta property="og:updated_time" content="2020-04-21T15:26:16.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DSA-learning:有序向量查找算法">
 <meta name="twitter:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
@@ -146,10 +150,32 @@
 </ul>
 </li>
 </ul>
-<h3 id="插值查找"><a href="#插值查找" class="headerlink" title="插值查找"></a>插值查找</h3><ul>
-<li>[ ] TODO</li>
+<h3 id="插值查找"><a href="#插值查找" class="headerlink" title="插值查找"></a>插值查找</h3><p>其基本思想大概是，基于二分查找算法，将查找点的选择改进为自适应选择，可以提高查找效率。<br>插值查找基于以下的假设：</p>
+<ul>
+<li>已知有序向量中各个元素独立分布的规律：比如<strong>独立且均匀的随机分布</strong>。<br>于是，[lo, hi)中各个元素大致呈线性规律增长，我们可以得到公式：<script type="math/tex; mode=display">
+mi-lo/hi-lo=e-A[lo]/A[hi]-A[lo]</script>从而我们可以很容易得到轴点：<script type="math/tex; mode=display">
+mi=lo+(hi -lo)*(e-A[lo]/A[hi]-A[lo])</script>要理解插值查找，我们可以类比查英文字典的过程，比如我们想找“boy”这个单词，我们一定会翻开书从书的二十六分之二处开始进行查找，而不是从头开始翻阅，理解了这个，就很好理解插值查找了，通过mi位置的计算，可以大致的估计出要查找的元素的位置，从而实现查找速度的优化。</li>
 </ul>
-
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.04.13 PM.png" alt=""></p>
+<h4 id="查找实例"><a href="#查找实例" class="headerlink" title="查找实例"></a>查找实例</h4><ul>
+<li><p>在这样一个lo = 0，hi = 18的序列中，我们查找e = 50的目标：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.12.38 PM.png" alt=""></p>
+</li>
+</ul>
+<p>​    通过插值公式计算出，mi = 0 + (18 - 0)*(50 - 5)/(92 - 5) = 9</p>
+<p>​    比较A[9] = 41 &lt; e = 50, 从而更新：</p>
+<ul>
+<li><p>lo = 10，hi = 18，mi = 11</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.19.36 PM.png" alt=""></p>
+<p>比较A[11] = 51 &gt; 50，从而更新</p>
+</li>
+<li><p>lo = hi = 10，mi = 10</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.21.17 PM.png" alt=""></p>
+<p>比较A[10] = 44 != 50</p>
+<p>返回<strong>NOT_FOUND</strong></p>
+</li>
+</ul>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4>
       
       <div id="donate" class="donate">
         <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
