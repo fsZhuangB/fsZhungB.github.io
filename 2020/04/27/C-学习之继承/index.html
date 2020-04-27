@@ -5,19 +5,19 @@
   
   <title>C++学习之继承 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="C++的继承与派生继承的概念继承（Inheritance）可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；被继承的类称为父类或基类，继承的类称为子类或派生类； 派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能； 继承权限继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、privat">
+  <meta name="description" content="继承的概念继承（Inheritance）可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；被继承的类称为父类或基类，继承的类称为子类或派生类； 派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能； 继承权限继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、private（私有的）和 p">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之继承">
 <meta property="og:url" content="https://fszhuangb.xyz/2020/04/27/C-学习之继承/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="C++的继承与派生继承的概念继承（Inheritance）可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；被继承的类称为父类或基类，继承的类称为子类或派生类； 派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能； 继承权限继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、privat">
+<meta property="og:description" content="继承的概念继承（Inheritance）可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；被继承的类称为父类或基类，继承的类称为子类或派生类； 派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能； 继承权限继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、private（私有的）和 p">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-04-27_at_7.13.41_PM.png">
-<meta property="og:updated_time" content="2020-04-27T12:03:07.251Z">
+<meta property="og:updated_time" content="2020-04-27T12:04:55.909Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之继承">
-<meta name="twitter:description" content="C++的继承与派生继承的概念继承（Inheritance）可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；被继承的类称为父类或基类，继承的类称为子类或派生类； 派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能； 继承权限继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、privat">
+<meta name="twitter:description" content="继承的概念继承（Inheritance）可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；被继承的类称为父类或基类，继承的类称为子类或派生类； 派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能； 继承权限继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、private（私有的）和 p">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-04-27_at_7.13.41_PM.png">
   
   
@@ -71,7 +71,7 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <h1 id="C-的继承与派生"><a href="#C-的继承与派生" class="headerlink" title="C++的继承与派生"></a>C++的继承与派生</h1><h2 id="继承的概念"><a href="#继承的概念" class="headerlink" title="继承的概念"></a>继承的概念</h2><p><code>继承（Inheritance）</code>可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；<strong>被继承的类称为父类或基类，继承的类称为子类或派生类</strong>；</p>
+        <h2 id="继承的概念"><a href="#继承的概念" class="headerlink" title="继承的概念"></a>继承的概念</h2><p><code>继承（Inheritance）</code>可以理解为一个类从另一个类获取成员变量和成员函数的过程；例如类 B 继承于类 A，那么 B 就拥有 A 的成员变量和成员函数；<strong>被继承的类称为父类或基类，继承的类称为子类或派生类</strong>；</p>
 <p>派生类除了拥有基类的成员，还可以定义自己的新成员，以增强类的功能；</p>
 <h2 id="继承权限"><a href="#继承权限" class="headerlink" title="继承权限"></a>继承权限</h2><p>继承方式限定了基类成员在派生类中的访问权限，包括 public（公有的）、private（私有的）和 protected（受保护的）；此项是可选项，如果不写，默认为 private（成员变量和成员函数默认也是 private）；</p>
 <h2 id="改变访问权限"><a href="#改变访问权限" class="headerlink" title="改变访问权限"></a>改变访问权限</h2><p>使用 using 关键字可以改变基类成员在派生类中的访问权限，例如将 public 改为 private、将 protected 改为 public 等：</p>
