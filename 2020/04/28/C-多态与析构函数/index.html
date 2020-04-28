@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++多态与析构函数 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="多态（Polymorphism）是面向对象（Object-Oriented，OO）思想”三大特征”之一，其余两个分别是封装（Encapsulation）和继承（Inheritance）。 多态让我们首先查看下面的代码： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++多态与析构函数">
+<meta property="og:url" content="https://fszhuangb.xyz/2020/04/28/C-多态与析构函数/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="多态（Polymorphism）是面向对象（Object-Oriented，OO）思想”三大特征”之一，其余两个分别是封装（Encapsulation）和继承（Inheritance）。 多态让我们首先查看下面的代码： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-04-28T15:09:28.270Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++多态与析构函数">
+<meta name="twitter:description" content="多态（Polymorphism）是面向对象（Object-Oriented，OO）思想”三大特征”之一，其余两个分别是封装（Encapsulation）和继承（Inheritance）。 多态让我们首先查看下面的代码： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-多态与析构函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++多态与析构函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p><code>多态（Polymorphism）</code>是面向对象（Object-Oriented，OO）思想”三大特征”之一，其余两个分别是<code>封装（Encapsulation）</code>和<code>继承（Inheritance）</code>。</p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>让我们首先查看下面的代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    People(<span class="keyword">const</span> <span class="keyword">char</span>* name, <span class="keyword">int</span> age);</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* m_name;</span><br><span class="line">    <span class="keyword">int</span>         m_age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">People::People(<span class="keyword">const</span> <span class="keyword">char</span>* name, <span class="keyword">int</span> age) : m_name(name), m_age(age) &#123;&#125;</span><br><span class="line"><span class="keyword">void</span> People::print() <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"name: %s, age: %d\n"</span>, m_name, m_age);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> :</span> <span class="keyword">public</span> People &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Student(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score);</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">float</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Student::Student(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score) : People(name, age), m_score(score) &#123;&#125;</span><br><span class="line"><span class="keyword">void</span> Student::print() <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"name: %s, age: %d, score: %g\n"</span>, m_name, m_age, m_score);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    People* p = <span class="literal">nullptr</span>;</span><br><span class="line">    p = <span class="keyword">new</span> People(<span class="string">"ZhangSan"</span>, <span class="number">25</span>);</span><br><span class="line">    p-&gt;print();</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line"></span><br><span class="line">    p = <span class="keyword">new</span> Student(<span class="string">"LiSi"</span>, <span class="number">14</span>, <span class="number">87.5f</span>);</span><br><span class="line">    p-&gt;print();</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 代码还可以这样写</span></span><br><span class="line">		<span class="comment">// People *p = new Student("Lisi", 14, 87.5f)</span></span><br><span class="line">		<span class="comment">// p虽然是指向People类的指针，但是有了多态后，调用的print()函数却是Student类的</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// result</span></span><br><span class="line">name: ZhangSan, age: <span class="number">25</span></span><br><span class="line">name: LiSi, age: <span class="number">14</span></span><br><span class="line">Program ended with <span class="built_in">exit</span> code: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>我们直观上认为，如果指针p指向了派生类对象，那么就应该使用派生类的成员变量和成员函数，这符合人们的思维习惯；</p>
+<p>但是本例的运行结果却告诉我们，当基类指针 p 指向派生类 Student 的对象时，虽然使用了 Student 的成员变量，但是却<strong>没有</strong>使用它的成员函数，导致输出结果不伦不类，不符合我们的预期；问题就是这个：</p>
+<blockquote>
+<p>通过基类指针只能访问派生类的成员变量，却不能访问派生类的成员函数。</p>
+</blockquote>
+<p>为了消除这种尴尬，让基类指针能够访问派生类的成员函数，C++ 增加了<strong>虚函数（Virtual Function）</strong>；使用虚函数非常简单，只需要在函数声明前面增加virtual关键字；</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    People(<span class="keyword">const</span> <span class="keyword">char</span>* name, <span class="keyword">int</span> age);</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* m_name;</span><br><span class="line">    <span class="keyword">int</span>         m_age;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> :</span> <span class="keyword">public</span> People &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Student(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">int</span> age, <span class="keyword">float</span> score);</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span> override</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">float</span> m_score;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// result</span></span><br><span class="line">name: ZhangSan, age: <span class="number">25</span></span><br><span class="line">name: LiSi, age: <span class="number">14</span>, score: <span class="number">87.5</span></span><br><span class="line">Program ended with <span class="built_in">exit</span> code: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>基类指针指向基类对象时就使用基类的成员（包括成员函数和成员变量），指向派生类对象时就使用派生类的成员；</p>
+<p>换句话说，基类指针可以按照基类的方式来做事，也可以按照派生类的方式来做事，它有多种形态，或者说有多种表现方式，我们将这种现象称为<strong>多态</strong>。</p>
+<p>C++提供多态的目的是：可以通过基类指针对所有派生类（包括直接派生和间接派生）的成员变量和成员函数进行“全方位”的访问，尤其是成员函数；如果没有多态，我们只能访问成员变量；</p>
+<p>前面我们说过，通过指针调用普通的成员函数时会根据指针的类型（通过哪个类定义的指针）来判断调用哪个类的成员函数，但是通过本节的分析可以发现，这种说法并不适用于虚函数，虚函数是根据指针的指向来调用的，指针指向哪个类的对象就调用哪个类的虚函数；</p>
+<h3 id="借助引用实现多态"><a href="#借助引用实现多态" class="headerlink" title="借助引用实现多态"></a>借助引用实现多态</h3><p>修改上面的main函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">People <span class="title">p</span><span class="params">(<span class="string">"ZhangSan"</span>, <span class="number">25</span>)</span></span>;</span><br><span class="line">    <span class="function">Student <span class="title">s</span><span class="params">(<span class="string">"LiSi"</span>, <span class="number">14</span>, <span class="number">87.5</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    People &amp;rp = p;</span><br><span class="line">    People &amp;rs = s;</span><br><span class="line">    rp.print();</span><br><span class="line">    rs.print();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// result</span></span><br><span class="line">name: ZhangSan, age: <span class="number">25</span></span><br><span class="line">name: LiSi, age: <span class="number">14</span>, score: <span class="number">87.5</span></span><br><span class="line">Program ended with <span class="built_in">exit</span> code: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>不过引用不像指针灵活，指针可以随时改变指向，而引用只能指代固定的对象，在多态性方面缺乏表现力，所以以后我们再谈及多态时一般是说指针；本例的主要目的是让读者知道，除了指针，引用也可以实现多态；</p>
+<h2 id="虚函数的注意事项"><a href="#虚函数的注意事项" class="headerlink" title="虚函数的注意事项"></a>虚函数的注意事项</h2><ol>
+<li>只需要在虚函数的声明处加上virtual关键字，函数定义处<strong>不加</strong>。</li>
+<li>可以只将基类中的函数声明为虚函数，当派生类中出现参数列表相同的同名函数时，<strong>自动成为</strong>虚函数。</li>
+<li>当在基类中定义了虚函数时，如果派生类没有定义新的函数来覆盖（override）此函数，那么将使用基类的虚函数。</li>
+<li>构造函数<strong>不能</strong>是虚函数；对于基类的构造函数，它仅仅是在派生类构造函数中被调用，这种机制不同于继承；也就是说，派生类不继承基类的构造函数，将构造函数声明为虚函数没有什么意义。</li>
+<li>析构函数函数有必要声明为虚函数，因为当父类的指针或者引用指向派生类时，如果析构函数非虚，则派生类的析构函数不会被调用，造成<strong>内存泄露</strong>。</li>
+</ol>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2020/04/28/C-多态与析构函数/" class="article-date">
+  <time datetime="2020-04-28T15:08:28.000Z" itemprop="datePublished">2020-04-28</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2020/04/27/C-学习之继承/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++学习之继承</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
