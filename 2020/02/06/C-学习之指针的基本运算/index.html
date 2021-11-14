@@ -5,13 +5,13 @@
   
   <title>C++学习之指针的基本运算 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。 *操作符 将*cp放在左值和右值的操作是不同的：  放在右值，只会取出其中的值，进行接下来的赋值操作">
+  <meta name="description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。当然，可以使用一个二级指针(char**)去保存指针cp的地址，从而取到cp地址。 *操作符 将*cp">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++学习之指针的基本运算">
 <meta property="og:url" content="https://fszhuangb.xyz/2020/02/06/C-学习之指针的基本运算/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。 *操作符 将*cp放在左值和右值的操作是不同的：  放在右值，只会取出其中的值，进行接下来的赋值操作">
+<meta property="og:description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。当然，可以使用一个二级指针(char**)去保存指针cp的地址，从而取到cp地址。 *操作符 将*cp">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.32.14_AM.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.49.42_AM.png">
@@ -21,10 +21,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.18.15_AM.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.20.08_AM.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-27_at_10.23.48_AM.png">
-<meta property="og:updated_time" content="2020-04-05T02:23:17.342Z">
+<meta property="og:updated_time" content="2021-11-14T04:57:34.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++学习之指针的基本运算">
-<meta name="twitter:description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。 *操作符 将*cp放在左值和右值的操作是不同的：  放在右值，只会取出其中的值，进行接下来的赋值操作">
+<meta name="twitter:description" content="这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。 运算符&amp;amp;与*&amp;amp;操作符 要注意，表达式&amp;amp;ch、&amp;amp;cp只能作为右值，不能作为左值（即&amp;amp;ch=xxx），因为虽然cp的值就是&amp;amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;amp;ch的值。当然，可以使用一个二级指针(char**)去保存指针cp的地址，从而取到cp地址。 *操作符 将*cp">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.32.14_AM.png">
   
   
@@ -80,7 +80,7 @@
       
         <p>这一篇笔记记录了指针的基本运算，以及它作为左值和右值的用法。</p>
 <h2 id="运算符-amp-与"><a href="#运算符-amp-与" class="headerlink" title="运算符&amp;与*"></a>运算符&amp;与*</h2><h3 id="amp-操作符"><a href="#amp-操作符" class="headerlink" title="&amp;操作符"></a>&amp;操作符</h3><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.32.14_AM.png" alt=""></p>
-<p>要注意，表达式&amp;ch、&amp;cp只能作为右值，不能作为左值<code>（即&amp;ch=xxx）</code>，因为虽然cp的值就是&amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;ch的值。</p>
+<p>要注意，表达式&amp;ch、&amp;cp只能作为右值，不能作为左值<code>（即&amp;ch=xxx）</code>，因为虽然cp的值就是&amp;ch的地址值，但是并没有一个明确的地址空间去储存&amp;ch的值。<br>当然，可以使用一个二级指针(<code>char**</code>)去保存指针<code>cp</code>的地址，从而取到<code>cp</code>地址。</p>
 <h3 id="操作符"><a href="#操作符" class="headerlink" title="*操作符"></a>*操作符</h3><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen_Shot_2020-03-25_at_10.49.42_AM.png" alt=""></p>
 <p>将*cp放在左值和右值的操作是不同的：</p>
 <ul>
