@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/Screen%20Shot%202021-11-15%20at%2011.53.21.png?raw=true">
 <meta property="og:image" content="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/Screen%20Shot%202021-11-15%20at%2015.01.22.png?raw=true">
-<meta property="og:updated_time" content="2021-11-15T07:55:06.331Z">
+<meta property="og:updated_time" content="2021-11-15T07:58:43.219Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++内存模型">
 <meta name="twitter:description" content="今天重新总结了一下C++的内存模型，可能还不够全面，留待日后慢慢完善： 当操作系统在调用一个二进制C/C++程序时，是如何分配内存的呢？ 1.  全局数据区（data area）全局数据区存放全局变量，静态数据和常量。  该区空间系统分配时会自动初始化为0. 所有全局变量，这个好理解不多说。 静态数据（包括类静态成员，函数内静态变量），这里就说明了一个现象，类的静态函数是属于类的而不是对象的。另外">
@@ -98,8 +98,7 @@
 <p>C++做了1，2件事，java做了1，3件事。</p>
 <h2 id="资源管理方案：RAII"><a href="#资源管理方案：RAII" class="headerlink" title="资源管理方案：RAII"></a>资源管理方案：RAII</h2><p>C++ 使用RAII作为其资源管理回收的方案：RAII指Resource Acquisition is Initialization。</p>
 <p>其简单思想为依托于栈和析构函数对于所有资源进行管理，包括堆资源。</p>
-<h2 id="堆和栈的主要区别总结"><a href="#堆和栈的主要区别总结" class="headerlink" title="堆和栈的主要区别总结"></a>堆和栈的主要区别总结</h2><p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/Screen%20Shot%202021-11-15%20at%2015.01.22.png?raw=true" alt=""></p>
-<p>一些代码来演示一下：</p>
+<h2 id="堆和栈的主要区别总结"><a href="#堆和栈的主要区别总结" class="headerlink" title="堆和栈的主要区别总结"></a>堆和栈的主要区别总结</h2><p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/Screen%20Shot%202021-11-15%20at%2015.01.22.png?raw=true" alt=""><br>一些代码来演示一下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> b = <span class="number">1</span>;       <span class="comment">// stack</span></span><br><span class="line"><span class="keyword">char</span> s[] = <span class="string">"abc"</span>;<span class="comment">// stack</span></span><br><span class="line"><span class="keyword">int</span> *p2 = <span class="literal">NULL</span>;  <span class="comment">// stack</span></span><br><span class="line"><span class="keyword">char</span> *p3 = <span class="string">"123456"</span>; <span class="comment">// 123456\0在常量区,p3在stack</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> c = <span class="number">0</span>; <span class="comment">// (GVAR)全局静态初始化区</span></span><br><span class="line"></span><br><span class="line">p1 = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">10</span>); <span class="comment">// heap</span></span><br><span class="line">p2 = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">20</span>); <span class="comment">// heap</span></span><br><span class="line"><span class="keyword">char</span> *p4 = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">7</span>]; <span class="comment">// heap</span></span><br><span class="line">strcpy_s(p4, <span class="number">7</span>, <span class="string">"123456"</span>); <span class="comment">// text代码区</span></span><br></pre></td></tr></table></figure>
 <h2 id="内存泄露问题"><a href="#内存泄露问题" class="headerlink" title="内存泄露问题"></a>内存泄露问题</h2><p>指程序中已经动态分配的堆内存由于某种原因未释放或者无法释放，导致了系统内存的浪费，导致系统程序运行速度的减慢甚至系统崩溃等严重后果。</p>
 <p>怎么调试？（等待以后总结）</p>
