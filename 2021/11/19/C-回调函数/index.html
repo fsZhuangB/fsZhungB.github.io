@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++回调函数 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在学习C++的函数和实习的过程中，我发现回调函数在工作中用的特别多，下面来记录总结一下： C++函数是利用函数签名（name mangling）完成对于函数的区分的。同时，C++函数支持重载，但是在重载的过程中，会出现下列问题： 123456789101112int test(int a)&amp;#123;    return a;&amp;#125;int test(int a = 1, double b =">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++回调函数">
+<meta property="og:url" content="https://fszhuangb.xyz/2021/11/19/C-回调函数/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="在学习C++的函数和实习的过程中，我发现回调函数在工作中用的特别多，下面来记录总结一下： C++函数是利用函数签名（name mangling）完成对于函数的区分的。同时，C++函数支持重载，但是在重载的过程中，会出现下列问题： 123456789101112int test(int a)&amp;#123;    return a;&amp;#125;int test(int a = 1, double b =">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-11-19T10:43:49.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++回调函数">
+<meta name="twitter:description" content="在学习C++的函数和实习的过程中，我发现回调函数在工作中用的特别多，下面来记录总结一下： C++函数是利用函数签名（name mangling）完成对于函数的区分的。同时，C++函数支持重载，但是在重载的过程中，会出现下列问题： 123456789101112int test(int a)&amp;#123;    return a;&amp;#125;int test(int a = 1, double b =">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-回调函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++回调函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>在学习C++的函数和实习的过程中，我发现回调函数在工作中用的特别多，下面来记录总结一下：</p>
+<p>C++函数是利用函数签名（name mangling）完成对于函数的区分的。<br>同时，C++函数支持重载，但是在重载的过程中，会出现下列问题：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> a = <span class="number">1</span>, <span class="keyword">double</span> b = <span class="number">2.0</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// test(1) ：这样会报错</span></span><br><span class="line"><span class="comment">// 可以使用函数指针解决这个问题</span></span><br></pre></td></tr></table></figure>
+<h2 id="指向函数的指针"><a href="#指向函数的指针" class="headerlink" title="指向函数的指针"></a>指向函数的指针</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 函数指针</span></span><br><span class="line"><span class="keyword">int</span> (*p)(<span class="keyword">int</span>);</span><br><span class="line">p = test;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; (*p)(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>每个函数都占有一段内存单元，它们有一个起始地址，指向函数入口地址的指针称为函数指针。</p>
+<p>形式：（注意指针名和*必须用括号括起来）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">return_type (*)(parameter_type_1, parameter_type_2, parameter_type_3)</span><br><span class="line"><span class="comment">// i.e. a pointer to foo has the type:</span></span><br><span class="line"><span class="keyword">int</span> (*)(<span class="keyword">int</span>)</span><br></pre></td></tr></table></figure>
+<p>例如：<code>int(*p)(int)</code></p>
+<p>同时，也可以使用<code>using</code>声明让其可读性更强：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">f_int_t</span> = <span class="keyword">int</span>(*)(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+<p>从而我们可以用下面两种方式实现回调函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// foobar having a callback argument named moo of type</span></span><br><span class="line"><span class="comment">// pointer to function returning int taking int as its argument</span></span><br><span class="line">int foobar (int x, int (*moo)(int));</span><br><span class="line"><span class="comment">// if f_int is the function pointer typedef from above we can also write foobar as:</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">foobar</span> <span class="params">(<span class="keyword">int</span> x, <span class="keyword">f_int_t</span> moo)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>下面再给出一个例子：</p>
+<p>指向函数的指针可以实现很多东西，比如回调函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxValue</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &gt; y ? x : y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minValue</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &lt; y ? x : y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回调函数</span></span><br><span class="line">int pNum(int x, int y, int(*p)(int a, int b))</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 真正调用函数的一方在函数体内部</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; p(x,y) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">    pNum(x,y,maxValue);</span><br><span class="line">    pNum(x,y,minValue);</span><br><span class="line">    pNum(x,y,add);</span><br></pre></td></tr></table></figure>
+<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><p>什么是回调函数？简单来说，回调函数是</p>
+<ul>
+<li><strong>可执行代码</strong> 作为 <strong>参数</strong> 传入 <strong>其他的可执行代码</strong></li>
+<li>并由 <strong>其他的可执行代码</strong> 执行这段 <strong>可执行代码</strong></li>
+</ul>
+<p>其具体过程主要可以由下列逻辑表示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">A() &#123;</span><br><span class="line">  <span class="comment">// output P</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">B(fn) &#123;</span><br><span class="line">  fn();  <span class="comment">// B knows only fn, not A</span></span><br><span class="line">         <span class="comment">// B treats fn as a variable</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">B(A);  <span class="comment">// B called at T</span></span><br><span class="line">       <span class="comment">// B calling fn() (i.e. calling A())</span></span><br></pre></td></tr></table></figure>
+<p>使用回调函数主要可以写出更为generic的代码，使代码逻辑与被调用函数分离，并可以为不同的回调函数使用。</p>
+<p>标准库头文件<algorithm>用了很多回调的方法，如<code>for_each</code>接受一个<code>UnaryFunction f</code>也就是unary的回调函数：</algorithm></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIt</span>, <span class="title">class</span> <span class="title">UnaryFunction</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">UnaryFunction</span> <span class="title">for_each</span>(<span class="title">InputIt</span> <span class="title">first</span>, <span class="title">InputIt</span> <span class="title">last</span>, <span class="title">UnaryFunction</span> <span class="title">f</span>)</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="keyword">for</span> (; first != last; ++first) &#123;</span><br><span class="line">    f(*first);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="回调函数实现方法"><a href="#回调函数实现方法" class="headerlink" title="回调函数实现方法"></a>回调函数实现方法</h3><ol>
+<li><p>函数指针（function pointers）上面已经介绍过了</p>
+</li>
+<li><p>指向成员函数的指针（Pointer to member function）</p>
+<p>这是一种特殊的函数指针，因为其需要一个类去操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">C</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> x)</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> x+y; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A pointer to member function type for some class T has the notation</span></span><br><span class="line"><span class="comment">// can have more or less parameters</span></span><br><span class="line">return_type (T::*)(parameter_type_1, parameter_type_2, parameter_type_3)</span><br><span class="line"><span class="comment">// i.e. a pointer to C::foo has the type</span></span><br><span class="line"><span class="keyword">int</span> (C::*) (<span class="keyword">int</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// i.e. a type `f_C_int` representing a pointer to member function of `C`</span></span><br><span class="line"><span class="comment">// taking int returning int is:</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(C::* f_C_int_t)</span> <span class="params">(<span class="keyword">int</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The type of C_foo_p is a pointer to member function of C taking int returning int</span></span><br><span class="line"><span class="comment">// Its value is initialized by a pointer to foo of C</span></span><br><span class="line"><span class="keyword">int</span> (C::* C_foo_p)(<span class="keyword">int</span>) = &amp;C::foo;</span><br><span class="line"><span class="comment">// which can also be written using the typedef:</span></span><br><span class="line">f_C_int_t C_foo_p = &amp;C::foo;</span><br></pre></td></tr></table></figure>
+<p>举例：将指向成员函数的指针作为回调传入函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C_foobar having an argument named moo of type pointer to member function of C</span></span><br><span class="line"><span class="comment">// where the callback returns int taking int as its argument</span></span><br><span class="line"><span class="comment">// also needs an object of type c</span></span><br><span class="line">int C_foobar (int x, C const &amp;c, int (C::*moo)(int));</span><br><span class="line"><span class="comment">// can equivalently declared using the typedef above:</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">C_foobar</span> <span class="params">(<span class="keyword">int</span> x, C <span class="keyword">const</span> &amp;c, f_C_int_t moo)</span></span>;</span><br><span class="line"></span><br><span class="line">int C_foobar (int x, C const &amp;c, int (C::*moo)(int))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> x + (c.*moo)(x); <span class="comment">// function pointer moo called for object c using argument x</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// analog</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">C_foobar</span> <span class="params">(<span class="keyword">int</span> x, C <span class="keyword">const</span> &amp;c, f_C_int_t moo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + (c.*moo)(x); <span class="comment">// function pointer moo called for object c using argument x</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果传入的是指向c的指针，那么必须也对c解引用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">int C_foobar_2 (int x, C const * c, int (C::*meow)(int))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!c) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="comment">// function pointer meow called for object *c using argument x</span></span><br><span class="line">    <span class="keyword">return</span> x + ((*c).*meow)(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// or equivalent:</span></span><br><span class="line">int C_foobar_2 (int x, C const * c, int (C::*meow)(int))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!c) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="comment">// function pointer meow called for object *c using argument x</span></span><br><span class="line">    <span class="keyword">return</span> x + (c-&gt;*meow)(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> C my_c&#123;<span class="number">2</span>&#125;; <span class="comment">// aggregate initialization</span></span><br><span class="line"> <span class="keyword">int</span> a = <span class="number">5</span>;</span><br><span class="line"> <span class="keyword">int</span> b = C_foobar(a, my_c, &amp;C::foo); <span class="comment">// call C_foobar with pointer to foo as its callback</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>使用<code>std::function</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://stackoverflow.com/questions/2298242/callback-functions-in-c" target="_blank" rel="noopener">Callback functions in C++</a></li>
+</ol>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/11/19/C-回调函数/" class="article-date">
+  <time datetime="2021-11-19T10:41:58.000Z" itemprop="datePublished">2021-11-19</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2021/11/15/C-内存模型/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++内存模型</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
