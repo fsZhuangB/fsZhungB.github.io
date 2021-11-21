@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++面向对象总结 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[TOC] 抽象-具体类型让自定义类型像内置类型一样，拥有+，-， *，/以及比较等等类型。 如，实现一个负数类： 12345class Complex &amp;#123;  public:    Complex();  // constructor    virtual ~Complex(); // destructor&amp;#125;; 常量成员函数常量成员函数不能改变调用它的对象的内容，而常量对象，以">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++面向对象总结">
+<meta property="og:url" content="https://fszhuangb.xyz/2021/11/21/C-面向对象总结/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="[TOC] 抽象-具体类型让自定义类型像内置类型一样，拥有+，-， *，/以及比较等等类型。 如，实现一个负数类： 12345class Complex &amp;#123;  public:    Complex();  // constructor    virtual ~Complex(); // destructor&amp;#125;; 常量成员函数常量成员函数不能改变调用它的对象的内容，而常量对象，以">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-11-21T12:54:32.371Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++面向对象总结">
+<meta name="twitter:description" content="[TOC] 抽象-具体类型让自定义类型像内置类型一样，拥有+，-， *，/以及比较等等类型。 如，实现一个负数类： 12345class Complex &amp;#123;  public:    Complex();  // constructor    virtual ~Complex(); // destructor&amp;#125;; 常量成员函数常量成员函数不能改变调用它的对象的内容，而常量对象，以">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-面向对象总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++面向对象总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h2 id="抽象-具体类型"><a href="#抽象-具体类型" class="headerlink" title="抽象-具体类型"></a>抽象-具体类型</h2><p>让自定义类型像内置类型一样，拥有+，-， *，/以及比较等等类型。</p>
+<p>如，实现一个负数类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Complex</span> &#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    Complex();  <span class="comment">// constructor</span></span><br><span class="line">    <span class="keyword">virtual</span> ~Complex(); <span class="comment">// destructor</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="常量成员函数"><a href="#常量成员函数" class="headerlink" title="常量成员函数"></a>常量成员函数</h2><p>常量成员函数不能改变调用它的对象的内容，而常量对象，以及其引用或者制作都只能调用常量成员函数。</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><h3 id="合成的默认构造函数"><a href="#合成的默认构造函数" class="headerlink" title="合成的默认构造函数"></a>合成的默认构造函数</h3>
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/11/21/C-面向对象总结/" class="article-date">
+  <time datetime="2021-11-21T12:53:47.000Z" itemprop="datePublished">2021-11-21</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2021/11/19/C-回调函数/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++回调函数</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
