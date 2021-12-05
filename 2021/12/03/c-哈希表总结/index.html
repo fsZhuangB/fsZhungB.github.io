@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>c++哈希表总结 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="哈希表总结，C++的哈希表类型以及如何自己实现一个哈希表。 C++中提供的关联数据结构类型当我们想使用哈希法来解决问题的时候，我们一般会选择如下三种数据结构。  数组 set （集合） map(映射)  在C++中，set 和 map 分别提供以下三种数据结构，其底层实现以及优劣如下表所示：     集合 底层实现 是否有序 数值是否可以重复  查询效率 增删效率     std::set 红黑树">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++哈希表总结">
+<meta property="og:url" content="https://fszhuangb.xyz/2021/12/03/c-哈希表总结/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="哈希表总结，C++的哈希表类型以及如何自己实现一个哈希表。 C++中提供的关联数据结构类型当我们想使用哈希法来解决问题的时候，我们一般会选择如下三种数据结构。  数组 set （集合） map(映射)  在C++中，set 和 map 分别提供以下三种数据结构，其底层实现以及优劣如下表所示：     集合 底层实现 是否有序 数值是否可以重复  查询效率 增删效率     std::set 红黑树">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2021-12-05T11:43:59.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++哈希表总结">
+<meta name="twitter:description" content="哈希表总结，C++的哈希表类型以及如何自己实现一个哈希表。 C++中提供的关联数据结构类型当我们想使用哈希法来解决问题的时候，我们一般会选择如下三种数据结构。  数组 set （集合） map(映射)  在C++中，set 和 map 分别提供以下三种数据结构，其底层实现以及优劣如下表所示：     集合 底层实现 是否有序 数值是否可以重复  查询效率 增删效率     std::set 红黑树">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-c-哈希表总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      c++哈希表总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>哈希表总结，C++的哈希表类型以及如何自己实现一个哈希表。</p>
+<h2 id="C-中提供的关联数据结构类型"><a href="#C-中提供的关联数据结构类型" class="headerlink" title="C++中提供的关联数据结构类型"></a>C++中提供的关联数据结构类型</h2><p>当我们想使用哈希法来解决问题的时候，我们一般会选择如下三种数据结构。</p>
+<ul>
+<li>数组</li>
+<li>set （集合）</li>
+<li>map(映射)</li>
+</ul>
+<p>在C++中，set 和 map 分别提供以下三种数据结构，其底层实现以及优劣如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>集合</th>
+<th>底层实现</th>
+<th>是否有序</th>
+<th>数值是否可以重复</th>
+<th></th>
+<th>查询效率</th>
+<th>增删效率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>std::set</td>
+<td>红黑树</td>
+<td>有序</td>
+<td>否</td>
+<td></td>
+<td>O(logn)</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>std::multiset</td>
+<td>红黑树</td>
+<td>有序</td>
+<td>是</td>
+<td></td>
+<td>O(logn)</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>std::unordered_set</td>
+<td>哈希表</td>
+<td>无序</td>
+<td>否</td>
+<td></td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>std::unordered_set底层实现为哈希表，std::set 和std::multiset 的底层实现是红黑树，红黑树是一种平衡二叉搜索树，所以key值是有序的，但key不可以修改，改动key值会导致整棵树的错乱，所以只能删除和增加。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>映射</td>
+<td>底层实现</td>
+<td>是否有序</td>
+<td>数值是否可以重复</td>
+<td>能否更改数值</td>
+<td>查询效率</td>
+<td>增删效率</td>
+</tr>
+<tr>
+<td>std::map</td>
+<td>红黑树</td>
+<td>key有序</td>
+<td>key不可重复</td>
+<td>key不可修改</td>
+<td>O(logn)</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>std::multimap</td>
+<td>红黑树</td>
+<td>key有序</td>
+<td>key可重复</td>
+<td>key不可修改</td>
+<td>O(logn)</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>std::unordered_map</td>
+<td>哈希表</td>
+<td>key无序</td>
+<td>key不可重复</td>
+<td>key不可修改</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>std::unordered_map 底层实现为哈希表，std::map 和std::multimap 的底层实现是红黑树。同理，std::map 和std::multimap 的key也是有序的。</p>
+<h2 id="unordered-map使用"><a href="#unordered-map使用" class="headerlink" title="unordered_map使用"></a>unordered_map使用</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; age;</span><br><span class="line"><span class="comment">// Insert</span></span><br><span class="line">age[<span class="string">"Michael"</span>] = <span class="number">16</span>;</span><br><span class="line">age.insert(&#123;<span class="string">"Chris"</span>, <span class="number">30</span>&#125;);</span><br><span class="line">age.insert(<span class="built_in">std</span>::pair&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;&#123;<span class="string">"Bill"</span>, <span class="number">25</span>&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Search and change</span></span><br><span class="line">age[<span class="string">"Michael"</span>] = <span class="number">18</span>;</span><br><span class="line">age.at(<span class="string">"Chris"</span>) = <span class="number">27</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Check if key exists</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> query;</span><br><span class="line">query = <span class="string">"Eric"</span>;</span><br><span class="line"><span class="keyword">if</span> (age.find(query) == age.end())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; query &lt;&lt; <span class="string">" is not in the dictionary!"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">age.erase(query);</span><br><span class="line"><span class="keyword">if</span> (age.find(query) == age.end())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; query &lt;&lt; <span class="string">" is not in the dictionary!"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Iterate</span></span><br><span class="line"><span class="comment">// 也可以用auto替代</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> <span class="built_in">std</span>::pair&lt;<span class="built_in">std</span>::<span class="built_in">string</span>, <span class="keyword">int</span>&gt;&amp; tup : age)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; tup.first &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Age: "</span> &lt;&lt; tup.second &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其余的map，unordered_set基本上都是同样的用法。</p>
+<h2 id="实现hashmap"><a href="#实现hashmap" class="headerlink" title="实现hashmap"></a>实现hashmap</h2><ol>
+<li>begin()function</li>
+<li>std::pair，底层使用这个实现</li>
+<li>List</li>
+</ol>
+<p>Key(int, string)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myMap</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> hashmp = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">// use the separate chaining to implement hash table</span></span><br><span class="line">    <span class="built_in">list</span>&lt;pair&lt;<span class="keyword">int</span>, <span class="built_in">string</span>&gt;&gt; table[hashmp];</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> s = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; hashmp; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (table[i].size() != <span class="number">0</span>)</span><br><span class="line">            &#123; s+=table[i].size(); &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">hash</span><span class="params">(<span class="keyword">int</span> key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> key % <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> key, <span class="built_in">string</span> value)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> h = hash(key);</span><br><span class="line">        <span class="keyword">auto</span>&amp; cell = table[h];</span><br><span class="line">        <span class="keyword">bool</span> keyExists = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> bItr = cell.begin(); bItr != cell.end(); ++bItr)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (bItr-&gt;first == key)</span><br><span class="line">            &#123;</span><br><span class="line">                keyExists = <span class="literal">true</span>;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"[WARNING] key exits, value "</span></span><br><span class="line">                &lt;&lt; bItr-&gt;second &lt;&lt; <span class="string">" has changed"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">                bItr-&gt;second = value;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!keyExists) &#123;</span><br><span class="line">            cell.push_back(&#123;key, value&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dele</span><span class="params">(<span class="keyword">int</span> key)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> h = hash(key);</span><br><span class="line">        <span class="keyword">auto</span>&amp; cell = table[h];</span><br><span class="line">        <span class="keyword">bool</span> keyExists = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> bItr = cell.begin(); bItr != cell.end(); ++bItr)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (bItr-&gt;first == key)</span><br><span class="line">            &#123;</span><br><span class="line">                keyExists = <span class="literal">true</span>;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; <span class="string">"[WARNING] erase key, the value"</span></span><br><span class="line">                     &lt;&lt; bItr-&gt;second &lt;&lt; <span class="string">" has changed"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">                cell.erase(bItr);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!keyExists) &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"[ERROR] The key doesn't exists!"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">string</span>&amp; <span class="keyword">operator</span>[](<span class="keyword">int</span> key)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> h = hash(key);</span><br><span class="line">        <span class="keyword">auto</span>&amp; cell = table[h];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> b = cell.begin(); b != cell.end(); ++b)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (b-&gt;first == key)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">return</span> b-&gt;second;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">string</span> err = <span class="string">"[ERROR] no key!"</span>;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; err &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; hashmp; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (table[i].size() == <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> b = table[i].begin(); b != table[i].end(); ++b)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">cout</span> &lt;&lt; b-&gt;first &lt;&lt; <span class="string">":"</span> &lt;&lt; b-&gt;second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//test</span></span><br><span class="line">    myMap a;</span><br><span class="line">    a.insert(<span class="number">123</span>, <span class="string">"Jack"</span>);</span><br><span class="line">    a.insert(<span class="number">134</span>, <span class="string">"Bob"</span>);</span><br><span class="line">    a.insert(<span class="number">432</span>, <span class="string">"Tom"</span>);</span><br><span class="line">    a.insert(<span class="number">124</span>, <span class="string">"Goe"</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Test:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a[<span class="number">123</span>] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; a.size() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    a.insert(<span class="number">124</span>, <span class="string">"Cathy"</span>);</span><br><span class="line">    a.print();</span><br><span class="line"></span><br><span class="line">    a.dele(<span class="number">124</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Test:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    a.print();</span><br></pre></td></tr></table></figure>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2021/12/03/c-哈希表总结/" class="article-date">
+  <time datetime="2021-12-02T23:59:32.000Z" itemprop="datePublished">2021-12-03</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2021/11/21/C-面向对象总结/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++面向对象总结</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
