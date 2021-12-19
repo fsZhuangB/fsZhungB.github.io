@@ -5,18 +5,18 @@
   
   <title>排序算法总结 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="总结排序算法冒泡排序首先从最简单的冒泡排序开始总结，">
+  <meta name="description" content="总结排序算法冒泡排序首先从最简单的冒泡排序开始总结， 归并排序一个讲的比较好的博客推荐： 博客链接 从$O(n)$到$\Omega (logn)$： C.B.A的算法下界为$\Omega (nlogn)$，而归并排序的最坏情况就是此。 主要思想归并排序是分治策略的应用，其主要思想如下：  先将序列一分为二 子序列递归排序 合并有序子序列  时间负责度分析假设总体的时间为T(n)，那么T(n)中间包">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="排序算法总结">
 <meta property="og:url" content="https://fszhuangb.xyz/2021/12/17/排序算法总结/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="总结排序算法冒泡排序首先从最简单的冒泡排序开始总结，">
+<meta property="og:description" content="总结排序算法冒泡排序首先从最简单的冒泡排序开始总结， 归并排序一个讲的比较好的博客推荐： 博客链接 从$O(n)$到$\Omega (logn)$： C.B.A的算法下界为$\Omega (nlogn)$，而归并排序的最坏情况就是此。 主要思想归并排序是分治策略的应用，其主要思想如下：  先将序列一分为二 子序列递归排序 合并有序子序列  时间负责度分析假设总体的时间为T(n)，那么T(n)中间包">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2021-12-17T03:07:15.124Z">
+<meta property="og:updated_time" content="2021-12-18T13:07:29.103Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="排序算法总结">
-<meta name="twitter:description" content="总结排序算法冒泡排序首先从最简单的冒泡排序开始总结，">
+<meta name="twitter:description" content="总结排序算法冒泡排序首先从最简单的冒泡排序开始总结， 归并排序一个讲的比较好的博客推荐： 博客链接 从$O(n)$到$\Omega (logn)$： C.B.A的算法下界为$\Omega (nlogn)$，而归并排序的最坏情况就是此。 主要思想归并排序是分治策略的应用，其主要思想如下：  先将序列一分为二 子序列递归排序 合并有序子序列  时间负责度分析假设总体的时间为T(n)，那么T(n)中间包">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -70,7 +70,25 @@
     <div class="article-entry typo" itemprop="articleBody">
       
         <h1 id="总结排序算法"><a href="#总结排序算法" class="headerlink" title="总结排序算法"></a>总结排序算法</h1><h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>首先从最简单的冒泡排序开始总结，</p>
-
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>一个讲的比较好的博客推荐：</p>
+<p><a href="http://www.xiaot123.com/5-x99nf" target="_blank" rel="noopener">博客链接</a></p>
+<p>从$O(n)$到$\Omega (logn)$：</p>
+<p>C.B.A的算法下界为$\Omega (nlogn)$，而归并排序的最坏情况就是此。</p>
+<h3 id="主要思想"><a href="#主要思想" class="headerlink" title="主要思想"></a>主要思想</h3><p>归并排序是分治策略的应用，其主要思想如下：</p>
+<ol>
+<li>先将序列一分为二</li>
+<li>子序列递归排序</li>
+<li>合并有序子序列</li>
+</ol>
+<h3 id="时间负责度分析"><a href="#时间负责度分析" class="headerlink" title="时间负责度分析"></a>时间负责度分析</h3><p>假设总体的时间为T(n)，那么T(n)中间包含了总体规模为原先一半的问题，同时要加上合并有序子序列的时间O(n)，这样就可以得到：</p>
+<script type="math/tex; mode=display">
+T(n) = 2*T(n/2)+O(n)</script><p>这样就可以求解得到，归并排序的算法复杂度为$O(nlogn)$。</p>
+<h3 id="算法基本实现"><a href="#算法基本实现" class="headerlink" title="算法基本实现"></a>算法基本实现</h3><h4 id="自顶向下递归法："><a href="#自顶向下递归法：" class="headerlink" title="自顶向下递归法："></a>自顶向下递归法：</h4><p>应该是很容易实现的方法，因为不断地递归，程序栈层数会有 logn 层，所以递归栈的空间复杂度为：O(logn)，对于排序十亿个整数，也只要：log(100 0000 0000)=29.897，占用的堆栈层数最多 30 层。</p>
+<p>算法总体框架：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 注意，是左闭右开区间</span></span><br><span class="line">    <span class="keyword">if</span> (hi - lo &lt; <span class="number">2</span>) &#123; <span class="keyword">return</span>; &#125;</span><br><span class="line">    <span class="keyword">int</span> mid = lo + (hi - lo) / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    mergeSort(arr, lo, mid);</span><br><span class="line">    mergeSort(arr, mid, hi);</span><br><span class="line">    merge(arr, lo, mid, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>merge()</code>函数实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; arr, <span class="keyword">int</span> lo, <span class="keyword">int</span> mid, <span class="keyword">int</span> hi)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = lo;</span><br><span class="line">    <span class="keyword">int</span> j = mid;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//int* temp = new int[hi-lo];</span></span><br><span class="line">   <span class="comment">// 使用辅助数组</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;* temp = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(hi-lo);</span><br><span class="line">    <span class="keyword">while</span> (i &lt; mid &amp;&amp; j &lt; hi)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt; arr[j])</span><br><span class="line">        &#123;</span><br><span class="line">            (*temp)[k++] = arr[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            (*temp)[k++] = arr[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; mid)</span><br><span class="line">    &#123;</span><br><span class="line">        (*temp)[k++] = arr[i++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (j &lt; hi)</span><br><span class="line">    &#123;</span><br><span class="line">        (*temp)[k++]=arr[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = lo, k=<span class="number">0</span>; i &lt; hi; ++i, ++k)</span><br><span class="line">    &#123;</span><br><span class="line">        arr[i] = (*temp)[k];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="自顶向下递归法：-1"><a href="#自顶向下递归法：-1" class="headerlink" title="自顶向下递归法："></a>自顶向下递归法：</h4>
       
       <div id="donate" class="donate">
         <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
@@ -200,6 +218,23 @@
 
 
 
-    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   </body>
 </html>
