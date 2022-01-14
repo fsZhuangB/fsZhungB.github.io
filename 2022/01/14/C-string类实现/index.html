@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>C++中string类的实现 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，必须不能使用编译器默认的拷贝构造，">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++中string类的实现">
+<meta property="og:url" content="https://fszhuangb.xyz/2022/01/14/C-string类实现/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，必须不能使用编译器默认的拷贝构造，">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429058.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429602.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429562.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429740.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429108.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429746.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429763.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430736.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430318.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430719.png">
+<meta property="og:updated_time" content="2022-01-14T06:33:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++中string类的实现">
+<meta name="twitter:description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，必须不能使用编译器默认的拷贝构造，">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429058.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-C-string类实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++中string类的实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。</p>
+<h2 id="三大函数：拷贝构造、析构函数、拷贝赋值"><a href="#三大函数：拷贝构造、析构函数、拷贝赋值" class="headerlink" title="三大函数：拷贝构造、析构函数、拷贝赋值"></a>三大函数：拷贝构造、析构函数、拷贝赋值</h2><p>这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。</p>
+<p><strong>对于string类型的对象，必须不能使用编译器默认的拷贝构造</strong>，因为这样就会造成行为不正确的浅拷贝，导致内存泄露。</p>
+<p>下面是一个string类的经典定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myString</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    myString(<span class="keyword">const</span> <span class="keyword">char</span>* s = <span class="literal">nullptr</span>);</span><br><span class="line">    myString(<span class="keyword">const</span> myString&amp;);</span><br><span class="line">    myString&amp;</span><br><span class="line">    <span class="keyword">operator</span>=(<span class="keyword">const</span> myString&amp;);</span><br><span class="line">    ~myString() &#123; <span class="keyword">delete</span> [] m_data; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">get_data</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> m_data; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span>* m_data;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429058.png" alt="Screen Shot 2022-01-13 at 11.51.37.png"></p>
+<p>其private的数据区域为一个char<em> m_data，作为指针来指向之后会分配的区域，为何不是一个char</em> array呢？因为数组大小不定，比较好的方法就是用一个指针，然后需要多大的空间，就分配多少空间，并用该指针指向该空间。</p>
+<h2 id="构造函数和析构函数"><a href="#构造函数和析构函数" class="headerlink" title="构造函数和析构函数"></a>构造函数和析构函数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">myString::myString(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (s != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(s) + <span class="number">1</span>];</span><br><span class="line">        <span class="built_in">strcpy</span>(m_data, s);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 未设定初值</span></span><br><span class="line">        m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];</span><br><span class="line">        *m_data = <span class="string">'\0'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">~myString() &#123; <span class="keyword">delete</span> [] m_data; &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429602.png" alt="Screen Shot 2022-01-13 at 13.25.48.png"></p>
+<p>默认的拷贝运算只有浅拷贝！会造成内存泄露。</p>
+<h3 id="自己定义的拷贝构造"><a href="#自己定义的拷贝构造" class="headerlink" title="自己定义的拷贝构造"></a>自己定义的拷贝构造</h3><p>深拷贝：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拷贝构造函数</span></span><br><span class="line">myString::myString(<span class="keyword">const</span> myString &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(rhs.m_data)+<span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_data, rhs.m_data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拷贝赋值运算符</span></span><br><span class="line">myString&amp;</span><br><span class="line">myString::<span class="keyword">operator</span>=(<span class="keyword">const</span> myString&amp; rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;rhs)</span><br><span class="line">    &#123; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br><span class="line">    <span class="comment">// 删除m_data</span></span><br><span class="line">    <span class="keyword">delete</span> [] m_data;</span><br><span class="line">    m_data = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="built_in">strlen</span>(rhs.m_data) + <span class="number">1</span>];</span><br><span class="line">    <span class="built_in">strcpy</span>(m_data, rhs.m_data);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429562.png" alt="Screen Shot 2022-01-13 at 13.30.08.png"></p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429740.png" alt="Screen Shot 2022-01-13 at 13.28.30.png"></p>
+<h3 id="一定要检查是否有自我赋值"><a href="#一定要检查是否有自我赋值" class="headerlink" title="一定要检查是否有自我赋值"></a>一定要检查是否有自我赋值</h3><p>如果不检查会出现的问题：</p>
+<p>造成空悬指针！</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一定要检查是否自赋值！</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span> == &amp;str)</span><br><span class="line">&#123; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429108.png" alt="Screen Shot 2022-01-13 at 13.35.38.png"></p>
+<h3 id="为何要返回string-amp"><a href="#为何要返回string-amp" class="headerlink" title="为何要返回string&amp;"></a>为何要返回string&amp;</h3><p>有一个问题就是为何拷贝复制运算符要返回一个string的引用，而不是void呢？</p>
+<p>原因在于对于下列情况：如果连续赋值，返回void就会出错：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myString a = b = c;</span><br></pre></td></tr></table></figure>
+<p>报错信息为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">candidate function not viable: cannot convert argument of incomplete type 'void' to 'const myString' for 1st argument</span><br><span class="line">myString::<span class="keyword">operator</span>=(<span class="keyword">const</span> myString&amp; rhs)</span><br></pre></td></tr></table></figure>
+<h2 id="堆栈与内存管理"><a href="#堆栈与内存管理" class="headerlink" title="堆栈与内存管理"></a>堆栈与内存管理</h2><p>一些例子：</p>
+<p><strong>c1</strong> 便是所謂 stack object，其生命在作用域 (scope) 結束之際結束。<br>這種作用域內的 object，又稱為 auto object，因為它會被「自動」清理。</p>
+<p><strong>c2</strong> 便是所謂 static object，其生命在作用域 (scope)<br>結束之後仍然存在，<strong>直到整個程序結束</strong>。</p>
+<p><strong>c3</strong> 便是所謂 global object，其生命在整個程序結束之後<br>才結束。你也可以把它視為一種 static object，其作用域<br>是「整個程序」。</p>
+<p><strong>P</strong> 所指的便是 heap object，其生命<br>在它被 <strong>deleted</strong> 之際結束。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function">Complex <span class="title">c1</span><span class="params">(<span class="number">1</span>,<span class="number">2</span>)</span></span></span><br><span class="line"><span class="function">	<span class="keyword">static</span> Complex <span class="title">c2</span><span class="params">(<span class="number">1</span>,<span class="number">2</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function">Complex <span class="title">c3</span><span class="params">(<span class="number">1</span>,<span class="number">2</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Complex *p = <span class="keyword">new</span> Complex;</span><br><span class="line">	<span class="keyword">delete</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="new先分配-memory-再調用-ctor"><a href="#new先分配-memory-再調用-ctor" class="headerlink" title="new先分配 memory, 再調用 ctor"></a>new先分配 <strong>memory,</strong> 再調用 <strong>ctor</strong></h3><p>调用new之后的三件事情：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>* mem = <span class="keyword">operator</span> <span class="keyword">new</span>( <span class="keyword">sizeof</span>(Complex) ); <span class="comment">//分配內存 </span></span><br><span class="line">pc = <span class="keyword">static_cast</span>&lt;Complex*&gt;(mem); <span class="comment">// 类型转换</span></span><br><span class="line">pc-&gt;Complex::Complex(<span class="number">1</span>,<span class="number">2</span>); <span class="comment">// 最后才调用构造函数</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429746.png" alt="Screen Shot 2022-01-13 at 17.25.44.png"></p>
+<h3 id="delete-先調用-dtor-再釋放-memory"><a href="#delete-先調用-dtor-再釋放-memory" class="headerlink" title="delete:先調用 dtor, 再釋放 memory"></a><strong>delete</strong>:先調用 <strong>dtor,</strong> 再釋放 <strong>memory</strong></h3><p>delete的动作刚好相反，首先调用<strong>析构函数</strong>，然后<strong>释放内存</strong></p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429763.png" alt="Screen Shot 2022-01-13 at 17.28.14.png"></p>
+<h2 id="分配获得的内存区块"><a href="#分配获得的内存区块" class="headerlink" title="分配获得的内存区块"></a>分配获得的内存区块</h2><p>创建这complex和string两个类之后，编译器(VC)给两个对象分配内存如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">complex</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="keyword">complex</span> (<span class="keyword">double</span> r = <span class="number">0</span>, <span class="keyword">double</span> i = <span class="number">0</span>)</span><br><span class="line">		: re (r), im (i)</span><br><span class="line">		&#123; &#125;</span><br><span class="line">		<span class="keyword">complex</span>&amp; <span class="keyword">operator</span> += (<span class="keyword">const</span> <span class="keyword">complex</span>&amp;);</span><br><span class="line">		<span class="function"><span class="keyword">double</span> <span class="title">real</span> <span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> re; &#125;</span><br><span class="line">		<span class="function"><span class="keyword">double</span> <span class="title">imag</span> <span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> im; &#125;</span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="keyword">double</span> re, im;</span><br><span class="line">		<span class="keyword">friend</span> <span class="keyword">complex</span>&amp; __doapl (<span class="keyword">complex</span>*,</span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">complex</span>&amp;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		String(<span class="keyword">const</span> <span class="keyword">char</span>* cstr = <span class="number">0</span>);</span><br><span class="line">		String(<span class="keyword">const</span> String&amp; str);</span><br><span class="line">		String&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> String&amp; str);</span><br><span class="line">		~String();</span><br><span class="line">		<span class="function"><span class="keyword">char</span>* <span class="title">get_c_str</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> m_data; &#125;</span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">		<span class="keyword">char</span>* m_data;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>内存分配有调试模式和非调试模式之分：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430736.png" alt="Screen Shot 2022-01-13 at 18.02.52.png"></p>
+<p>左边两个是类complex在调试模式和release模式下的编译器内存分配。在debug模式下，编译器给complex对象内存插入了头和尾（红色部分），4*8 + 4大小的信息部分（灰色部分），绿色部分是complex对象实际占用的空间，计算后只有52字节，但VC以16字节对齐，所以52最近的16倍数是64，还应该填补12字节的空缺（青色pad部分）。对于release部分的complex对象，只添加了信息头和伟部分。string类的分析基本一样。</p>
+<p>对于数组而言：</p>
+<p>类似的，编译器给对象增加了一些冗余信息部分，对于complex类对象，由于数组有三个对象，则存在8个double，然后编译器在3个complex对象前插入“3”用于标记对象个数（即最后加的4字节）。String类的分析方法也类似。</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430318.png" alt="Screen Shot 2022-01-13 at 18.08.31.png"></p>
+<p>array new 和 array delete必须要搭配使用，不然会出错：</p>
+<ul>
+<li>[ ]  整理为什么会发生内存泄露，以及内存泄露的位置</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430719.png" alt="Screen Shot 2022-01-13 at 18.12.25.png"></p>
+<h2 id="深入：移动语义"><a href="#深入：移动语义" class="headerlink" title="深入：移动语义"></a>深入：移动语义</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myString</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">friend</span> <span class="built_in">std</span>::ostream&amp; <span class="keyword">operator</span>&lt;&lt; (<span class="built_in">std</span>::ostream&amp; o, <span class="keyword">const</span> myString&amp; s);</span><br><span class="line">    myString(<span class="keyword">const</span> <span class="keyword">char</span>* str = <span class="literal">nullptr</span>);</span><br><span class="line">    myString(<span class="keyword">const</span> myString&amp; other);</span><br><span class="line">    myString(myString&amp;&amp; other);</span><br><span class="line">    ~myString();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 移动构造函数和移动赋值运算符</span></span><br><span class="line">    myString&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> myString&amp; other);</span><br><span class="line">    myString&amp; <span class="keyword">operator</span>=(myString&amp;&amp; rhs) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span>* m_data;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">myString::myString(myString &amp;&amp;other) &#123;</span><br><span class="line">    <span class="keyword">if</span> (other.m_data != <span class="literal">nullptr</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 资源让度</span></span><br><span class="line">        m_data = other.m_data;</span><br><span class="line">        other.m_data = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">myString &amp;myString::<span class="keyword">operator</span>=(myString &amp;&amp;rhs) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;rhs)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">delete</span> [] <span class="keyword">this</span>-&gt;m_data;</span><br><span class="line">        m_data = rhs.m_data;</span><br><span class="line">        rhs.m_data = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2022/01/14/C-string类实现/" class="article-date">
+  <time datetime="2022-01-14T06:32:15.000Z" itemprop="datePublished">2022-01-14</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2021/12/17/排序算法总结/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">排序算法总结</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
