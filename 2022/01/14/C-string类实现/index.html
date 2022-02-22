@@ -5,13 +5,13 @@
   
   <title>C++中string类的实现 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，必须不能使用编译器默认的拷贝构造，">
+  <meta name="description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，不能使用编译器默认的拷贝构造，因为">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++中string类的实现">
 <meta property="og:url" content="https://fszhuangb.xyz/2022/01/14/C-string类实现/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，必须不能使用编译器默认的拷贝构造，">
+<meta property="og:description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，不能使用编译器默认的拷贝构造，因为">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429058.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429602.png">
@@ -23,10 +23,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430736.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430318.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141430719.png">
-<meta property="og:updated_time" content="2022-01-14T06:33:41.908Z">
+<meta property="og:updated_time" content="2022-01-15T14:38:06.229Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++中string类的实现">
-<meta name="twitter:description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，必须不能使用编译器默认的拷贝构造，">
+<meta name="twitter:description" content="今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。 三大函数：拷贝构造、析构函数、拷贝赋值这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。 对于string类型的对象，不能使用编译器默认的拷贝构造，因为">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429058.png">
   
   
@@ -82,7 +82,7 @@
       
         <p>今天来整理一下C++中一个重要的class，被侯捷老师称为含有指针的类（另一种是不含有指针的类），以字符串类作为示例。</p>
 <h2 id="三大函数：拷贝构造、析构函数、拷贝赋值"><a href="#三大函数：拷贝构造、析构函数、拷贝赋值" class="headerlink" title="三大函数：拷贝构造、析构函数、拷贝赋值"></a>三大函数：拷贝构造、析构函数、拷贝赋值</h2><p>这种类中最重要的三大函数包括了拷贝构造、析构函数、拷贝赋值运算符，在C++ primer中，也被称为三/五法则，除了这三大函数，C++11中还定义了移动语义，包括了移动构造函数。</p>
-<p><strong>对于string类型的对象，必须不能使用编译器默认的拷贝构造</strong>，因为这样就会造成行为不正确的浅拷贝，导致内存泄露。</p>
+<p><strong>对于string类型的对象，不能使用编译器默认的拷贝构造</strong>，因为这样就会造成行为不正确的浅拷贝，导致内存泄露。</p>
 <p>下面是一个string类的经典定义：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myString</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    myString(<span class="keyword">const</span> <span class="keyword">char</span>* s = <span class="literal">nullptr</span>);</span><br><span class="line">    myString(<span class="keyword">const</span> myString&amp;);</span><br><span class="line">    myString&amp;</span><br><span class="line">    <span class="keyword">operator</span>=(<span class="keyword">const</span> myString&amp;);</span><br><span class="line">    ~myString() &#123; <span class="keyword">delete</span> [] m_data; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">get_data</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> m_data; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span>* m_data;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202201141429058.png" alt="Screen Shot 2022-01-13 at 11.51.37.png"></p>
@@ -175,7 +175,14 @@
     
 <nav id="article-nav" class="article-nav">
   
-    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+    <a href="/2022/01/27/topk问题的总结/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          topk问题的总结
+        
+      </div>
+    </a>
   
   
     <a href="/2021/12/17/排序算法总结/" id="article-nav-older" class="article-nav-link-wrap older">
