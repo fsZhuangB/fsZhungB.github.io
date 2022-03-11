@@ -3,21 +3,21 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>线程池设计解析 | fsZhuangB</title>
+  <title>服务器项目解析（一）线程池设计 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本项目使用线程池 + Reactor模式并发处理用户请求，主线程负责监听IO事件的发生，一旦socket可以读写，则通知工作线程（线程池中的线程）负责处理读写+逻辑（HTTP请求报文的解析等等）。这就是Reactor模式所做的，主线程（I/O处理单元）仅仅负责监听文件描述符上是否有事件发生即（可读、可写）事件，若有事件发生，则立即通知工作线程（逻辑单元），将socket可读可写事件放入请求队列，交">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程池设计解析">
+<meta property="og:title" content="服务器项目解析（一）线程池设计">
 <meta property="og:url" content="https://fszhuangb.xyz/2022/03/11/线程池设计解析/index.html">
 <meta property="og:site_name" content="fsZhuangB">
 <meta property="og:description" content="本项目使用线程池 + Reactor模式并发处理用户请求，主线程负责监听IO事件的发生，一旦socket可以读写，则通知工作线程（线程池中的线程）负责处理读写+逻辑（HTTP请求报文的解析等等）。这就是Reactor模式所做的，主线程（I/O处理单元）仅仅负责监听文件描述符上是否有事件发生即（可读、可写）事件，若有事件发生，则立即通知工作线程（逻辑单元），将socket可读可写事件放入请求队列，交">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203032113561.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203111754679.png">
-<meta property="og:updated_time" content="2022-03-11T10:51:51.794Z">
+<meta property="og:updated_time" content="2022-03-11T12:35:46.780Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线程池设计解析">
+<meta name="twitter:title" content="服务器项目解析（一）线程池设计">
 <meta name="twitter:description" content="本项目使用线程池 + Reactor模式并发处理用户请求，主线程负责监听IO事件的发生，一旦socket可以读写，则通知工作线程（线程池中的线程）负责处理读写+逻辑（HTTP请求报文的解析等等）。这就是Reactor模式所做的，主线程（I/O处理单元）仅仅负责监听文件描述符上是否有事件发生即（可读、可写）事件，若有事件发生，则立即通知工作线程（逻辑单元），将socket可读可写事件放入请求队列，交">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203032113561.png">
   
@@ -64,7 +64,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      线程池设计解析
+      服务器项目解析（一）线程池设计
     </h1>
   
 
@@ -163,7 +163,14 @@
     
 <nav id="article-nav" class="article-nav">
   
-    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+    <a href="/2022/03/11/IO模型总结/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          UNP阅读：Unix下常用IO模型总结
+        
+      </div>
+    </a>
   
   
     <a href="/2022/02/22/git常用命令总结/" id="article-nav-older" class="article-nav-link-wrap older">

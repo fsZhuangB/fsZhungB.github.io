@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>服务器项目解析（二）并发模型解析 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。 服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器项目解析（二）并发模型解析">
+<meta property="og:url" content="https://fszhuangb.xyz/2022/03/11/服务器项目解析（二）并发模型解析/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。 服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112022725.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112026631.png">
+<meta property="og:updated_time" content="2022-03-11T12:35:20.786Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="服务器项目解析（二）并发模型解析">
+<meta name="twitter:description" content="本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。 服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112022725.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-服务器项目解析（二）并发模型解析" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      服务器项目解析（二）并发模型解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。</p>
+<p>服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景下，一般使用IO多路复用的模型比较多。</p>
+<p>因为进程创建有一定的开销，所以为了减少创建进程、线程的开销，在并发服务器中也常设置进程池和线程池，这样在有新连接到来时就不需要重新创建造成不必要的开销。除此之外，使用epoll，可以将任务拆分成了独立事件，各个事件可以独立被监视和执行。</p>
+<h2 id="epoll的核心流程"><a href="#epoll的核心流程" class="headerlink" title="epoll的核心流程"></a>epoll的核心流程</h2><p>Linux内核2.6之后开始支持epoll，也是本服务器的核心。epoll模型中，将本来在普通的阻塞和非阻塞IO模型中，主线程需要阻塞或者轮询的IO系统调用（也就是read和write函数）交给了内核处理，阻塞在了epoll_wait()或者select()或者poll()函数上，内核相当于监控代理，监控的粒度为每一个事件，我们把每个完整的处理过程分拆成了多个独立的事件并在epoll中注册，之后监控是否有事件发生的任务就交给内核来做，一旦监测到事件发生，就分发到相应处理模块。由于在此模型中，IO的读写操作是发生在了IO事件发生之后，内核通知工作线程，由工作线程执行IO操作，而epoll_wait()函数还是阻塞的，所以并不能称作真正的“异步”，而是<strong>同步非阻塞模型</strong>，这里的“同步”指的是epoll_wait()函数是阻塞的，非阻塞指的是工作线程不会阻塞在“等待数据准备好”这个过程上。</p>
+<h3 id="同步IO和异步IO模型的区别"><a href="#同步IO和异步IO模型的区别" class="headerlink" title="同步IO和异步IO模型的区别"></a>同步IO和异步IO模型的区别</h3><p>总的来说，同步IO模型要求用户代码自行执行IO操作，包括了：</p>
+<ol>
+<li>将用户数据从内核缓冲区读入用户缓冲区（read）</li>
+<li>将数据从用户缓冲区写入内核缓冲区（write）</li>
+</ol>
+<p>，而异步IO模型则由内核来完成相应的操作，数据在内核缓冲区和用户缓冲区之间的移动是在“后台”完成的，工作线程只需要由操作系统读取相应缓冲区位置，对数据自行进行操作即可。</p>
+<p>可以认为：<em>同步IO向工作线程通知的是IO就绪事件，异步IO向工作线程通知的是IO完成事件。</em></p>
+<h3 id="HTTP服务器流程"><a href="#HTTP服务器流程" class="headerlink" title="HTTP服务器流程"></a>HTTP服务器流程</h3><p>就HTTP服务器而言，可以分为以下几步。在创建好了epoll之后：</p>
+<ul>
+<li>首先需要注册到”监听事件”，之后不需要一直等待下去，直接返回。</li>
+<li>一旦内核监听到请求就会自动通知可以去建立连接并创建连接描述符，该连接描述符被注册到”读事件”，之后立即返回。</li>
+<li>用户发送的数据到达服务器，内核感知到读事件，建立任务并放入线程池中。之后唤醒等待任务的worker线程来执行响应操作。</li>
+</ul>
+<p>下图总结了Reactor模式的工作流程：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112022725.png" alt="Reactor工作流程">当请求到达之后，处理请求的操作被放到线程池中，等待多个线程并发响应处理，即使某一线程读取本地文件时被阻塞也会有其他线程可以被调度执行。</p>
+<p>之所以选择epoll模型是因为事件驱动适合I/O密集型操作，而HTTP服务器最核心的任务就是响应请求的数据，涉及大量I/O请求。另外当并发量上来之后，传统的多进程、多线程模型虽然并发量很大，但大多处于阻塞状态，即使多为就绪态，系统调度开销也非常大，因此这里使用IO多路复用模型无疑更适合。</p>
+<p>综上，本服务器的核心架构就是同步事件循环 + 非阻塞I/O + 线程池，即Reactor模型。是否同步指的是产生I/O的线程是否会一直等到I/O完成（I/O是否为当前线程完成），若会一直等待I/O完成则是同步I/O，如果将I/O任务”委派”给其他线程完成并通过回调方式通知调用者（即产生I/O线程可以和执行I/O线程并发），此时就是异步。这里是否是阻塞式I/O指的是read或write等系统调用在数据未准备好前是一直阻塞住还是立即返回并设置errno为EAGAIN（+轮询检查）。如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112026631.png" alt="epoll结构"></p>
+<h3 id="epoll是同步还是异步？"><a href="#epoll是同步还是异步？" class="headerlink" title="epoll是同步还是异步？"></a>epoll是同步还是异步？</h3><p>很对人对于epoll有所误解，觉得epoll是异步的，但epoll实际上只是通过IO多路复用来分离事件，仅仅是告知某个文件描述符可以读写了，但真正执行I/O的线程依旧是需要等待I/O完成的，此时阻塞I/O会直接阻塞住线程，非阻塞I/O则需要该线程通过轮询方式判断I/O是否就绪（检查EAGAIN）。也就是说epoll并不具有区别同步、异步的属性，区别还是得看产生I/O的线程是如何做的。</p>
+<p><strong><em>也就是说，select/poll/epoll的意义在于同时等待多个socket上的活动。select/poll/epoll永远都是阻塞的（除非timeout=0），跟socket是否阻塞无关。</em></strong></p>
+<h3 id="Reactor模型和Proactor模型对比"><a href="#Reactor模型和Proactor模型对比" class="headerlink" title="Reactor模型和Proactor模型对比"></a>Reactor模型和Proactor模型对比</h3><p>与Reactor相对应的模型为Proactor模型，即<strong>异步非阻塞I/O模型</strong>。从名字也可以看出，二者区别主要在于是同步I/O还是异步I/O，我们可以对比二者执行步骤（以读事件为例）。</p>
+<ul>
+<li>Reactor<ul>
+<li>应用程序注册读就绪事件和相关联的事件处理器。</li>
+<li>事件分离器（工作线程）等待事件的发生。</li>
+<li>当发生读就需事件的时候，事件分离器调用第一步注册的事件处理器。</li>
+<li>事件处理器（也就是工作线程）首先执行实际的读取操作，然后根据读取到的内容进行进一步的处理。</li>
+</ul>
+</li>
+<li>Proactor<ul>
+<li>应用程序初始化一个异步读取操作，然后注册相应的事件处理器，此时事件处理器不关注读取就绪事件，而是关注读取完成事件，这是区别于Reactor的关键。</li>
+<li>事件分离器等待读取操作完成事件。</li>
+<li>在事件分离器等待读取操作完成的时候，操作系统调用内核线程完成读取操作，并将读取的内容封装成一个对象，放入用户传递过来的缓存区中。这也是区别于Reactor的一点，在Proactor中，应用程序需要传递缓存区。</li>
+<li>事件分离器捕获到读取完成事件后，激活应用程序注册的事件处理器，事件处理器直接从缓存区读取数据，而不需要进行实际的读取操作。</li>
+</ul>
+</li>
+</ul>
+<p>从上面可以看出，Reactor和Proactor模式的主要区别就是真正的读取和写入操作是有谁来完成的，Reactor中需要应用程序（本服务器中为worker线程）自己读取或者写入数据，而Proactor模式中，应用程序不需要进行实际的读写过程，操作系统会读取缓存区或者写入缓存区到真正的IO设备。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2022/03/11/服务器项目解析（二）并发模型解析/" class="article-date">
+  <time datetime="2022-03-11T12:34:25.000Z" itemprop="datePublished">2022-03-11</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2022/03/11/IO模型总结/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">UNP阅读：Unix下常用IO模型总结</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
