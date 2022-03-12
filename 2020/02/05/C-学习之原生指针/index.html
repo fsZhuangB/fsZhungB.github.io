@@ -31,7 +31,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -73,27 +73,27 @@
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>最近在重新复习C++， 下面是我学习C++指针的笔记：</p>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>首先我们要理解C++中的变量，要知道：<br>变量的重要信息：</p>
+<h2><span id="变量">变量</span></h2><p>首先我们要理解C++中的变量，要知道：<br>变量的重要信息：</p>
 <ol>
 <li>变量的地址位置</li>
 <li>变量所存的信息</li>
-<li>变量的类型<br>这是我们理解指针的基础。<h2 id="计算机中的层次储存结构"><a href="#计算机中的层次储存结构" class="headerlink" title="计算机中的层次储存结构"></a>计算机中的层次储存结构</h2></li>
+<li>变量的类型<br>这是我们理解指针的基础。<h2><span id="计算机中的层次储存结构">计算机中的层次储存结构</span></h2></li>
 </ol>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/EB8DF0DD-C13F-4820-868A-88AD581B4357.png" alt=""></p>
-<h2 id="C-中内存单元内容和地址"><a href="#C-中内存单元内容和地址" class="headerlink" title="C++中内存单元内容和地址"></a>C++中内存单元内容和地址</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">112</span>, b = <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">float</span> c = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">int</span>* d = &amp;a;</span><br><span class="line"><span class="keyword">float</span>* r = &amp;c;</span><br></pre></td></tr></table></figure>
+<h2><span id="c中内存单元内容和地址">C++中内存单元内容和地址</span></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">112</span>, b = <span class="number">-1</span>;</span><br><span class="line"><span class="keyword">float</span> c = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">int</span>* d = &amp;a;</span><br><span class="line"><span class="keyword">float</span>* r = &amp;c;</span><br></pre></td></tr></table></figure>
 <p>指针本身就是一个变量，它储存的是值的地址。对于类型T，T<em>是“到T的指针”类型，一个类型为T</em>的变量能保存一个类型T的对象的地址。如果想要获取该地址，需要使用<strong>取地址符号&amp;</strong>。</p>
 <p>注意，因为引用不是对象，没有实际地址，所以不能定义指向引用的指针。</p>
-<h2 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h2><p>一般来说，编译器为其单独分配了一块存储空间，可以取到其地址的，就是左值，左值可以放在赋值运算符左侧；</p>
+<h2><span id="左值和右值">左值和右值</span></h2><p>一般来说，编译器为其单独分配了一块存储空间，可以取到其地址的，就是左值，左值可以放在赋值运算符左侧；</p>
 <p>右值指的是数据本身，不能取到其自身地址的，只能放在赋值运算符右边。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> strHelloWorld[] = &#123;<span class="string">"HelloWorld"</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> *pstrHelloWorld = <span class="string">"HelloWorld"</span>;</span><br><span class="line">    </span><br><span class="line">    pstrHelloWorld = strHelloWorld;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这里会报错，strHelloWorld不是可修改的左值，编译器不会为其分配单独的储存空间</span></span><br><span class="line">    strHelloWorld = pstrHelloWorld;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/F1FC597E-528A-4630-AA63-D8C1E0E1494E.png" alt=""></p>
-<h2 id="具体分析"><a href="#具体分析" class="headerlink" title="具体分析"></a>具体分析</h2><p>左值最常见的情况就是函数和数据成员名。</p>
+<h2><span id="具体分析">具体分析</span></h2><p>左值最常见的情况就是函数和数据成员名。</p>
 <p>右值则是没有标识符，不可以取地址的表达式，一般也称为“临时对象”</p>
-<h3 id="指针数组和数组指针"><a href="#指针数组和数组指针" class="headerlink" title="指针数组和数组指针"></a>指针数组和数组指针</h3><ol>
+<h3><span id="指针数组和数组指针">指针数组和数组指针</span></h3><ol>
 <li>指针数组中，里面每个值都是一个指针：<code>T* t[]</code></li>
 <li>数组指针：该指针指向一个数组：<code>T (*t) []</code><br>注意，<code>[]</code>优先级比较高<br>例如：</li>
 </ol>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a[<span class="number">4</span>];  <span class="comment">// 指针数组</span></span><br><span class="line"><span class="keyword">int</span> (*b)[<span class="number">4</span>];<span class="comment">// 数组指针</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fact</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// array of pointers and pointers to an array</span></span><br><span class="line">    <span class="keyword">int</span> c[<span class="number">4</span>] = &#123;<span class="number">0x80000000</span>, <span class="number">0xFFFFFFFF</span>, <span class="number">0x00000000</span>, <span class="number">0x7FFFFFFF</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> *a[<span class="number">4</span>];  <span class="comment">// array of pointers</span></span><br><span class="line">    <span class="keyword">int</span> (*b)[<span class="number">4</span>];<span class="comment">// pointers to an array</span></span><br><span class="line">    </span><br><span class="line">    b = &amp;c;     <span class="comment">// let the pointer pointer to array c</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        a[i] = &amp;(c[i]); <span class="comment">// 将c中的值的地址一一赋给a</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; *(a[<span class="number">0</span>]) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">// -2147483648</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; (*b)[<span class="number">3</span>] &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//  2147483647</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="指针和const"><a href="#指针和const" class="headerlink" title="指针和const"></a>指针和const</h3><p>const可以修饰两种：</p>
+<h3><span id="指针和const">指针和const</span></h3><p>const可以修饰两种：</p>
 <ol>
 <li>一种是const pointer，即指针指向不能改变；（<del><strong>顶层const</strong></del>），同时，它必须初始化。</li>
 <li>另外一种是pointer to const，即指针指向一个常量。（<strong><del>底层const</del></strong>）</li>
@@ -109,8 +109,8 @@
 <p>注意上面代码出现的一种例外情况：</p>
 <p>指向常量的指针并没有规定其所指的对象必须是一个常量，所谓指向常量的指针仅仅要求不能通过该指针改变对象的值，而没有规定那个对象的值不能通过其他途径改变。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> dval = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> * ptr = &amp;dval; <span class="comment">// 正确，但是不能通过该ptr改变dval的值。</span></span><br></pre></td></tr></table></figure>
-<h3 id="指向指针的指针"><a href="#指向指针的指针" class="headerlink" title="指向指针的指针"></a>指向指针的指针</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span>* ptr = &amp;a;    <span class="comment">// ptr指向一个int类型的数</span></span><br><span class="line"><span class="keyword">int</span>** pptr = &amp;ptr;<span class="comment">// pptr指向一个int类型的指针</span></span><br></pre></td></tr></table></figure>
-<h2 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h2><p>野指针指指向垃圾内存的指针。if等判断对其不起作用，因为没有置为NULL；</p>
+<h3><span id="指向指针的指针">指向指针的指针</span></h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span>* ptr = &amp;a;    <span class="comment">// ptr指向一个int类型的数</span></span><br><span class="line"><span class="keyword">int</span>** pptr = &amp;ptr;<span class="comment">// pptr指向一个int类型的指针</span></span><br></pre></td></tr></table></figure>
+<h2><span id="野指针">野指针</span></h2><p>野指针指指向垃圾内存的指针。if等判断对其不起作用，因为没有置为NULL；</p>
 <p>一般有三种情况：</p>
 <ul>
 <li>指针变量没有初始化。</li>
@@ -128,7 +128,7 @@
 <ul>
 <li>用指针进行间接访问之前，一定要非常小心，确保<strong><em>它已经初始化，并且被恰当的赋值！</em></strong></li>
 </ul>
-<h2 id="NULL指针"><a href="#NULL指针" class="headerlink" title="NULL指针"></a>NULL指针</h2><p>指一个特殊的指针变量，表示不指向任何东西。如：<code>int* a = NULL</code></p>
+<h2><span id="null指针">NULL指针</span></h2><p>指一个特殊的指针变量，表示不指向任何东西。如：<code>int* a = NULL</code></p>
 <p>注意：</p>
 <ul>
 <li><p>对一个指针进行间接引用之前，先判断指针是否为NULL！</p>

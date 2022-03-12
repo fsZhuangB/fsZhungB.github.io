@@ -28,7 +28,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -77,13 +77,13 @@
 <li>信号驱动式I/O</li>
 <li>异步I/O（POSIX的aio系列函数）</li>
 </ul>
-<h2 id="同步、异步、阻塞、非阻塞"><a href="#同步、异步、阻塞、非阻塞" class="headerlink" title="同步、异步、阻塞、非阻塞"></a>同步、异步、阻塞、非阻塞</h2><h3 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h3><p>所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到了返回值。<br>而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果<em>。换句话说，当一个<a href="https://www.zhihu.com/search?q=异步过程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A20851256}" target="_blank" rel="noopener">异步过程</a>调用发出后，调用者不会立刻得到结果。而是在</em>调用<em>发出后，</em>被调用者会通知来通知调用者，或通过回调函数处理这个调用。</p>
+<h2><span id="同步-异步-阻塞-非阻塞">同步、异步、阻塞、非阻塞</span></h2><h3><span id="同步与异步">同步与异步</span></h3><p>所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到了返回值。<br>而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果<em>。换句话说，当一个<a href="https://www.zhihu.com/search?q=异步过程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A20851256}" target="_blank" rel="noopener">异步过程</a>调用发出后，调用者不会立刻得到结果。而是在</em>调用<em>发出后，</em>被调用者会通知来通知调用者，或通过回调函数处理这个调用。</p>
 <p>具体来说，同步与异步描述的是用户线程与内核的交互方式，这里所说的用户进程/线程和内核是以传输层为分割线的，传输层以上是指用户进程，传输层以下（包括传输层）是指内核（处理所有通信细节，发送数据，等待确认，给无序到达的数据排序等，这四层是操作系统内核的一部分）。<strong>同步是指用户线程发起IO请求后需要等待或者轮询内核IO操作，完成后才能继续执行。异步是指用户线程发起IO请求后仍继续执行，当内核IO操作完成后回通知用户线程，或者调用用户线程注册的回调函数。</strong></p>
-<h3 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h3><p>阻塞和非阻塞关注的是<strong>程序在等待调用结果（消息，返回值）时的状态。</strong></p>
+<h3><span id="阻塞与非阻塞">阻塞与非阻塞</span></h3><p>阻塞和非阻塞关注的是<strong>程序在等待调用结果（消息，返回值）时的状态。</strong></p>
 <p>阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。<br>非阻塞调用指在不能立刻得到结果之前，该调用不会阻塞当前线程。</p>
 <p>具体来说，用户线程调用内核IO（read、write函数）操作的方式，阻塞指IO操作需要彻底完成后才能返回用户空间，否则就一直挂起。</p>
 <p>而非阻塞时指IO操作被调用后立即返回给用户一个状态值，无需等待IO操作彻底完成。</p>
-<h2 id="在客户端输入字符后发生了什么"><a href="#在客户端输入字符后发生了什么" class="headerlink" title="在客户端输入字符后发生了什么"></a>在客户端输入字符后发生了什么</h2><p>在介绍这几种模型之前，先总结一下一个输入操作所包含的两个不同的阶段：</p>
+<h2><span id="在客户端输入字符后发生了什么">在客户端输入字符后发生了什么</span></h2><p>在介绍这几种模型之前，先总结一下一个输入操作所包含的两个不同的阶段：</p>
 <ol>
 <li>等待数据准备好</li>
 <li>从内核向进程复制数据</li>
@@ -93,7 +93,7 @@
 <p>  对于一个套接字上的输入操作，第一步通常涉及等待数据从网络中到达，当所等待分组到达时，它被复制到内核中的某个缓冲区。</p>
 <p>  第二步就是把数据从内核缓冲区复制到应用缓冲区。</p>
 </blockquote>
-<h2 id="几种IO模型介绍"><a href="#几种IO模型介绍" class="headerlink" title="几种IO模型介绍"></a>几种IO模型介绍</h2><ol>
+<h2><span id="几种io模型介绍">几种IO模型介绍</span></h2><ol>
 <li>阻塞IO就是那种recv, read，一直等，等到有了数据才返回；</li>
 <li>非阻塞IO就是立即返回，设置描述符为非阻塞，但是要进程自己一直检查是否可读；</li>
 <li>IO复用其实也是阻塞的，不过可以用来等很多描述符，比起阻塞有了进步，可以算有点异步了，但需要阻塞着检查是否可读。<strong>对同一个描述符的IO操作也是有序的。</strong></li>

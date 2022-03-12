@@ -28,7 +28,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -71,14 +71,14 @@
       
         <p>最近在写一个JSON的解析器，需要解析Unicode字符，解析的时候需要一些位运算的知识，正好借此机会整理一下。</p>
 <p>本文中的代码皆为C或C++语言。</p>
-<h2 id="按位与、或、异或、取反运算"><a href="#按位与、或、异或、取反运算" class="headerlink" title="按位与、或、异或、取反运算"></a>按位与、或、异或、取反运算</h2><p>因为整数在计算机中用二进制来表示，C或C++为我们提供了一系列运算符，可以直接操作整数中的位，我们称之为位运算，<strong>这些运算符的操作数都必须要是整数的。</strong></p>
+<h2><span id="按位与-或-异或-取反运算">按位与、或、异或、取反运算</span></h2><p>因为整数在计算机中用二进制来表示，C或C++为我们提供了一系列运算符，可以直接操作整数中的位，我们称之为位运算，<strong>这些运算符的操作数都必须要是整数的。</strong></p>
 <p>在C或C++语言中，整数中的位可以进行：按位与（Bitwise AND）运算符<code>&amp;</code>，按位或（Bitwise OR）运算符<code>|</code>，按位取反（Bitwise NOT）运算符<code>~</code>，此外还有按位异或（Bitwise XOR）运算符<code>^</code>。</p>
 <p>以下是几个例子：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  <span class="number">00000011</span>     <span class="number">00000011</span>     <span class="number">00000011</span>                 </span><br><span class="line">&amp; <span class="number">00000101</span>   | <span class="number">00000101</span>   ^ <span class="number">00000101</span>    ~ <span class="number">11111100</span>  </span><br><span class="line">  --------     --------     --------      --------</span><br><span class="line">  <span class="number">00000001</span>     <span class="number">00000111</span>     <span class="number">00000110</span>      <span class="number">00000011</span></span><br></pre></td></tr></table></figure>
-<h2 id="移位运算"><a href="#移位运算" class="headerlink" title="移位运算"></a>移位运算</h2><p>移位运算符（Bitwise Shift）包括左移<code>&lt;&lt;</code>和右移<code>&gt;&gt;</code>。左移将一个整数的各二进制位全部左移若干位，例如<code>0xcfffffff3&lt;&lt;2</code>得到<code>0x3fffffcc</code>。</p>
-<h3 id="左移运算符"><a href="#左移运算符" class="headerlink" title="左移运算符"></a>左移运算符</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">110011111111111111111111111111110011</span></span><br><span class="line">&lt;&lt;  																	<span class="number">2</span></span><br><span class="line">---------------------------------------</span><br><span class="line">   <span class="number">001111111111111111111111111111001100</span></span><br></pre></td></tr></table></figure>
+<h2><span id="移位运算">移位运算</span></h2><p>移位运算符（Bitwise Shift）包括左移<code>&lt;&lt;</code>和右移<code>&gt;&gt;</code>。左移将一个整数的各二进制位全部左移若干位，例如<code>0xcfffffff3&lt;&lt;2</code>得到<code>0x3fffffcc</code>。</p>
+<h3><span id="左移运算符">左移运算符</span></h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">110011111111111111111111111111110011</span></span><br><span class="line">&lt;&lt;  																	<span class="number">2</span></span><br><span class="line">---------------------------------------</span><br><span class="line">   <span class="number">001111111111111111111111111111001100</span></span><br></pre></td></tr></table></figure>
 <p>最高两位的11被移出去了，最低两位后面又补了两个0， 其他位依次左移两位。但要注意，移动的位数必须小于左操作数的总位数，比如上例，左边是<code>unsigned int</code>型，如果左移的位数大于等于32位（即<code>unsigned int</code>类型的位数），则结果是Undefined。</p>
-<h3 id="右移运算符"><a href="#右移运算符" class="headerlink" title="右移运算符"></a>右移运算符</h3><p>当操作数是<strong>无符号数</strong>时，右移运算的规则和左移类似，例如<code>0xcfffffff3&gt;&gt;2</code>得到<code>0x33fffffc</code>：</p>
+<h3><span id="右移运算符">右移运算符</span></h3><p>当操作数是<strong>无符号数</strong>时，右移运算的规则和左移类似，例如<code>0xcfffffff3&gt;&gt;2</code>得到<code>0x33fffffc</code>：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">110011111111111111111111111111110011</span></span><br><span class="line">&gt;&gt; 																		<span class="number">2</span></span><br><span class="line">---------------------------------------</span><br><span class="line">   <span class="number">001100111111111111111111111111111100</span></span><br></pre></td></tr></table></figure>
 <p>最低两位11被移出去了，最高两位又补了两个0，其他位依次右移两位。和左移类似，移动的位数也必须小于左操作数的总位数，否则结果是Undefined。</p>
 <p>当操作数是有符号数时，右移运算的规则比较复杂：</p>

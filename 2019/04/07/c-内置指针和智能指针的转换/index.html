@@ -28,7 +28,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -77,7 +77,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="comment">// 在函数被调用时ptr被创建并初始化</span></span><br><span class="line">&gt;<span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; ptr)</span></span></span><br><span class="line">&gt;&#123;</span><br><span class="line">&gt;  <span class="comment">// 使用ptr</span></span><br><span class="line">&gt;&#125; <span class="comment">// ptr离开作用域，被销毁</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>混用普通指针和智能指针的后果就是会产生各种各样的未定义行为，比如空悬指针（又称野指针）。</p>
-<h2 id="第一个坑"><a href="#第一个坑" class="headerlink" title="第一个坑"></a>第一个坑</h2><p><strong>从普通指针到智能指针的问题：</strong></p>
+<h2><span id="第一个坑">第一个坑</span></h2><p><strong>从普通指针到智能指针的问题：</strong></p>
 <p>我们知道，该process函数的参数是传值方式传递的，因此实参会被拷贝到ptr中。拷贝一个<code>shared_ptr</code>会递增其引用计数，因此在process运行过程中，引用计数值至少为2.当process结束时，ptr的引用计数会递减，但不会变为0。因此，当局部变量ptr被销毁时，ptr所指向的内存不会被释放。</p>
 <p>虽然我们不能直接将一个内置指针传入process函数，但是可以通过以下方法进行传递：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* iPtr = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">42</span>);</span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(iPtr);</span><br></pre></td></tr></table></figure>
@@ -86,7 +86,7 @@
 <p>对于上面的调用，我们将一个临时的<code>shared_ptr</code>传递给process。当这个调用所在的表达式结束时，这个临时对象就被销毁了。销毁这个临时对象会递减引用计数，此时引用计数就变为0了，因此，当临时对象被销毁时，它所指向的内存会被释放。此时如果继续试图使用x的值，其行为是未定义的。</p>
 <p>正确使用此函数的方法是传递给它一个<code>shared_ptr</code>:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">42</span>));  <span class="comment">// 引用计数为1</span></span><br><span class="line">process(p);											 <span class="comment">// 拷贝p会递增其引用计数，在process中引用计数值为2</span></span><br><span class="line"><span class="keyword">int</span> j = *p;											 <span class="comment">// 正确，引用计数为1</span></span><br></pre></td></tr></table></figure>
-<h2 id="第二个坑"><a href="#第二个坑" class="headerlink" title="第二个坑"></a>第二个坑</h2><p>从智能指针到普通指针的问题：</p>
+<h2><span id="第二个坑">第二个坑</span></h2><p>从智能指针到普通指针的问题：</p>
 <p>智能指针中的<code>get()</code>方法可以返回一个内置指针，指向智能指针所管理的对象。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">42</span>));  <span class="comment">// 引用计数为1</span></span><br><span class="line"><span class="keyword">int</span> *q = p.get();								 <span class="comment">// 正确：但使用q时要注意，不要让它管理的指针被释放</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(q); 					 <span class="comment">// 未定义：两个独立的shared_ptr指向相同的内存</span></span><br><span class="line">&#125;																 <span class="comment">// 程序块结束，q被销毁，它指向的内存被释放了</span></span><br><span class="line"><span class="keyword">int</span> foo = *p;										 <span class="comment">// 未定义：p指向的内存已经被释放了</span></span><br></pre></td></tr></table></figure>
 <p>p和q指向了相同的内存，然而由于它们是相互独立创建的，因此各自的引用计数都是1.当q所在的程序块结束时，q被销毁，这会导致q指向的内存被释放。从而p变成了一个空悬指针。同时，如果p被销毁时，这块内存会被二次delete。</p>

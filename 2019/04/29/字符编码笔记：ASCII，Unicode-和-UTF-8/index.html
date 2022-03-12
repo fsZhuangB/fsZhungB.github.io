@@ -28,7 +28,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -69,16 +69,16 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <h2 id="一-ASCII码"><a href="#一-ASCII码" class="headerlink" title="一.  ASCII码"></a>一.  ASCII码</h2><p>从<a href="https://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="noopener">维基百科</a>，我们得知：</p>
+        <h2><span id="一-ascii码">一.  ASCII码</span></h2><p>从<a href="https://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="noopener">维基百科</a>，我们得知：</p>
 <blockquote>
 <p><strong>ASCII</strong>（發音： <a href="https://zh.wikipedia.org/wiki/Help:英語國際音標" target="_blank" rel="noopener">/ˈæski/</a> ，<strong>A</strong>merican <strong>S</strong>tandard <strong>C</strong>ode for <strong>I</strong>nformation <strong>I</strong>nterchange，<strong>美国信息交换标准代码</strong>）是基于<a href="https://zh.wikipedia.org/wiki/拉丁字母" target="_blank" rel="noopener">拉丁字母</a>的一套<a href="https://zh.wikipedia.org/wiki/电脑" target="_blank" rel="noopener">电脑</a><a href="https://zh.wikipedia.org/wiki/编码" target="_blank" rel="noopener">编码</a>系统。它主要用于显示<a href="https://zh.wikipedia.org/wiki/現代英語" target="_blank" rel="noopener">现代英语</a>，而其擴展版本<a href="https://zh.wikipedia.org/wiki/EASCII" target="_blank" rel="noopener">EASCII</a>則可以部分支持其他<a href="https://zh.wikipedia.org/wiki/西欧" target="_blank" rel="noopener">西欧</a><a href="https://zh.wikipedia.org/wiki/语言" target="_blank" rel="noopener">语言</a>，并等同于国际标准<strong>ISO/IEC 646</strong>。</p>
 </blockquote>
 <p>简单来说，ASCII码是一种字符编码，把128个字符映射至整数0～127，例如，<code>1</code>-&gt;49（二进制<code>00110001</code>)，<code>A</code>-&gt;65（二进制<code>01000001</code>），<code>B</code>-&gt;66（二进制<code>01000010</code>），等等。这是一种7-bit 的字符编码系统，<em>因为这128个符号（包括32个不能打印出来的控制符号），只占用了一个字节的后面7位，最前面的一位统一规定为<code>0</code></em>。<em>在计算机中以一个字节储存一个字符。</em>但是它仅仅适用于美国英语，甚至一些英语中常用的标点符号、重音符号都不能表示，无法表示各国语言，特别是中日韩语等表意文字。</p>
-<h2 id="二-Unicode编码"><a href="#二-Unicode编码" class="headerlink" title="二. Unicode编码"></a>二. Unicode编码</h2><p>在Unicode出现之前，全世界各个地区都采用了不同的编码系统，比如中文主要使用<code>GB-2312</code>和大五码、日文采用<code>JIS</code>等，这样会造成许多混乱和不便。想打开一个文本文件，必须知道其编码方式，用错误的编码方式解读，就会出现乱码；而一个文本文件也很难混合不同语言的文字。</p>
+<h2><span id="二-unicode编码">二. Unicode编码</span></h2><p>在Unicode出现之前，全世界各个地区都采用了不同的编码系统，比如中文主要使用<code>GB-2312</code>和大五码、日文采用<code>JIS</code>等，这样会造成许多混乱和不便。想打开一个文本文件，必须知道其编码方式，用错误的编码方式解读，就会出现乱码；而一个文本文件也很难混合不同语言的文字。</p>
 <p>可以想象，如果有一种编码，将世界上所有的符号都纳入其中。每一个符号都给予一个独一无二的编码，那么乱码问题就会消失。这就是 Unicode，就像它的名字都表示的，这是一种所有符号的编码。</p>
 <p>因此，在上世纪80年代末，Xerox、Apple 等公司开始研究，是否能制定一套多语言的统一编码系统。后来，多个机构成立了 Unicode 联盟，在 1991 年释出 Unicode 1.0，收录了 24 种语言共 7161 个字符。在四分之一个世纪后的 2016年，Unicode 已释出 9.0 版本，收录 135 种语言共 128237 个字符。</p>
 <p>这些字符被收录的位置称为UCS(Universal Coded Character Set)，也就是统一字符集，每个字符映射至一个整数<strong>码点（code point）</strong>，即将字符表中的每个字符映射成一个数字，其范围为<code>0</code>到<code>0x10FFF</code>。码点通常记作<code>U+XXXX</code>，其中的<code>XXXX</code>为16进制数字。如<code>劲</code>-&gt;<code>U+52B2</code>, <code>峰</code>-&gt;<code>U+5CF0</code>。显然，UCS中的字符无法像ASCII一样，以一个字节储存。</p>
-<h2 id="三-Unicode的问题"><a href="#三-Unicode的问题" class="headerlink" title="三. Unicode的问题"></a>三. Unicode的问题</h2><p>我们要知道，Unicode只是一个符号集，它只规定了符号的二进制代码，但是并没有规定这些二进制代码如何储存。</p>
+<h2><span id="三-unicode的问题">三. Unicode的问题</span></h2><p>我们要知道，Unicode只是一个符号集，它只规定了符号的二进制代码，但是并没有规定这些二进制代码如何储存。</p>
 <p>比如，汉字<code>严</code>的 Unicode 是十六进制数<code>4E25</code>，转换成二进制数足足有15位（<code>100111000100101</code>），也就是说，这个符号的表示至少需要2个字节。表示其他更大的符号，可能需要3个字节或者4个字节，甚至更多。</p>
 <p>由此导致了两个严重的问题：</p>
 <ol>
@@ -86,10 +86,10 @@
 <li>储存空间的浪费问题。英文字母只用一个字节表示就够了，如果 Unicode 统一规定，每个符号用三个或四个字节表示，那么每个英文字母前都必然有二到三个字节是<code>0</code>，这对于存储来说是极大的浪费，文本文件的大小会因此大出二三倍，这是无法接受的。</li>
 </ol>
 <p>因为这两个主要问题，导致了 Unicode 在很长一段时间内无法推广。</p>
-<h2 id="四-UTF-8编码"><a href="#四-UTF-8编码" class="headerlink" title="四. UTF-8编码"></a>四. UTF-8编码</h2><p>为了更好的储存、传播Unicode，人们制定了Unicode各种码点的储存方式，这些方式称为Unicode转换格式（Uniform Transformation Format，UTF），现时流行的 UTF 为 UTF-8、UTF-16 和 UTF-32。每种 UTF 会把一个码点储存为一至多个编码单元（code unit）。<strong>编码单元</strong>是在具体编码形式中的最小单位。例如 UTF-8 的编码单元是 8 位的字节、UTF-16 为 16 位、UTF-32 为 32 位。除 UTF-32 外，UTF-8 和 UTF-16 都是可变长度编码。</p>
+<h2><span id="四-utf-8编码">四. UTF-8编码</span></h2><p>为了更好的储存、传播Unicode，人们制定了Unicode各种码点的储存方式，这些方式称为Unicode转换格式（Uniform Transformation Format，UTF），现时流行的 UTF 为 UTF-8、UTF-16 和 UTF-32。每种 UTF 会把一个码点储存为一至多个编码单元（code unit）。<strong>编码单元</strong>是在具体编码形式中的最小单位。例如 UTF-8 的编码单元是 8 位的字节、UTF-16 为 16 位、UTF-32 为 32 位。除 UTF-32 外，UTF-8 和 UTF-16 都是可变长度编码。</p>
 <p><strong>重复一遍，这里的关系是，UTF-8是Unicode的实现方式之一。</strong></p>
-<h3 id="编码特点"><a href="#编码特点" class="headerlink" title="编码特点"></a>编码特点</h3><p>UTF-8编码的最大特点，就是它是一种变长的编码方式。它可以使用一到四个字节表示一个符号，根据不同的符号而变化字节长度。</p>
-<h3 id="编码规则"><a href="#编码规则" class="headerlink" title="编码规则"></a>编码规则</h3><ol>
+<h3><span id="编码特点">编码特点</span></h3><p>UTF-8编码的最大特点，就是它是一种变长的编码方式。它可以使用一到四个字节表示一个符号，根据不同的符号而变化字节长度。</p>
+<h3><span id="编码规则">编码规则</span></h3><ol>
 <li><em>对于单字节的符号，字节的第一位设为<code>0</code>，后面7位为这个符号的Unicode码，因此，对于英文字母，UTF-8编码和ASCII编码是相同的，理论上不需要特殊的改动。</em></li>
 <li><em>对于<code>n</code>字节的符号，（<code>n</code>&gt;1），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n+1</code>位都设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</em></li>
 </ol>
@@ -143,7 +143,7 @@
 </table>
 </div>
 <p>根据上表所示，UTF-8编码规则还是非常简单的，如果一个字节的第一位是<code>0</code>，则这个字节单独就是一个字符；如果第一位是<code>1</code>，其后面连续跟着多少个<code>1</code>，就表示当前字符占用多少个字节。</p>
-<h3 id="转换实例"><a href="#转换实例" class="headerlink" title="转换实例"></a>转换实例</h3><ol>
+<h3><span id="转换实例">转换实例</span></h3><ol>
 <li><p><strong>汉字<code>严</code></strong></p>
 <ol>
 <li><code>严</code>的Unicode码是<code>4E25</code>（<code>100111000100101</code>）。</li>
@@ -166,7 +166,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (u &gt;= <span class="number">0x0800</span> &amp;&amp; u &lt;= <span class="number">0xFFFF</span>)</span><br><span class="line">&#123;</span><br><span class="line">    OutputByte(<span class="number">0xE0</span> | ((u &gt;&gt; <span class="number">12</span>) &amp; <span class="number">0xFF</span>)); <span class="comment">/* 0xE0 = 11100000 */</span></span><br><span class="line">    OutputByte(<span class="number">0x80</span> | ((u &gt;&gt;  <span class="number">6</span>) &amp; <span class="number">0x3F</span>)); <span class="comment">/* 0x80 = 10000000 */</span></span><br><span class="line">    OutputByte(<span class="number">0x80</span> | ( u        &amp; <span class="number">0x3F</span>)); <span class="comment">/* 0x3F = 00111111 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="古怪的Big-endian和Little-endian"><a href="#古怪的Big-endian和Little-endian" class="headerlink" title="古怪的Big endian和Little endian"></a>古怪的Big endian和Little endian</h3><p>这两个古怪的名称来自英国作家斯威夫特的《格列佛游记》。这本书里，小人国里爆发了内战，战争起因是人们争论，吃鸡蛋时究竟是从大头(Big-endian)敲开还是从小头(Little-endian)敲开。为了这件事情，前后爆发了六次战争，一个皇帝送了命，另一个皇帝丢了王位。</p>
+<h3><span id="古怪的big-endian和little-endian">古怪的Big endian和Little endian</span></h3><p>这两个古怪的名称来自英国作家斯威夫特的《格列佛游记》。这本书里，小人国里爆发了内战，战争起因是人们争论，吃鸡蛋时究竟是从大头(Big-endian)敲开还是从小头(Little-endian)敲开。为了这件事情，前后爆发了六次战争，一个皇帝送了命，另一个皇帝丢了王位。</p>
 <p>而我们的Unicode编码也采用了这种命名方式。以汉字<code>严</code>为例，Unicode 码是<code>4E25</code>，需要用两个字节存储，一个字节是<code>4E</code>，另一个字节是<code>25</code>。存储的时候，<code>4E</code>在前，<code>25</code>在后，这就是 Big endian 方式；<code>25</code>在前，<code>4E</code>在后，这是 Little endian 方式。</p>
 <p>第一个字节在前，就是”大头方式”（Big endian），第二个字节在前就是”小头方式”（Little endian）。</p>
 <p><strong>那么问题就来了，计算机如何知道某一个文件究竟是用什么样的方式编码的呢？</strong></p>

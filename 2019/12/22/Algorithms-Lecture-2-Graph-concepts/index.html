@@ -36,7 +36,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -78,7 +78,7 @@
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>This is University of Auckland Algorithm Lecture 2, today’s lecture is mainly about basic concepts of Graph, an integral part of graph. This is my notes:</p>
-<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2><ol>
+<h2><span id="concepts">Concepts</span></h2><ol>
 <li><p>A graph G consists of two sets of V and E.</p>
 <ul>
 <li>V is the set of vertices(nodes).</li>
@@ -102,25 +102,25 @@
 </ol>
 </li>
 </ol>
-<h2 id="Undirected-graph"><a href="#Undirected-graph" class="headerlink" title="Undirected graph"></a>Undirected graph</h2><p><strong>无向完全图</strong>：在无向图中，如果任意两个顶点之间都存在边，则称该图为无向完全图。n个顶点边数：</p>
+<h2><span id="undirected-graph">Undirected graph</span></h2><p><strong>无向完全图</strong>：在无向图中，如果任意两个顶点之间都存在边，则称该图为无向完全图。n个顶点边数：</p>
 <script type="math/tex; mode=display">
 n * (n-1)/2</script><p>当一个图接近完全图时，则称它为<strong><em>稠密图</em></strong>（Dense Graph），而当一个图含有较少的边时，则称它为<strong><em>稀疏图</em></strong>（Sparse Graph）。</p>
-<h2 id="Directed-graph"><a href="#Directed-graph" class="headerlink" title="Directed graph"></a>Directed graph</h2><p>有向完全图：在有向图中，如果任意两个顶点之间都存在方向互为相反的两条弧，则称该图为有向完全图。n个顶点边数：</p>
+<h2><span id="directed-graph">Directed graph</span></h2><p>有向完全图：在有向图中，如果任意两个顶点之间都存在方向互为相反的两条弧，则称该图为有向完全图。n个顶点边数：</p>
 <script type="math/tex; mode=display">
-n * (n-1)</script><h2 id="Degree-of-vertex"><a href="#Degree-of-vertex" class="headerlink" title="Degree of vertex"></a>Degree of vertex</h2><ul>
+n * (n-1)</script><h2><span id="degree-of-vertex">Degree of vertex</span></h2><ul>
 <li>The number of edges is the sum of the degrees of all vertices divide by 2.</li>
 <li>A neighbor v of u is an <strong>out-neighbour</strong> of u is there’s an arc from u to v.</li>
 <li>A neighbor v of u is an <strong>in-neighbour</strong> of u is there’s an arc from v to u.</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/3536FBA4-581D-4E20-A6E6-A248D364CBD2.jpeg" alt="Degree of vertex"></p>
 <p>顶点$v_i$的度（Degree）是指在图中与$v_i$相关联的边的条数。对于有向图来说，有入度（In-degree）和出度（Out-degree）之分，有向图顶点的度等于该顶点的<strong><em>入度和出度之和</em></strong>。</p>
-<h2 id="Walk"><a href="#Walk" class="headerlink" title="Walk"></a>Walk</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/B9EB1EEC-FBD4-4488-A081-D0A2622E5347.jpeg" alt="Walk"></p>
-<h2 id="Path"><a href="#Path" class="headerlink" title="Path"></a>Path</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2B23C624-8BF2-452D-B7D0-AD2BF80DE0F2.jpeg" alt="Path"></p>
-<h2 id="SubGraph"><a href="#SubGraph" class="headerlink" title="SubGraph"></a>SubGraph</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/8680335D-5C00-4E7D-8E31-20D2F51DFFDF.jpeg" alt="Subgraph"></p>
+<h2><span id="walk">Walk</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/B9EB1EEC-FBD4-4488-A081-D0A2622E5347.jpeg" alt="Walk"></p>
+<h2><span id="path">Path</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2B23C624-8BF2-452D-B7D0-AD2BF80DE0F2.jpeg" alt="Path"></p>
+<h2><span id="subgraph">SubGraph</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/8680335D-5C00-4E7D-8E31-20D2F51DFFDF.jpeg" alt="Subgraph"></p>
 <p>这句话的意思是说，所有的顶点和边都属于图G的图称为G的子图。</p>
-<h2 id="Spanning-Subgraph"><a href="#Spanning-Subgraph" class="headerlink" title="Spanning Subgraph"></a>Spanning Subgraph</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/7D292B84-32B1-4D57-B01F-075450C7BFC4.jpeg" alt="Spanning Subgraph"></p>
+<h2><span id="spanning-subgraph">Spanning Subgraph</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/7D292B84-32B1-4D57-B01F-075450C7BFC4.jpeg" alt="Spanning Subgraph"></p>
 <p>含有G的所有顶点的子图称为G的生成子图。</p>
-<h2 id="Induced-Subgraph"><a href="#Induced-Subgraph" class="headerlink" title="Induced Subgraph"></a>Induced Subgraph</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/0709027C-E51E-4C3D-B226-9BE157950E9E.jpeg" alt="Induced Subgraph"></p>
+<h2><span id="induced-subgraph">Induced Subgraph</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/0709027C-E51E-4C3D-B226-9BE157950E9E.jpeg" alt="Induced Subgraph"></p>
 <p>如果图G的子图H满足边(u,v)在图H中当且仅当边(u,v)在图G中，即图H包含了图G中所有两个端点都在V(H)中的边，则称H是G的导出子图。</p>
 <p>我的理解是：</p>
 <ol>

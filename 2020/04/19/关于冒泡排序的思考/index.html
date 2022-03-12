@@ -32,7 +32,7 @@
 
   
     
-      <body class="dark">
+      <body>
     
   
       <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
@@ -73,12 +73,12 @@
     
     <div class="article-entry typo" itemprop="articleBody">
       
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>首先，我们观察可得，在任意的有序/无序序列中，任何/总有一对相邻元素顺序/逆序。</p>
+        <h2><span id="介绍">介绍</span></h2><p>首先，我们观察可得，在任意的有序/无序序列中，任何/总有一对相邻元素顺序/逆序。</p>
 <p>由此，很容易就可以想出冒泡排序这类算法，可以依次比较每一对相邻元素；如果有必要，则交换之。</p>
 <p>如果整趟扫描都没有扫描交换，则排序完成，否则，就再做一次扫描交换。其过程如下图所示：</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/1.jpeg" alt=""></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;V)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; V.size(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; V.size(); ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (V[j] &lt; V[j<span class="number">-1</span>])</span><br><span class="line">                swap(V[j], V[j<span class="number">-1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2.png" alt="Untitled/Screen_Shot_2020-04-18_at_10.58.19_AM.png"></p>
+<h2><span id="改进">改进</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/2.png" alt="Untitled/Screen_Shot_2020-04-18_at_10.58.19_AM.png"></p>
 <p>上图中：</p>
 <ul>
 <li>绿色的是无序部分</li>
@@ -88,7 +88,7 @@
 <p>但是，考虑这样一种情况，绿色的无序部分，可能某一个部分，甚至全部部分都是有序的，但是我们的算法却依然要粗暴的遍历全部的部分。那么，我们是否可以尽早的判定这种情况，从而尽早的结束这种算法呢？</p>
 <p>解决方法就是，我们可以在每一次扫描交换的过程中，都记录下是否存在逆序元素。上面的思路可以实现为以下的代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble2</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;V)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// set a bool variable</span></span><br><span class="line">    <span class="keyword">bool</span> sorted = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">while</span> (!sorted)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// now we assume the vector is sorted</span></span><br><span class="line">        sorted = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; V.size(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (V[i] &lt; V[i<span class="number">-1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                swap(V[i], V[i<span class="number">-1</span>]);</span><br><span class="line">                sorted = <span class="literal">false</span>;  <span class="comment">// vector still not sorted</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="再改进"><a href="#再改进" class="headerlink" title="再改进"></a>再改进</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/3.png" alt="Untitled/Screen_Shot_2020-04-19_at_1.09.58_PM.png"></p>
+<h2><span id="再改进">再改进</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/3.png" alt="Untitled/Screen_Shot_2020-04-19_at_1.09.58_PM.png"></p>
 <p>让我们考虑这样一种情况：</p>
 <ul>
 <li>向量可以被分为两个部分：<ul>
@@ -108,7 +108,7 @@
   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble3</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;V)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> hi = V.size();</span><br><span class="line">    <span class="keyword">int</span> lo = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (Rank last = --hi; lo &lt; hi; hi = last)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (Rank i = last = lo; i &lt; hi; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (V[i] &gt; V[i+<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                swap(V[i], V[i+<span class="number">1</span>]);</span><br><span class="line">                last = i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="算法的评价"><a href="#算法的评价" class="headerlink" title="算法的评价"></a>算法的评价</h2><ul>
+<h2><span id="算法的评价">算法的评价</span></h2><ul>
 <li>时间效率：最好$O(n)$，最坏$O(n^2)$</li>
 <li>算法的稳定性：在冒泡排序中，唯有相邻元素才可以交换，所以它是一种稳定的算法。</li>
 </ul>
