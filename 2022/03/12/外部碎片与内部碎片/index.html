@@ -5,23 +5,23 @@
   
   <title>外部碎片与内部碎片 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="[toc] 产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们">
+  <meta name="description" content="产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们的地址不连续">
 <meta name="keywords" content="内存管理 开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="外部碎片与内部碎片">
 <meta property="og:url" content="https://fszhuangb.xyz/2022/03/12/外部碎片与内部碎片/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="[toc] 产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们">
+<meta property="og:description" content="产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们的地址不连续">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522082.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522302.png">
 <meta property="og:image" content="https://fszhuangb.xyz/Users/fszhuangb/Library/Application%20Support/typora-user-images/Screen%20Shot%202022-03-12%20at%2015.27.04.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121529388.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121533046.png">
-<meta property="og:updated_time" content="2022-03-12T07:50:07.563Z">
+<meta property="og:updated_time" content="2022-03-12T14:21:48.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="外部碎片与内部碎片">
-<meta name="twitter:description" content="[toc] 产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们">
+<meta name="twitter:description" content="产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们的地址不连续">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522082.png">
   
   
@@ -77,8 +77,7 @@
     <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">产生原因：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">外碎片（external fragmentation）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">内碎片（internal fragmentation）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">为何要大于其申请的大小</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">内存碎片产生的原因</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">解决方案：非连续式内存管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">分段</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">段地址的访问机制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">分段管理的优势</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">分页</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">分页和分段的主要区别？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">段页式存储管理方式</span></a></li></ol>
     <div class="article-entry typo" itemprop="articleBody">
       
-        <p>[toc]</p>
-<h2><span id="产生原因">产生原因：</span></h2><p>由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。</p>
+        <h2><span id="产生原因">产生原因：</span></h2><p>由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。</p>
 <h2><span id="外碎片external-fragmentation">外碎片（external fragmentation）</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522082.png" alt="外部碎片图示"></p>
 <p>外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们的地址不连续或其他原因，使得系统无法满足当前申请。</p>
 <h2><span id="内碎片internal-fragmentation">内碎片（internal fragmentation）</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522302.png" alt="内部碎片图示"></p>
