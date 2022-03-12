@@ -3,21 +3,21 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>服务器项目解析（二）并发模型解析 | fsZhuangB</title>
+  <title>服务器项目解析（二）：并发模型解析 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。 服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
-<meta property="og:title" content="服务器项目解析（二）并发模型解析">
+<meta property="og:title" content="服务器项目解析（二）：并发模型解析">
 <meta property="og:url" content="https://fszhuangb.xyz/2022/03/11/服务器项目解析（二）并发模型解析/index.html">
 <meta property="og:site_name" content="fsZhuangB">
 <meta property="og:description" content="本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。 服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112022725.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112026631.png">
-<meta property="og:updated_time" content="2022-03-11T12:35:20.786Z">
+<meta property="og:updated_time" content="2022-03-11T13:12:17.262Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="服务器项目解析（二）并发模型解析">
+<meta name="twitter:title" content="服务器项目解析（二）：并发模型解析">
 <meta name="twitter:description" content="本篇文章总结了Flee Webserver中使用到的并发模型，并增加了一些自己的思考。 服务器主要采用的并发模型包括了多进程模型、多线程模型和IO多路复用模型（select, poll, epoll）。多进程模型首先进程比较占资源，切换起来也比较麻烦，况且Linux下最大进程数也有限制，所以不考虑。多线程模型同样有最大线程数限制（主要是单独进程虚地址空间有限），大并发下也不适合。所以在大并发的场景">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203112022725.png">
   
@@ -64,7 +64,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      服务器项目解析（二）并发模型解析
+      服务器项目解析（二）：并发模型解析
     </h1>
   
 
@@ -161,10 +161,17 @@
     
 <nav id="article-nav" class="article-nav">
   
-    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+    <a href="/2022/03/12/外部碎片与内部碎片/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          外部碎片与内部碎片
+        
+      </div>
+    </a>
   
   
-    <a href="/2022/03/11/IO模型总结/" id="article-nav-older" class="article-nav-link-wrap older">
+    <a href="/2022/03/05/IO模型总结/" id="article-nav-older" class="article-nav-link-wrap older">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">UNP阅读：Unix下常用IO模型总结</div>
     </a>

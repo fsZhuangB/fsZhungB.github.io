@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>UNP阅读：Unix下常用IO模型总结 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞同步与异步所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果。换">
+<meta name="keywords" content="开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UNP阅读：Unix下常用IO模型总结">
+<meta property="og:url" content="https://fszhuangb.xyz/2022/03/05/IO模型总结/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞同步与异步所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果。换">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2022-03-11T13:12:14.570Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UNP阅读：Unix下常用IO模型总结">
+<meta name="twitter:description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞同步与异步所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果。换">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-IO模型总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UNP阅读：Unix下常用IO模型总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>在Unix下，主要包含以下几种IO模型：</p>
+<ul>
+<li>阻塞式I/O</li>
+<li>非阻塞式I/O</li>
+<li>I/O多路复用（select、poll、epoll）</li>
+<li>信号驱动式I/O</li>
+<li>异步I/O（POSIX的aio系列函数）</li>
+</ul>
+<h2 id="同步、异步、阻塞、非阻塞"><a href="#同步、异步、阻塞、非阻塞" class="headerlink" title="同步、异步、阻塞、非阻塞"></a>同步、异步、阻塞、非阻塞</h2><h3 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h3><p>所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到了返回值。<br>而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果<em>。换句话说，当一个<a href="https://www.zhihu.com/search?q=异步过程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A20851256}" target="_blank" rel="noopener">异步过程</a>调用发出后，调用者不会立刻得到结果。而是在</em>调用<em>发出后，</em>被调用者会通知来通知调用者，或通过回调函数处理这个调用。</p>
+<p>具体来说，同步与异步描述的是用户线程与内核的交互方式，这里所说的用户进程/线程和内核是以传输层为分割线的，传输层以上是指用户进程，传输层以下（包括传输层）是指内核（处理所有通信细节，发送数据，等待确认，给无序到达的数据排序等，这四层是操作系统内核的一部分）。<strong>同步是指用户线程发起IO请求后需要等待或者轮询内核IO操作，完成后才能继续执行。异步是指用户线程发起IO请求后仍继续执行，当内核IO操作完成后回通知用户线程，或者调用用户线程注册的回调函数。</strong></p>
+<h3 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h3><p>阻塞和非阻塞关注的是<strong>程序在等待调用结果（消息，返回值）时的状态。</strong></p>
+<p>阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。<br>非阻塞调用指在不能立刻得到结果之前，该调用不会阻塞当前线程。</p>
+<p>具体来说，用户线程调用内核IO（read、write函数）操作的方式，阻塞指IO操作需要彻底完成后才能返回用户空间，否则就一直挂起。</p>
+<p>而非阻塞时指IO操作被调用后立即返回给用户一个状态值，无需等待IO操作彻底完成。</p>
+<h2 id="在客户端输入字符后发生了什么"><a href="#在客户端输入字符后发生了什么" class="headerlink" title="在客户端输入字符后发生了什么"></a>在客户端输入字符后发生了什么</h2><p>在介绍这几种模型之前，先总结一下一个输入操作所包含的两个不同的阶段：</p>
+<ol>
+<li>等待数据准备好</li>
+<li>从内核向进程复制数据</li>
+</ol>
+<p>UNP中提到：</p>
+<blockquote>
+<p>  对于一个套接字上的输入操作，第一步通常涉及等待数据从网络中到达，当所等待分组到达时，它被复制到内核中的某个缓冲区。</p>
+<p>  第二步就是把数据从内核缓冲区复制到应用缓冲区。</p>
+</blockquote>
+<h2 id="几种IO模型介绍"><a href="#几种IO模型介绍" class="headerlink" title="几种IO模型介绍"></a>几种IO模型介绍</h2><ol>
+<li>阻塞IO就是那种recv, read，一直等，等到有了数据才返回；</li>
+<li>非阻塞IO就是立即返回，设置描述符为非阻塞，但是要进程自己一直检查是否可读；</li>
+<li>IO复用其实也是阻塞的，不过可以用来等很多描述符，比起阻塞有了进步，可以算有点异步了，但需要阻塞着检查是否可读。<strong>对同一个描述符的IO操作也是有序的。</strong></li>
+<li>信号驱动采用<a href="https://www.zhihu.com/search?q=信号机制&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A14413599}" target="_blank" rel="noopener">信号机制</a>等待，有了更多的进步，不用监视描述符了，而且不用阻塞着等待数据到来，被动等待信号通知，由<a href="https://www.zhihu.com/search?q=信号处理程序&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A14413599}" target="_blank" rel="noopener">信号处理程序</a>处理。<strong>但对同一个描述符的IO操作还是有序的。</strong></li>
+<li>异步IO，发送IO请求后，不用等了，也不再需要发送IO请求获取结果了。等到通知后，其实是系统帮你把数据读取好了的，<strong>你等到的通知也不再是要求你去读写IO了，而是告诉你IO请求过程已经结束了</strong>。你要做的就是可以处理数据了。且同一个描述符上可能同时存在很多请求。</li>
+</ol>
+<p><strong>其中IO服用和信号驱动，在处理业务逻辑上可以说有异步，但在IO操作层面上来说还是同步的</strong>。</p>
+<p>posix.1严格定义的异步IO是要求没有任何一点阻塞，而上述的前面四个（阻塞IO，非阻塞IO，IO复用，信号驱动）都不同程度阻塞了，而且都有一个共同的阻塞： 内核拷贝数据到进程空间的这段时间需要等待。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2022/03/05/IO模型总结/" class="article-date">
+  <time datetime="2022-03-05T10:52:43.000Z" itemprop="datePublished">2022-03-05</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发者手册/">开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <a href="/2022/03/11/服务器项目解析（二）并发模型解析/" id="article-nav-newer" class="article-nav-link-wrap newer">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          服务器项目解析（二）：并发模型解析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/01/线程池设计解析/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">服务器项目解析（一）：线程池设计</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>

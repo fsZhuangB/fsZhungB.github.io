@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>外部碎片与内部碎片 | fsZhuangB</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[toc] 产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们">
+<meta name="keywords" content="内存管理 开发者手册">
+<meta property="og:type" content="article">
+<meta property="og:title" content="外部碎片与内部碎片">
+<meta property="og:url" content="https://fszhuangb.xyz/2022/03/12/外部碎片与内部碎片/index.html">
+<meta property="og:site_name" content="fsZhuangB">
+<meta property="og:description" content="[toc] 产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522082.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522302.png">
+<meta property="og:image" content="https://fszhuangb.xyz/Users/fszhuangb/Library/Application%20Support/typora-user-images/Screen%20Shot%202022-03-12%20at%2015.27.04.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121529388.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121533046.png">
+<meta property="og:updated_time" content="2022-03-12T07:50:07.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="外部碎片与内部碎片">
+<meta name="twitter:description" content="[toc] 产生原因：由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。 外碎片（external fragmentation） 外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522082.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/typing.css">
+  <link rel="stylesheet" href="/css/donate.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+  
+    
+      <body>
+    
+  
+      <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container" class="container">
+        <article id="post-外部碎片与内部碎片" class="article article-type-post" itemscope itemprop="blogPost">
+  <header id="header" class="header">
+    <div class="mobile-nav">
+      <h1 class="nickname">fsZhuangB</h1>
+      <a id="menu">
+        &#9776; Menu
+      </a>
+    </div>
+    
+        <nav id="main-nav" class="main-nav nav-left">
+    
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      外部碎片与内部碎片
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry typo" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h2 id="产生原因："><a href="#产生原因：" class="headerlink" title="产生原因："></a>产生原因：</h2><p>由于连续式的内存管理方案的缺陷，由于进程被加载进入内存又被移出内存，导致了内存空间被破坏成了一片一片的情况。</p>
+<h2 id="外碎片（external-fragmentation）"><a href="#外碎片（external-fragmentation）" class="headerlink" title="外碎片（external fragmentation）"></a>外碎片（external fragmentation）</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522082.png" alt="外部碎片图示"></p>
+<p>外部碎片指的是还没有被分配出去（不属于任何进程），但由于太小了无法分配给申请内存空间的新进程的内存空闲区域，即处于任何两个已分配区域或页面之间的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们的地址不连续或其他原因，使得系统无法满足当前申请。</p>
+<h2 id="内碎片（internal-fragmentation）"><a href="#内碎片（internal-fragmentation）" class="headerlink" title="内碎片（internal fragmentation）"></a>内碎片（internal fragmentation）</h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121522302.png" alt="内部碎片图示"></p>
+<p>内部碎片是由于<strong>系统分配给进程的空间大于其所申请的大小（为何要大于其申请的大小？）</strong>，处于（操作系统分配的用于装载某一进程的内存）区域内部或页面内部的存储块，占有这些区域或页面的进程并不使用这个存储块。而在进程占有这块存储块时，系统无法利用它。直到进程释放它，或进程结束时，系统才有可能利用这个存储块。</p>
+<h3 id="为何要大于其申请的大小"><a href="#为何要大于其申请的大小" class="headerlink" title="为何要大于其申请的大小"></a>为何要大于其申请的大小</h3><p>考虑一个有18,464字节的多分区分配方案，假设下一个进程请求18,462字节。如果我们正好分配了所请求的块，我们就会留下一个2字节的剩余部分。追踪这个剩余部分的开销将大大超过追踪整个大的分配块本身。</p>
+<p>避免这个问题的一般方法是将物理内存分成固定大小的块，并根据块的大小以单位形式分配内存。采用这种方法，<strong>分配给进程的内存可能比要求的内存略大</strong>。<strong>这两个数字之间的差异是内部碎片—属于一个分区内部的未使用的内存。</strong></p>
+<h2 id="内存碎片产生的原因"><a href="#内存碎片产生的原因" class="headerlink" title="内存碎片产生的原因"></a>内存碎片产生的原因</h2><ul>
+<li>内部碎片的产生因为所有的内存分配必须起始于可被 4、8 或 16 整除（视处理器体系结构而定）的地址或者因为MMU的分页机制的限制，决定内存分配算法仅能把预定大小的内存块分配给客户。假设当某个客户请求一个 43 字节的内存块时，因为没有适合大小的内存，所以它可能会获得 44字节、48字节等稍大一点的字节，因此由所需大小四舍五入而产生的多余空间就叫内部碎片。</li>
+<li>外部碎片的产生频繁的分配与回收物理页面会导致大量的、连续且小的页面块夹杂在已分配的页面中间，就会产生外部碎片。假设有一块一共有100个单位的连续空闲内存空间，范围是0-99。如果你从中申请一块内存，如10个单位，那么申请出来的内存块就为0-9区间。这时候你继续申请一块内存，比如说5个单位大，第二块得到的内存块就应该为10-14区间。如果你把第一块内存块释放，然后再申请一块大于10个单位的内存块，比如说20个单位。因为刚被释放的内存块不能满足新的请求，所以只能从15开始分配出20个单位的内存块。现在整个内存空间的状态是0-9空闲，10-14被占用，15-24被占用，25-99空闲。其中0-9就是一个内存碎片了。如果10-14一直被占用，而以后申请的空间都大于10个单位，那么0-9就永远用不上了，变成外部碎片。</li>
+</ul>
+<h2 id="解决方案：非连续式内存管理"><a href="#解决方案：非连续式内存管理" class="headerlink" title="解决方案：非连续式内存管理"></a>解决方案：非连续式内存管理</h2><p>连续分配方式会形成许多“碎片”，虽然可以通过“紧凑（compaction）”方式将许多碎片拼接成可用的大块空间，但须为之付出很大开销。所以提出了“离散分配方式”的想法。如果离散分配的基本单位是页，则称为分页管理方式；如果离散分配的基本单位是段，则称为分段管理方式。</p>
+<h3 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h3><p><img src="/Users/fszhuangb/Library/Application Support/typora-user-images/Screen Shot 2022-03-12 at 15.27.04.png" alt="段地址空间示意图"></p>
+<p>分段的主要思想就是将进程的地址空间看作由多个段组成，这样可以实现更细粒度和灵活的分离与共享，各部分内部是连续的，但是各个段直接不是连续性的，这样可以分离开逻辑地址和物理地址空间：</p>
+<p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121529388.png" alt="段地址空间"></p>
+<h4 id="段地址的访问机制"><a href="#段地址的访问机制" class="headerlink" title="段地址的访问机制"></a>段地址的访问机制</h4><p>段地址的访问机制可以简化成下列公式：</p>
+<script type="math/tex; mode=display">
+<segment−number,offset></script><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203121533046.png" alt="段的访问"></p>
+<h4 id="分段管理的优势"><a href="#分段管理的优势" class="headerlink" title="分段管理的优势"></a>分段管理的优势</h4><p>分段存储管理方式的目的，主要是为了满足用户（程序员）在编程和使用上多方面的要求，其中有些要求是其他几种存储管理方式所难以满足的。因此，这种存储管理方式已成为当今所有存储管理方式的基础。</p>
+<p>（1）方便编程：通常，用户把自己的作业按照逻辑关系划分为若干个段，每个段都是从0开始编址，并有自己的名字和长度。因此，希望要访问的逻辑地址是由段名（段号）和段内偏移量（段内地址）决定的。</p>
+<p>（2）信息共享：分页系统中的“页”只是存放信息的物理单位（块），并无完整的意义，不便于实现共享；然而段却是信息的逻辑单位。由此可知，为了实现段的共享，希望存储器管理能与用户程序分段的组织方式相适应。</p>
+<p>（3）信息保护：信息保护同样是对信息的逻辑单位进行保护，因此，分段管理方式能更有效和方便的实现信息保护功能。</p>
+<p>（4）动态增长：在实际应用中，往往有些段，特别是数据段，在使用过程中会不断地增长，而事先又无法确切地知道数据段会增长到多大。前面的几种存储管理方式都难以应付这种动态增长的情况，分段存储管理方式能较好的解决这一问题。</p>
+<p>（5）动态链接：动态链接是指在作业运行之前，并不把几个目标程序段链接起来。要运行时，先将主程序所对应的目标程序装入内存并启动运行，当运行过程中又需要调用某段时，才将该段（目标程序）调入内存并进行链接。可见，动态链接也要求以段作为管理的单位。</p>
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>连续分配方式会形成许多“碎片”，虽然可以通过“紧凑”方式将许多碎片拼接成可用的大块空间，但须为之付出很大开销。所以提出了“离散分配方式”的想法。如果离散分配的基本单位是页，则称为分页管理方式；如果离散分配的基本单位是段，则称为分段管理方式。</p>
+<p>分页存储管理是将一个进程的逻辑地址空间分成若干个大小相等的片，称为页面或页，并为各页加以编号，从0开始，如第0页、第1页等。相应地，也把内存空间分成与页面相同大小的若干个存储块，称为(物理)块或页框(frame)，也同样为它们加以编号，如0#块、1#块等等。在为进程分配内存时，以块为单位将进程中的若干个页分别装入到多个可以不相邻接的物理块中。<strong>由于进程的最后一页经常装不满一块而形成了不可利用的碎片，称之为“页内碎片”。</strong></p>
+<p>在分页系统中，允许将进程的各个页离散地存储在内存不同的物理块中，但系统应能保证进程的正确运行，即能在内存中找到每个页面所对应的物理块。为此，系统又为每个进程建立了一张<strong>页面映射表</strong>，简称页表。在进程地址空间内的所有页，依次在页表中有一页表项，其中记录了相应页在内存中对应的物理块号。在配置了页表后，进程执行时，通过查找该表，即可找到每页在内存中的物理块号。可见，页表的<strong>作用是实现从页号到物理块号的地址映射（逻辑地址向物理地址的映射）</strong>。</p>
+<p>页表的功能可由一组专门的寄存器来实现。由于寄存器成本较高，且大多数现代计算机的页表又很大，使页表项总数可达几千甚至几十万个，显然这些页表项不可能都用寄存器来实现，因此，页表大多驻留在内存中。因为一个进程可以通过它的PCB来时时保存自己的状态，等到CPU要处理它的时候才将PCB交给寄存器，所以，系统中虽然可以运行多个进程，但也只需要一个页表寄存器就可以了。</p>
+<p>由于页表是存放在内存中的，这使得CPU在每存取一个数据时，都要两次访问内存。为了提高地址变换速度，在地址变化机构中增设了一个具有并行查询能力的缓冲寄存器，又称为“联想寄存器”（TLB）。</p>
+<p>在单级页表的基础上，为了适应非常大的逻辑地址空间，出现了两级和多级页表，但是，他们的原理和单级页表是一样的，只不过为了适应地址变换层次的增加，需要在地址变换机构中增设外层的页表寄存器。</p>
+<h2 id="分页和分段的主要区别？"><a href="#分页和分段的主要区别？" class="headerlink" title="分页和分段的主要区别？"></a>分页和分段的主要区别？</h2><p>分页和分段系统都采用离散分配方式，且都要通过地址映射机构来实现地址变换。但在概念上两者完全不同，主要表现在3个方面：</p>
+<p>（1）页是信息的物理单位，分页是为实现离散分配方式，<strong>消减外部碎片</strong>，提高内存的利用率（没有外部碎片）。分页仅仅是由于系统管理的需要而不是用户的需要。段则是信息的逻辑单位，它含有一组其意义相对完整的信息。分段的目的是为了更好的满足用户的需要。</p>
+<p>（2）页的大小固定且由系统决定，由系统把逻辑地址划分为页号和页内地址两部分，是由机器硬件实现的，因而在系统中只能有一种大小的页面；而<strong>段的长度不固定</strong>，决定于用户所编写的程序，通常由编译程序在对源程序进行编译时，根据信息的性质来划分。</p>
+<p>（3）分页的作业地址空间是一维的，即单一的线性地址空间，程序员只需利用一个记忆符，即可表示一个地址；而分段的作业地址空间是二维的，程序员在标识一个地址时，既需给出段名，又需给出段内地址。</p>
+<h2 id="段页式存储管理方式"><a href="#段页式存储管理方式" class="headerlink" title="段页式存储管理方式"></a>段页式存储管理方式</h2><p>前面所介绍的分页和分段存储管理方式都各有优缺点。分页系统能有效地提高内存利用率，而分段系统则能很好地满足用户需求。我们希望能够把两者的优点结合，于是出现了段页式存储管理方式。</p>
+<p>段页式系统的基本原理是分段和分页原理的结合，即先将用户程序分成若干个段，再把每个段分成若干个页，并为每一个段赋予一个段名。在段页式系统中，地址结构由段号、段内页号和页内地址三部分所组成。和前两种存储管理方式相同，段页式存储管理方式同样需要增设联想寄存器（TLB）。</p>
+
+      
+      <div id="donate" class="donate">
+        <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>
+	      <div id="DonateText" class="tr3">Donate</div>
+	      <ul id="donateBox" class="list pos-f tr3">
+		      <li id="PayPal"><a href="" target="_blank">PayPal</a></li>
+		      <li id="BTC" data-footnote="Copy addres and show QRCode"><button id="BTCBn"  data-clipboard-target="#btc-key" alt="Copy to clipboard">Bitcoin</button></li>
+		      <li id="AliPay">AliPay</li>
+		      <li id="WeChat">WeChat</li>
+	      </ul>
+	      <div id="QRBox" class="pos-f left-100">
+		      <div id="BTCQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="AliPayQR" class="MainBox" style="background-image: url()"></div>
+		      <div id="WeChatQR" class="MainBox" style="background-image: url()"></div>
+	      </div>
+	      <!-- Bitcoin 账号 -->
+	      <input id="btc-key" type="text" value="" readonly="readonly">
+      </div>
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2022/03/12/外部碎片与内部碎片/" class="article-date">
+  <time datetime="2022-03-12T07:49:11.000Z" itemprop="datePublished">2022-03-12</time>
+</a>
+
+        </li>
+        
+        
+          <li>
+            <span class="label">Tag:</span>
+            
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理-开发者手册/">内存管理 开发者手册</a></li></ul>
+
+
+          </li>
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2022/03/11/服务器项目解析（二）并发模型解析/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">服务器项目解析（二）：并发模型解析</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+<!-- 
+  
+  <!-- LiveRe City install code -->
+<!-- <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzYzMi8xNDE2Mw==">
+        <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+        </script>
+<noscript> Please activate JavaScript for write a comment in LiveRe</noscript>
+</div> -->
+<!-- completed City install code -->
+
+  
+ -->
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>But I was so much older then, I’m younger than that now.</p>
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+      </div>
+    </footer>
+    
+
+      
+
+
+
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/typing.js"></script>
+<!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+
+
+
+
+
+
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </body>
+</html>
