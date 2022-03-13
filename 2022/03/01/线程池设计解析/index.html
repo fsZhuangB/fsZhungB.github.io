@@ -71,7 +71,7 @@
 
       </header>
     
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">为什么要使用线程池？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">任务对象是如何插入到线程池中的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">线程池主要结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">如何实现线程池的同步互斥的？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">线程池线程数目如何确定？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">参考资料</span></a></li></ol>
+    <!-- <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">为什么要使用线程池？#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">任务对象是如何插入到线程池中的#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">线程池主要结构#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">如何实现线程池的同步互斥的？#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">线程池线程数目如何确定？#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">参考资料#</span></a></li></ol> -->
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>本项目使用线程池 + Reactor模式并发处理用户请求，主线程负责监听IO事件的发生，一旦socket可以读写，则通知工作线程（线程池中的线程）负责处理读写+逻辑（HTTP请求报文的解析等等）。这就是Reactor模式所做的，主线程（I/O处理单元）仅仅负责监听文件描述符上是否有事件发生即（可读、可写）事件，若有事件发生，则立即通知工作线程（逻辑单元），将socket可读可写事件放入请求队列，交给工作线程处理。</p>
@@ -80,7 +80,7 @@
 <li>处理读写（<code>write()</code>和<code>read()</code>函数）。</li>
 <li>处理HTTP请求报文，包括解析HTTP请求报文和响应HTTP请求。</li>
 </ol>
-<h2><span id="为什么要使用线程池">为什么要使用线程池？</span></h2><p>使用线程池，有以下三个原因：</p>
+<h2><span id="wei-shi-me-yao-shi-yong-xian-cheng-chi">为什么要使用线程池？</span><a href="#wei-shi-me-yao-shi-yong-xian-cheng-chi" class="header-anchor">#</a></h2><p>使用线程池，有以下三个原因：</p>
 <ol>
 <li>频繁申请/销毁资源和调度资源，将带来额外的消耗，可能会非常巨大。</li>
 <li>对资源无限申请缺少抑制手段，易引发系统资源耗尽的风险。</li>
@@ -88,18 +88,18 @@
 </ol>
 <p>本质上说，客户端和服务端的连接是一个生产者消费者问题，客户端可以类比为生产者，服务端则是消费者，消费客户端发送过来的数据，所以每当有一个客户端连接到服务器，发送数据时，都可以开启一个新的线程来处理这些数据，当你需要限制你应用程序中同时运行的线程数时，线程池非常有用。<strong>因为启动一个新线程会带来性能开销，每个线程也会为其堆栈分配一些内存等。为了任务的并发执行，我们可以将这些任务任务传递到线程池，而不是为每个任务动态开启一个新的线程。</strong></p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203032113561.png" alt="Screen Shot 2022-03-03 at 21.12.41"></p>
-<h2><span id="任务对象是如何插入到线程池中的">任务对象是如何插入到线程池中的</span></h2><p>在eventLoop()函数的逻辑中，通过epoll_wait()阻塞监听文件描述符上的事件，如果有事件发生并且事件发生在listenfd的话，则调用dealWithClientData()函数，将<code>listenfd</code>上到达的<code>connection</code>通过 <code>accept()</code>接收，并返回一个新的socket文件描述符<code>connfd</code>用于和用户通信，并对用户请求返回响应，同时将这个<code>connfd</code>注册到内核事件表中，等用户发来请求报文，如下代码：</p>
+<h2><span id="ren-wu-dui-xiang-shi-ru-he-cha-ru-dao-xian-cheng-chi-zhong-de">任务对象是如何插入到线程池中的</span><a href="#ren-wu-dui-xiang-shi-ru-he-cha-ru-dao-xian-cheng-chi-zhong-de" class="header-anchor">#</a></h2><p>在eventLoop()函数的逻辑中，通过epoll_wait()阻塞监听文件描述符上的事件，如果有事件发生并且事件发生在listenfd的话，则调用dealWithClientData()函数，将<code>listenfd</code>上到达的<code>connection</code>通过 <code>accept()</code>接收，并返回一个新的socket文件描述符<code>connfd</code>用于和用户通信，并对用户请求返回响应，同时将这个<code>connfd</code>注册到内核事件表中，等用户发来请求报文，如下代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将cfd加入到红黑树上</span></span><br><span class="line">addfd(m_epollfd, cfd, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为该次连接（用户）初始化</span></span><br><span class="line">users[cfd].init(cfd, address);</span><br></pre></td></tr></table></figure>
 <p>同时，在上述的逻辑中，如果epoll_wait()阻塞监听文件描述符上的事件为读事件（EPOLLIN）或者写事件（EPOLLOUT），那么主线程就会调用读和写事件的处理函数：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果是读事件</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (events[i].events &amp; EPOLLIN)</span><br><span class="line">&#123;</span><br><span class="line">    dealWithRead(sockfd);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 如果是写事件</span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (events[i].events &amp; EPOLLOUT)</span><br><span class="line">&#123;</span><br><span class="line">    dealWithWrite(sockfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这两个函数所做的事情也很简单，仅仅是将该任务对象（users）插入到线程池的任务队列中：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> webserver::dealWithRead(<span class="keyword">int</span> sockfd) <span class="comment">/* 处理读事件 */</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// reactor模式</span></span><br><span class="line">    <span class="comment">// 将socket可读事件放入请求队列，交给工作线程处理，0代表读事件</span></span><br><span class="line">    m_pool-&gt;append(users + sockfd, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 写事件同理 */</span></span><br></pre></td></tr></table></figure>
-<h2><span id="线程池主要结构">线程池主要结构</span></h2><ul>
+<h2><span id="xian-cheng-chi-zhu-yao-jie-gou">线程池主要结构</span><a href="#xian-cheng-chi-zhu-yao-jie-gou" class="header-anchor">#</a></h2><ul>
 <li>所谓线程池，就是一个<code>pthread_t</code>类型的普通数组，通过<code>pthread_create()</code>函数创建<code>m_thread_number</code>个<strong>线程</strong>，用来执行<code>worker()</code>函数以执行每个请求处理函数（HTTP请求的<code>process</code>函数），通过<code>pthread_detach()</code>将线程设置成脱离态（detached）后，当这一线程运行结束时，它的资源会被系统自动回收，而不再需要在其它线程中对其进行 <code>pthread_join()</code> 操作。</li>
 <li>操作工作队列一定要加锁（<code>locker</code>），因为它被所有线程共享。</li>
 <li>我们用信号量来标识请求队列中的请求数，通过<code>m_queuestat.wait();</code>来等待一个请求队列中待处理的HTTP请求，然后交给线程池中的空闲线程来处理。</li>
 </ul>
-<h2><span id="如何实现线程池的同步互斥的">如何实现线程池的同步互斥的？</span></h2><p>处理线程同步互斥问题可以考虑互斥锁、条件变量、读写锁和信号量。本线程池为1:N模型，主线程负责监听并负责添加任务（建立连接 + 创建参数）到线程池中，之后worker线程负责取任务并执行，可供选择的同步策略可以是”互斥锁 + 条件变量”或信号量来完成。</p>
+<h2><span id="ru-he-shi-xian-xian-cheng-chi-de-tong-bu-hu-chi-de">如何实现线程池的同步互斥的？</span><a href="#ru-he-shi-xian-xian-cheng-chi-de-tong-bu-hu-chi-de" class="header-anchor">#</a></h2><p>处理线程同步互斥问题可以考虑互斥锁、条件变量、读写锁和信号量。本线程池为1:N模型，主线程负责监听并负责添加任务（建立连接 + 创建参数）到线程池中，之后worker线程负责取任务并执行，可供选择的同步策略可以是”互斥锁 + 条件变量”或信号量来完成。</p>
 <ul>
 <li>互斥锁 + 条件变量（线程同步）</li>
 </ul>
@@ -109,10 +109,10 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int sem_init(sem_t *sem, int shared, unsigned int value);</span><br><span class="line">int sem_wait(sem_t *sem);</span><br><span class="line">int sem_post(sem_t *sem);</span><br><span class="line">int sem_destory(sem_t *sem);</span><br></pre></td></tr></table></figure>
 <p>其实信号量初值设为1（二元信号量）时，可以实现互斥锁功能，信号量初值为N时可以实现条件变量功能。不过信号量主要上锁和解锁可以在不同线程，同步操作容易写错，另外，信号量必须先处理同步信号量再用互斥信号量包住临界区，这里写错会发生死锁情况。所以本线程池使用互斥锁 + 条件变量来实现。</p>
-<h2><span id="线程池线程数目如何确定">线程池线程数目如何确定？</span></h2><p>查阅了一些资料，获取到了下面的内容：</p>
+<h2><span id="xian-cheng-chi-xian-cheng-shu-mu-ru-he-que-ding">线程池线程数目如何确定？</span><a href="#xian-cheng-chi-xian-cheng-shu-mu-ru-he-que-ding" class="header-anchor">#</a></h2><p>查阅了一些资料，获取到了下面的内容：</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/202203111754679.png" alt="线程池数目"></p>
 <p>并发任务的执行情况和任务类型相关，IO密集型和CPU密集型的任务运行起来的情况差异非常大，但这种占比是较难合理预估的，这导致很难有一个简单有效的通用公式帮我们直接计算出结果。</p>
-<h2><span id="参考资料">参考资料</span></h2><ol>
+<h2><span id="can-kao-zi-liao">参考资料</span><a href="#can-kao-zi-liao" class="header-anchor">#</a></h2><ol>
 <li><p><a href="https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html" target="_blank" rel="noopener">Java线程池实现原理及其在美团业务中的实践</a></p>
 </li>
 <li><p><a href="https://engineering.zalando.com/posts/2019/04/how-to-set-an-ideal-thread-pool-size.html" target="_blank" rel="noopener">How to set an ideal thread pool size</a></p>

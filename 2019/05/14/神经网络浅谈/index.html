@@ -5,13 +5,13 @@
   
   <title>神经网络浅谈 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
+  <meta name="description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？# 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral net">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="神经网络浅谈">
 <meta property="og:url" content="https://fszhuangb.xyz/2019/05/14/神经网络浅谈/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
+<meta property="og:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？# 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral net">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071212.png">
@@ -29,7 +29,7 @@
 <meta property="og:updated_time" content="2019-05-14T10:34:01.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="神经网络浅谈">
-<meta name="twitter:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？ 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral netw">
+<meta name="twitter:description" content="最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。 神经网络和机器学习有什么关系？# 神经网络是实现机器学习的一种方式。 机器学习（Machine Learning）的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。 神经网络（Neutral net">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg">
   
   
@@ -82,21 +82,21 @@
 
       </header>
     
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">神经网络和机器学习有什么关系？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">什么是神经网络？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">神经元</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">普通神经元模型</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">感知器（Perceptron）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">效果</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">两层神经网络</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">偏置节点（bias unit）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">效果</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">训练</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">梯度下降算法（Gradient descent）与反向传播算法（Backpropagation）</span></a></li></ol></li></ol></li></ol>
+    <!-- <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">神经网络和机器学习有什么关系？#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">什么是神经网络？#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">神经元#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">普通神经元模型#</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">感知器（Perceptron）#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">结构#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">效果#</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">两层神经网络#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">结构#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">偏置节点（bias unit）#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">效果#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">训练#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">梯度下降算法（Gradient descent）与反向传播算法（Backpropagation）#</span></a></li></ol></li></ol></li></ol> -->
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>最近在实验室和师兄一起做一个项目，需要补充一些神经网络的知识，这是我的一部分笔记。</p>
-<h2><span id="神经网络和机器学习有什么关系">神经网络和机器学习有什么关系？</span></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg" alt=""></p>
+<h2><span id="shen-jing-wang-luo-he-ji-qi-xue-xi-you-shi-me-guan-xi">神经网络和机器学习有什么关系？</span><a href="#shen-jing-wang-luo-he-ji-qi-xue-xi-you-shi-me-guan-xi" class="header-anchor">#</a></h2><p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071201.jpg" alt=""></p>
 <p>神经网络是实现机器学习的一种方式。</p>
 <p><strong>机器学习（Machine Learning）</strong>的目标就是让机器（广义上的计算机）通过学习来获得类似人类的智能。例如人类会下围棋，AlphaGo或AlphaGo Zero就是一个掌握了围棋知识、会下围棋的计算机程序。</p>
 <p><strong>神经网络（Neutral network）</strong>则是实现机器学习的一种方法，在机器学习领域谈论神经网络，一般是指“神经网络学习”。</p>
 <p>现如今，随着数据量越来越大，计算资源越来越丰富，以及算法上的改进和优化，神经网络的层数变得越来越多，学习的效果变得也越来越好，<strong>深度学习（Deep Learning）</strong>也就出现了，本质上是深层的神经网络。</p>
-<h2><span id="什么是神经网络">什么是神经网络？</span></h2><p>神经网络是一种模拟人脑的神经网络以期能够实现类人工智能的机器学习技术。人脑中的神经网络是一个非常复杂的组织。成人的大脑中估计有1000亿个神经元之多。</p>
-<h3><span id="神经元">神经元</span></h3><p>对于神经元的研究由来已久，1904年生物学家就已经知晓了神经元的组成结构。</p>
+<h2><span id="shi-me-shi-shen-jing-wang-luo">什么是神经网络？</span><a href="#shi-me-shi-shen-jing-wang-luo" class="header-anchor">#</a></h2><p>神经网络是一种模拟人脑的神经网络以期能够实现类人工智能的机器学习技术。人脑中的神经网络是一个非常复杂的组织。成人的大脑中估计有1000亿个神经元之多。</p>
+<h3><span id="shen-jing-yuan">神经元</span><a href="#shen-jing-yuan" class="header-anchor">#</a></h3><p>对于神经元的研究由来已久，1904年生物学家就已经知晓了神经元的组成结构。</p>
 <p>一个神经元通常具有多个<strong>树突</strong>，主要用来接受传入信息；而<strong>轴突</strong>只有一条，轴突尾端有许多轴突末梢可以给其他多个神经元传递信息。轴突末梢跟其他神经元的树突产生连接，从而传递信号。这个连接的位置在生物学上叫做“<strong>突触</strong>”。</p>
 <p>人脑中的神经元形状可以用下图做简单的说明：</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/bg2017071212.png" alt="神经元"></p>
-<h3><span id="普通神经元模型">普通神经元模型</span></h3><p>通过对于人类神经元的模拟，人们发布了抽象的神经元模型MP，包含了输入、输出与计算功能的模型。输入可以类比为神经元的树突，而输出可以类比为神经元的轴突，计算则可以类比为细胞核。</p>
+<h3><span id="pu-tong-shen-jing-yuan-mo-xing">普通神经元模型</span><a href="#pu-tong-shen-jing-yuan-mo-xing" class="header-anchor">#</a></h3><p>通过对于人类神经元的模拟，人们发布了抽象的神经元模型MP，包含了输入、输出与计算功能的模型。输入可以类比为神经元的树突，而输出可以类比为神经元的轴突，计算则可以类比为细胞核。</p>
 <p>下面是一个神经元模型：包含三个输入、一个输出，以及两个计算功能。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151219153856802-307732621.jpg" alt="神经元模型"></p>
 <p>有以下几个要点需要提到：</p>
@@ -113,9 +113,9 @@
 <p>我们有一个数据，称之为样本。样本有四个属性，其中三个属性已知，一个属性未知。我们需要做的就是通过三个已知属性<strong>预测</strong>未知属性。</p>
 <p>具体办法就是使用神经元的公式进行计算。三个已知属性的值是$a_1，a_2，a_3$，未知属性的值是z。z可以通过公式计算出来。</p>
 <p>这里，已知的属性称之为<strong>特征</strong>，未知的属性称之为<strong>目标</strong>。假设特征与目标之间确实是线性关系，并且我们已经得到表示这个关系的权值$w_1，w_2，w_3$。那么，我们就可以通过神经元模型预测新样本的目标。</p>
-<h2><span id="感知器perceptron">感知器（Perceptron）</span></h2><p>感知器是当时首个可以学习的人工神经网络。</p>
+<h2><span id="gan-zhi-qi-perceptron">感知器（Perceptron）</span><a href="#gan-zhi-qi-perceptron" class="header-anchor">#</a></h2><p>感知器是当时首个可以学习的人工神经网络。</p>
 <p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151221151959015-1876891081.jpg?raw=true" alt="单层神经网络"></p>
-<h3><span id="结构">结构</span></h3><p>在感知器中，有两个层次，分别是<strong>输入层</strong>和<strong>输出层</strong>。输入层里的“输入单元”只负责传输数据，不做计算。输出层里的“输出单元”则需要对前面一层的输入进行计算。我们把需要计算的层次称之为“计算层”，并把拥有一个计算层的网络称之为“单层神经网络”。</p>
+<h3><span id="jie-gou">结构</span><a href="#jie-gou" class="header-anchor">#</a></h3><p>在感知器中，有两个层次，分别是<strong>输入层</strong>和<strong>输出层</strong>。输入层里的“输入单元”只负责传输数据，不做计算。输出层里的“输出单元”则需要对前面一层的输入进行计算。我们把需要计算的层次称之为“计算层”，并把拥有一个计算层的网络称之为“单层神经网络”。</p>
 <p>下图显示了带有两个输出单元的单层神经网络，其中输出单元$z_1$的计算公式如下图。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151230204223917-579926148.jpg" alt="单层神经网络Z1"></p>
 <p>可以看到，$z_1$的计算跟原先的$z$并没有区别。</p>
@@ -130,7 +130,7 @@
 <center><b>g(W * a) = z</b></center>
 
 <p>这个公式就是神经网络中从前一层计算后一层的<strong>矩阵运算。</strong></p>
-<h3><span id="效果">效果</span></h3><p>与神经元模型不同，感知器中的权值是通过训练得到的。因此，根据以前的知识我们知道，感知器类似一个<strong>逻辑回归</strong>模型，可以做线性分类任务。</p>
+<h3><span id="xiao-guo">效果</span><a href="#xiao-guo" class="header-anchor">#</a></h3><p>与神经元模型不同，感知器中的权值是通过训练得到的。因此，根据以前的知识我们知道，感知器类似一个<strong>逻辑回归</strong>模型，可以做线性分类任务。</p>
 <p>我们可以用<strong>决策分界</strong>来形象的表达分类的效果。</p>
 <ol>
 <li>决策分界就是在二维的数据平面中划出一条直线。</li>
@@ -139,7 +139,7 @@
 </ol>
 <p>下图显示了在二维平面中划出决策分界的效果，也就是感知器的分类效果。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151231073138323-962584420.png" alt="单层神经网络（决策分界）"></p>
-<h2><span id="两层神经网络">两层神经网络</span></h2><h3><span id="结构">结构</span></h3><p>两层神经网络除了包含一个输入层，一个输出层以外，还增加了一个中间层。此时，中间层和输出层都是计算层。</p>
+<h2><span id="liang-ceng-shen-jing-wang-luo">两层神经网络</span><a href="#liang-ceng-shen-jing-wang-luo" class="header-anchor">#</a></h2><h3><span id="jie-gou">结构</span><a href="#jie-gou" class="header-anchor">#</a></h3><p>两层神经网络除了包含一个输入层，一个输出层以外，还增加了一个中间层。此时，中间层和输出层都是计算层。</p>
 <p>如下图所示：</p>
 <p><img src="https://github.com/fsZhuangB/Photos_Of_Blog/blob/master/photos/673793-20151222164731249-360921014.jpg?raw=true" alt="两层神经网络（中间层计算）"></p>
 <p>例如<script type="math/tex">a^{(y)}_x</script>代表着第y层的第x个节点。$z_1,z_2$变成了$a^{(2)}_1$，$a^{(2)}_2$。</p>
@@ -149,17 +149,17 @@
 <p>类似于上面的，我们也可以使用向量和矩阵来表示层次中的变量。$a^{(1)}$，$a^{(2)}$，$z$是网络传输中的向量数据，而$w^{(1)}$，$w^{(2)}$是网络的矩阵参数，如下图：</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151222171328140-1303075636.jpg" alt=""></p>
 <p>这样，我们就能得出了整个运算的计算公式：</p>
-<script type="math/tex; mode=display">g{(w^{(1)} * a^{(1)}}) = a^{(2)}</script><script type="math/tex; mode=display">g{(w^{(2)} * a^{(2)}}) = z</script><h3><span id="偏置节点bias-unit">偏置节点（bias unit）</span></h3><p>在神经网络中，偏置节点是默认存在的，它是本质上只含有存储功能，并且存储值永远为1的单元。在神经网络的每个层次中，除了输出层以外，都会含有这样的一个偏置单元。</p>
+<script type="math/tex; mode=display">g{(w^{(1)} * a^{(1)}}) = a^{(2)}</script><script type="math/tex; mode=display">g{(w^{(2)} * a^{(2)}}) = z</script><h3><span id="pian-zhi-jie-dian-bias-unit">偏置节点（bias unit）</span><a href="#pian-zhi-jie-dian-bias-unit" class="header-anchor">#</a></h3><p>在神经网络中，偏置节点是默认存在的，它是本质上只含有存储功能，并且存储值永远为1的单元。在神经网络的每个层次中，除了输出层以外，都会含有这样的一个偏置单元。</p>
 <p>偏置单元与后一层的所有节点都有连接，我们设这些参数值为向量<strong>b</strong>，称之为偏置。如下图。</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/673793-20151226111144687-604911384.jpg" alt="两层神经网络（考虑偏置节点）"></p>
 <p>图中没有输入（即没有箭头指向）的就是偏置节点。<strong>在一般情况下，不会明确画出偏置节点</strong></p>
 <p>在考虑了偏置以后的一个神经网络的矩阵运算如下：</p>
-<script type="math/tex; mode=display">g{(w^{(1)} * a^{(1)} + b^{(1)}}) = a^{(2)}</script><script type="math/tex; mode=display">g{(w^{(2)} * a^{(2)} + b^{(2)}}) = z</script><h3><span id="效果">效果</span></h3><p>在简单的神经网络模型中，按照假设，其输出结果只有两种：<code>0</code>或者<code>1</code>，如果只输出这两个数，未免太过简单与不敏感，但是理论证明，两层神经网络可以无限逼近任意的连续函数。也就是说，面对复杂的非线性分类任务，两层（带一个隐藏层）神经网络可以分类的很好。</p>
-<h3><span id="训练">训练</span></h3><p>机器学习模型训练的目的，就是使得参数尽可能的与真实的模型相接近。</p>
+<script type="math/tex; mode=display">g{(w^{(1)} * a^{(1)} + b^{(1)}}) = a^{(2)}</script><script type="math/tex; mode=display">g{(w^{(2)} * a^{(2)} + b^{(2)}}) = z</script><h3><span id="xiao-guo">效果</span><a href="#xiao-guo" class="header-anchor">#</a></h3><p>在简单的神经网络模型中，按照假设，其输出结果只有两种：<code>0</code>或者<code>1</code>，如果只输出这两个数，未免太过简单与不敏感，但是理论证明，两层神经网络可以无限逼近任意的连续函数。也就是说，面对复杂的非线性分类任务，两层（带一个隐藏层）神经网络可以分类的很好。</p>
+<h3><span id="xun-lian">训练</span><a href="#xun-lian" class="header-anchor">#</a></h3><p>机器学习模型训练的目的，就是使得参数尽可能的与真实的模型相接近。</p>
 <p>通过以下公式，我们可以将问题转化为求损失最小的问题：</p>
 <script type="math/tex; mode=display">loss = (y_p - u)^2</script><p>其中样本的预测目标为$y_p$，真实目标为$y$，$loss$值称为损失，即训练数据的损失和。我们的目标是使得参数尽可能的与真实的模型相接近，也就是训练数据的损失和最小。</p>
 <p>将之前的神经网络预测的矩阵公式带入$y_p$，因为有（$z=y_p$），那么我们可以把损失写为关于参数（parameter）的函数，这个函数称之为<strong>损失函数</strong>（loss function）。下面的问题就是求：如何优化参数，能够让损失函数的值最小。</p>
-<h4><span id="梯度下降算法gradient-descent与反向传播算法backpropagation">梯度下降算法（Gradient descent）与反向传播算法（Backpropagation）</span></h4><p>一般来说，解决该优化问题使用的是<strong>梯度下降算法</strong>。梯度下降算法每次计算参数在当前的梯度，然后让参数向着梯度的反方向前进一段距离，不断重复，直到接近零时截止。一般这个时候，所有的参数恰好达到使损失函数达到一个最低值的状态。</p>
+<h4><span id="ti-du-xia-jiang-suan-fa-gradient-descent-yu-fan-xiang-chuan-bo-suan-fa-backpropagation">梯度下降算法（Gradient descent）与反向传播算法（Backpropagation）</span><a href="#ti-du-xia-jiang-suan-fa-gradient-descent-yu-fan-xiang-chuan-bo-suan-fa-backpropagation" class="header-anchor">#</a></h4><p>一般来说，解决该优化问题使用的是<strong>梯度下降算法</strong>。梯度下降算法每次计算参数在当前的梯度，然后让参数向着梯度的反方向前进一段距离，不断重复，直到接近零时截止。一般这个时候，所有的参数恰好达到使损失函数达到一个最低值的状态。</p>
 <p>在神经网络模型中，由于结构复杂，每次计算梯度的代价很大，因此还需要使用<strong>反向传播算法</strong>。反向传播算法利用了神经网络的结构进行计算，有以下几个要点：</p>
 <ol>
 <li>不一次计算所有参数的梯度，而是从后向前进行。</li>

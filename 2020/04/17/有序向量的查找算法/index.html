@@ -5,13 +5,13 @@
   
   <title>DSA-learning:有序向量查找算法 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
+  <meta name="description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找# 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DSA-learning:有序向量查找算法">
 <meta property="og:url" content="https://fszhuangb.xyz/2020/04/17/有序向量的查找算法/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
+<meta property="og:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找# 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_5573.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_49CF3E495AD5-1.jpeg">
@@ -22,7 +22,7 @@
 <meta property="og:updated_time" content="2020-04-21T15:26:16.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DSA-learning:有序向量查找算法">
-<meta name="twitter:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从轴">
+<meta name="twitter:description" content="在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。 二分查找# 轴点：在有序向量中，处处皆为轴点。  轴点的含义即为：  在有序向量中，以任意一元素x = S[mi]为界  都可以将待查找区间[lo, hi)分为三部分，并且 S[lo, mi) ≤ s[mi] ≤ s(mi, hi)       减而治之：缩小问题的规模，并进行处理的一种思想。   从">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/IMG_5573.jpg">
   
   
@@ -75,11 +75,11 @@
 
       </header>
     
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">二分查找</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">二分查找的复杂度分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">优化：Fibonacci查找</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">思路及原理</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">插值查找</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">查找实例</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">代码实现</span></a></li></ol></li></ol>
+    <!-- <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">二分查找#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">二分查找的复杂度分析#</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">优化：Fibonacci查找#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">思路及原理#</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">插值查找#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">查找实例#</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">代码实现#</span></a></li></ol></li></ol> -->
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>在有序向量中，我们有比在无序向量中的顺序查找更好的算法，下面这篇博文就是我的一些学习笔记与心得。</p>
-<h3><span id="二分查找">二分查找</span></h3><blockquote>
+<h3><span id="er-fen-cha-zhao">二分查找</span><a href="#er-fen-cha-zhao" class="header-anchor">#</a></h3><blockquote>
 <p>轴点：在有序向量中，处处皆为轴点。</p>
 </blockquote>
 <p>轴点的含义即为：</p>
@@ -106,9 +106,9 @@
 </ul>
 <p>由此，我们就可以成功写出如下的算法：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function">Rank <span class="title">search</span><span class="params">(T <span class="keyword">const</span>&amp; e, Rank lo, Rank hi)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (lo &lt; hi)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (e &lt; _elem[mi])</span><br><span class="line">            hi = mi;     <span class="comment">// 深入前半段进行查找</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (_elem[mi] &lt; e)</span><br><span class="line">            lo = mi + <span class="number">1</span>; <span class="comment">// 深入后半段进行查找</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> mi;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4><span id="二分查找的复杂度分析">二分查找的复杂度分析</span></h4><p>无论如何，我们在while循环的每一次迭代中，有时候执行一次比较，有的时候执行两次，也就是常数次比较（O(1)），在每次比较之后，我们都可以将问题的规模减少为先前的一半，从而得到如下的一个式子：</p>
+<h4><span id="er-fen-cha-zhao-de-fu-za-du-fen-xi">二分查找的复杂度分析</span><a href="#er-fen-cha-zhao-de-fu-za-du-fen-xi" class="header-anchor">#</a></h4><p>无论如何，我们在while循环的每一次迭代中，有时候执行一次比较，有的时候执行两次，也就是常数次比较（O(1)），在每次比较之后，我们都可以将问题的规模减少为先前的一半，从而得到如下的一个式子：</p>
 <script type="math/tex; mode=display">T(n) = T(n/2) + O(1) = O(logn)</script><p>最后就可以得到$O(logn)$这样一个渐进复杂度，可以看到，是大大优于顺序查找的。</p>
-<h3><span id="优化fibonacci查找">优化：Fibonacci查找</span></h3><blockquote>
+<h3><span id="you-hua-fibonacci-cha-zhao">优化：Fibonacci查找</span><a href="#you-hua-fibonacci-cha-zhao" class="header-anchor">#</a></h3><blockquote>
 <p>查找长度：即关键码的比较次数</p>
 </blockquote>
 <p>在学习Fibonacci查找之前，我们先来引入一个新的概念，也就是关键码的比较次数（Search Length）。</p>
@@ -123,7 +123,7 @@
 <li>各元素对应的成功查找长度为{3, 4,  4, 5, 4, 5, 5, 6}</li>
 <li>等概率的情况下，平均失败查找长度=36/8 = 4.50</li>
 </ul>
-<h4><span id="思路及原理">思路及原理</span></h4><ul>
+<h4><span id="si-lu-ji-yuan-li">思路及原理</span><a href="#si-lu-ji-yuan-li" class="header-anchor">#</a></h4><ul>
 <li><p>版本A的思考：</p>
 <p>  普通的二分查找试图通过使各种情况下的搜索在迭代次数上的平衡，来尽可能的回避掉最坏的情况，表面上看似平衡的查找，实际上是不平衡的：<strong>转向左右分之前的关键码比较次数不等，而递归次数却相同。准确的说，向左只需要一次比较，而向右却需要两次比较。</strong></p>
 </li>
@@ -152,14 +152,14 @@
 </ul>
 </li>
 </ul>
-<h3><span id="插值查找">插值查找</span></h3><p>其基本思想大概是，基于二分查找算法，将查找点的选择改进为自适应选择，可以提高查找效率。<br>插值查找基于以下的假设：</p>
+<h3><span id="cha-zhi-cha-zhao">插值查找</span><a href="#cha-zhi-cha-zhao" class="header-anchor">#</a></h3><p>其基本思想大概是，基于二分查找算法，将查找点的选择改进为自适应选择，可以提高查找效率。<br>插值查找基于以下的假设：</p>
 <ul>
 <li>已知有序向量中各个元素独立分布的规律：比如<strong>独立且均匀的随机分布</strong>。<br>于是，[lo, hi)中各个元素大致呈线性规律增长，我们可以得到公式：<script type="math/tex; mode=display">
 mi-lo/hi-lo=e-A[lo]/A[hi]-A[lo]</script>从而我们可以很容易得到轴点：<script type="math/tex; mode=display">
 mi=lo+(hi -lo)*(e-A[lo]/A[hi]-A[lo])</script>要理解插值查找，我们可以类比查英文字典的过程，比如我们想找“boy”这个单词，我们一定会翻开书从书的二十六分之二处开始进行查找，而不是从头开始翻阅，理解了这个，就很好理解插值查找了，通过mi位置的计算，可以大致的估计出要查找的元素的位置，从而实现查找速度的优化。</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.04.13 PM.png" alt=""></p>
-<h4><span id="查找实例">查找实例</span></h4><ul>
+<h4><span id="cha-zhao-shi-li">查找实例</span><a href="#cha-zhao-shi-li" class="header-anchor">#</a></h4><ul>
 <li><p>在这样一个lo = 0，hi = 18的序列中，我们查找e = 50的目标：</p>
 <p><img src="https://raw.githubusercontent.com/fsZhuangB/Photos_Of_Blog/master/photos/Screen Shot 2020-04-21 at 11.12.38 PM.png" alt=""></p>
 </li>
@@ -177,7 +177,7 @@ mi=lo+(hi -lo)*(e-A[lo]/A[hi]-A[lo])</script>要理解插值查找，我们可�
 <p>返回<strong>NOT_FOUND</strong></p>
 </li>
 </ul>
-<h4><span id="代码实现">代码实现</span></h4>
+<h4><span id="dai-ma-shi-xian">代码实现</span><a href="#dai-ma-shi-xian" class="header-anchor">#</a></h4>
       
       <div id="donate" class="donate">
         <a id="github" href="https://github.com/fsZhuangB" target="_blank" class="pos-f tr3" title="Github"></a>

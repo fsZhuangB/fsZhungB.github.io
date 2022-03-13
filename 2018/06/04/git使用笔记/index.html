@@ -5,19 +5,19 @@
   
   <title>git使用笔记（一）基本使用 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文件">
+  <meta name="description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用# 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git使用笔记（一）基本使用">
 <meta property="og:url" content="https://fszhuangb.xyz/2018/06/04/git使用笔记/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文件">
+<meta property="og:description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用# 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/be620060gy1fs8i6gy22pj20cq06iaa8.jpg">
 <meta property="og:updated_time" content="2019-03-01T15:04:12.831Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git使用笔记（一）基本使用">
-<meta name="twitter:description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文件">
+<meta name="twitter:description" content="最近在使用github pages搭建自己的博客，需要使用到git这个版本管理工具。以下是我个人学习git这个工具的心得与笔记。 版本库的使用# 什么是版本库？ 版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过  git init    ​     这个命令将一个目录变成git可以管理的仓库。  将文">
 <meta name="twitter:image" content="http://wx1.sinaimg.cn/mw690/be620060gy1fs8i6gy22pj20cq06iaa8.jpg">
   
   
@@ -70,11 +70,11 @@
 
       </header>
     
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">版本库的使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">时光机穿梭</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">工作区与暂存区</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">工作区（Working Directory）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">版本库（Repository）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">管理修改</span></a></li></ol>
+    <!-- <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">版本库的使用#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">时光机穿梭#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">工作区与暂存区#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">工作区（Working Directory）#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">版本库（Repository）#</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">管理修改#</span></a></li></ol> -->
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>最近在使用<code>github pages</code>搭建自己的博客，需要使用到<code>git</code>这个版本管理工具。以下是我个人学习<code>git</code>这个工具的心得与笔记。</p>
-<h2><span id="版本库的使用">版本库的使用</span></h2><ol>
+<h2><span id="ban-ben-ku-de-shi-yong">版本库的使用</span><a href="#ban-ben-ku-de-shi-yong" class="header-anchor">#</a></h2><ol>
 <li><p>什么是版本库？</p>
 <p>版本库又名仓库(reository)，指一个其所有内容都能被git跟踪管理的目录，任何时刻都可以追踪历史，或者在将来某个时刻可以还原。我们可以通过</p>
 <blockquote>
@@ -100,7 +100,7 @@
 </li>
 </ol>
 <p>​      <em>注意输入说明对自己和对别人阅读都很重要，建议加上该参数</em>。</p>
-<h2><span id="时光机穿梭">时光机穿梭</span></h2><ol>
+<h2><span id="shi-guang-ji-chuan-suo">时光机穿梭</span><a href="#shi-guang-ji-chuan-suo" class="header-anchor">#</a></h2><ol>
 <li>对于修改后的文件，可以使用</li>
 </ol>
 <blockquote>
@@ -122,12 +122,12 @@
 <p><code>git reset --hard commit_id</code></p>
 </blockquote>
 <p>​     命令即可重回原来的版本。</p>
-<h2><span id="工作区与暂存区">工作区与暂存区</span></h2><p>git和其他版本管理系统如SVN的一个不同之处就是由暂存区的概念</p>
-<h3><span id="工作区working-directory">工作区（Working Directory）</span></h3><p>就是你在电脑中能看到的目录，如当前我保存工作文件的目录就是一个工作区</p>
-<h3><span id="版本库repository">版本库（Repository）</span></h3><p>工作区有一个隐藏目录<code>.git</code>，这就是git的版本库。<img src="http://wx1.sinaimg.cn/mw690/be620060gy1fs8i6gy22pj20cq06iaa8.jpg" alt="git-repo"></p>
+<h2><span id="gong-zuo-qu-yu-zan-cun-qu">工作区与暂存区</span><a href="#gong-zuo-qu-yu-zan-cun-qu" class="header-anchor">#</a></h2><p>git和其他版本管理系统如SVN的一个不同之处就是由暂存区的概念</p>
+<h3><span id="gong-zuo-qu-working-directory">工作区（Working Directory）</span><a href="#gong-zuo-qu-working-directory" class="header-anchor">#</a></h3><p>就是你在电脑中能看到的目录，如当前我保存工作文件的目录就是一个工作区</p>
+<h3><span id="ban-ben-ku-repository">版本库（Repository）</span><a href="#ban-ben-ku-repository" class="header-anchor">#</a></h3><p>工作区有一个隐藏目录<code>.git</code>，这就是git的版本库。<img src="http://wx1.sinaimg.cn/mw690/be620060gy1fs8i6gy22pj20cq06iaa8.jpg" alt="git-repo"></p>
 <p>版本库中最重要的就是成为<code>stage</code>或者<code>index</code>的暂存区，还有git为我们自动创建的第一个分支<code>master</code>，以及指向<code>master</code>的一个指针<code>HEAD</code>。</p>
 <p>所以，前面讲的使用<code>git add</code>命令添加文件时，其实就是将文件修改添加到暂存区；第二步使用<code>git commit</code>提交更改，实际上就是将暂存区的所有内容提交的当前分支。</p>
-<h2><span id="管理修改">管理修改</span></h2><p><code>Git</code>管理的是修改，而不是文件。每次修改，如果不用<code>git add</code>到暂存区，那么就不会加入到<code>commit</code>中，可以理解为不能提交上去。</p>
+<h2><span id="guan-li-xiu-gai">管理修改</span><a href="#guan-li-xiu-gai" class="header-anchor">#</a></h2><p><code>Git</code>管理的是修改，而不是文件。每次修改，如果不用<code>git add</code>到暂存区，那么就不会加入到<code>commit</code>中，可以理解为不能提交上去。</p>
 
       
       <div id="donate" class="donate">

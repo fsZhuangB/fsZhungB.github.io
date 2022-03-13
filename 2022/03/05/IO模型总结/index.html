@@ -5,18 +5,18 @@
   
   <title>UNP阅读：Unix下常用IO模型总结 | fsZhuangB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞同步与异步所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果。换">
+  <meta name="description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞#同步与异步#所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果">
 <meta name="keywords" content="开发者手册">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UNP阅读：Unix下常用IO模型总结">
 <meta property="og:url" content="https://fszhuangb.xyz/2022/03/05/IO模型总结/index.html">
 <meta property="og:site_name" content="fsZhuangB">
-<meta property="og:description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞同步与异步所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果。换">
+<meta property="og:description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞#同步与异步#所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2022-03-11T13:12:14.570Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UNP阅读：Unix下常用IO模型总结">
-<meta name="twitter:description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞同步与异步所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果。换">
+<meta name="twitter:description" content="在Unix下，主要包含以下几种IO模型：  阻塞式I/O 非阻塞式I/O I/O多路复用（select、poll、epoll） 信号驱动式I/O 异步I/O（POSIX的aio系列函数）  同步、异步、阻塞、非阻塞#同步与异步#所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回。但是一旦调用返回，就得到了返回值。而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -68,7 +68,7 @@
 
       </header>
     
-    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">同步、异步、阻塞、非阻塞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">同步与异步</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">阻塞与非阻塞</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">在客户端输入字符后发生了什么</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">几种IO模型介绍</span></a></li></ol>
+    <!-- <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">同步、异步、阻塞、非阻塞#</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">同步与异步#</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">阻塞与非阻塞#</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">在客户端输入字符后发生了什么#</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">几种IO模型介绍#</span></a></li></ol> -->
     <div class="article-entry typo" itemprop="articleBody">
       
         <p>在Unix下，主要包含以下几种IO模型：</p>
@@ -79,13 +79,13 @@
 <li>信号驱动式I/O</li>
 <li>异步I/O（POSIX的aio系列函数）</li>
 </ul>
-<h2><span id="同步-异步-阻塞-非阻塞">同步、异步、阻塞、非阻塞</span></h2><h3><span id="同步与异步">同步与异步</span></h3><p>所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到了返回值。<br>而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果<em>。换句话说，当一个<a href="https://www.zhihu.com/search?q=异步过程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A20851256}" target="_blank" rel="noopener">异步过程</a>调用发出后，调用者不会立刻得到结果。而是在</em>调用<em>发出后，</em>被调用者会通知来通知调用者，或通过回调函数处理这个调用。</p>
+<h2><span id="tong-bu-yi-bu-zu-sai-fei-zu-sai">同步、异步、阻塞、非阻塞</span><a href="#tong-bu-yi-bu-zu-sai-fei-zu-sai" class="header-anchor">#</a></h2><h3><span id="tong-bu-yu-yi-bu">同步与异步</span><a href="#tong-bu-yu-yi-bu" class="header-anchor">#</a></h3><p>所谓同步，就是在发出一个<em>调用</em>时，在没有得到结果之前，该<em>调用</em>就不返回。但是一旦调用返回，就得到了返回值。<br>而异步则是相反，调用在发出之后，这个调用就直接返回了，所以没有返回结果<em>。换句话说，当一个<a href="https://www.zhihu.com/search?q=异步过程&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;answer&quot;%2C&quot;sourceId&quot;%3A20851256}" target="_blank" rel="noopener">异步过程</a>调用发出后，调用者不会立刻得到结果。而是在</em>调用<em>发出后，</em>被调用者会通知来通知调用者，或通过回调函数处理这个调用。</p>
 <p>具体来说，同步与异步描述的是用户线程与内核的交互方式，这里所说的用户进程/线程和内核是以传输层为分割线的，传输层以上是指用户进程，传输层以下（包括传输层）是指内核（处理所有通信细节，发送数据，等待确认，给无序到达的数据排序等，这四层是操作系统内核的一部分）。<strong>同步是指用户线程发起IO请求后需要等待或者轮询内核IO操作，完成后才能继续执行。异步是指用户线程发起IO请求后仍继续执行，当内核IO操作完成后回通知用户线程，或者调用用户线程注册的回调函数。</strong></p>
-<h3><span id="阻塞与非阻塞">阻塞与非阻塞</span></h3><p>阻塞和非阻塞关注的是<strong>程序在等待调用结果（消息，返回值）时的状态。</strong></p>
+<h3><span id="zu-sai-yu-fei-zu-sai">阻塞与非阻塞</span><a href="#zu-sai-yu-fei-zu-sai" class="header-anchor">#</a></h3><p>阻塞和非阻塞关注的是<strong>程序在等待调用结果（消息，返回值）时的状态。</strong></p>
 <p>阻塞调用是指调用结果返回之前，当前线程会被挂起。调用线程只有在得到结果之后才会返回。<br>非阻塞调用指在不能立刻得到结果之前，该调用不会阻塞当前线程。</p>
 <p>具体来说，用户线程调用内核IO（read、write函数）操作的方式，阻塞指IO操作需要彻底完成后才能返回用户空间，否则就一直挂起。</p>
 <p>而非阻塞时指IO操作被调用后立即返回给用户一个状态值，无需等待IO操作彻底完成。</p>
-<h2><span id="在客户端输入字符后发生了什么">在客户端输入字符后发生了什么</span></h2><p>在介绍这几种模型之前，先总结一下一个输入操作所包含的两个不同的阶段：</p>
+<h2><span id="zai-ke-hu-duan-shu-ru-zi-fu-hou-fa-sheng-liao-shi-me">在客户端输入字符后发生了什么</span><a href="#zai-ke-hu-duan-shu-ru-zi-fu-hou-fa-sheng-liao-shi-me" class="header-anchor">#</a></h2><p>在介绍这几种模型之前，先总结一下一个输入操作所包含的两个不同的阶段：</p>
 <ol>
 <li>等待数据准备好</li>
 <li>从内核向进程复制数据</li>
@@ -95,7 +95,7 @@
 <p>  对于一个套接字上的输入操作，第一步通常涉及等待数据从网络中到达，当所等待分组到达时，它被复制到内核中的某个缓冲区。</p>
 <p>  第二步就是把数据从内核缓冲区复制到应用缓冲区。</p>
 </blockquote>
-<h2><span id="几种io模型介绍">几种IO模型介绍</span></h2><ol>
+<h2><span id="ji-chong-io-mo-xing-jie-shao">几种IO模型介绍</span><a href="#ji-chong-io-mo-xing-jie-shao" class="header-anchor">#</a></h2><ol>
 <li>阻塞IO就是那种recv, read，一直等，等到有了数据才返回；</li>
 <li>非阻塞IO就是立即返回，设置描述符为非阻塞，但是要进程自己一直检查是否可读；</li>
 <li>IO复用其实也是阻塞的，不过可以用来等很多描述符，比起阻塞有了进步，可以算有点异步了，但需要阻塞着检查是否可读。<strong>对同一个描述符的IO操作也是有序的。</strong></li>
